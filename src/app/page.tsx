@@ -22,7 +22,7 @@ export default function Home() {
           <div className="row">
             <h1 className={styles.heroTitle}>
               <ScrollTextMask
-                inputRange={[0.3, 0.7]}
+                inputRange={[0.3, 0.55]}
                 outputRange={['100% 100%', '0% 100%']}>
                 <TextAnimateWeight inputRange={[0.3, 0.7]}>
                   S<i>a</i>m
@@ -31,7 +31,7 @@ export default function Home() {
 
               <br />
 
-              <ScrollTextMask inputRange={[0.15, 0.475]}>
+              <ScrollTextMask inputRange={[0.15, 0.4]}>
                 <TextAnimateWeight
                   inputRange={[0.15, 0.475]}
                   outputRange={[`'wght' 300`, `'wght' 600`]}>
