@@ -29,6 +29,8 @@ export default function Home() {
                 </TextAnimateWeight>
               </ScrollTextMask>
 
+              <br />
+
               <ScrollTextMask inputRange={[0.15, 0.475]}>
                 <TextAnimateWeight
                   inputRange={[0.15, 0.475]}
