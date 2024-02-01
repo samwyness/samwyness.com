@@ -1,0 +1,13 @@
+.scrollTextMask {
+  position: relative;
+  display: inline;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(
+    var(--color-on-surface),
+    var(--color-on-surface)
+  );
+  background-size: 0% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: var(--color-on-surface-opaque);
+}

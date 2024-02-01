@@ -1,0 +1,33 @@
+.helloWorld {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.title {
+  display: inline-flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 60px;
+  font-weight: normal;
+}
+
+.location {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+}
+
+.globeIcon {
+  position: relative;
+  display: inline-flex;
+  width: 48px;
+  height: 48px;
+}
+
+.locationText {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
