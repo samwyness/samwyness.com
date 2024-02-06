@@ -42,7 +42,7 @@ export function HelloWorld() {
 
   return (
     <div className={styles.helloWorld}>
-      <h4 className={styles.title}>{HelloWorlds[0]}</h4>
+      <span className={styles.title}>{HelloWorlds[0]}</span>
 
       <div className={styles.location}>
         <GlobeIcon className={styles.globeIcon} />
