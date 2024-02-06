@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
-import { AvailableForHire } from '../../AvailableForHire';
+import { AvailableForHire } from '../../core/AvailableForHire';
+import { Container } from '../Container';
+import { Row } from '../Row';
 import styles from './Header.module.css';
 
 export const metadata: Metadata = {
@@ -10,16 +12,21 @@ export const metadata: Metadata = {
 export function Header({}) {
   return (
     <header className={styles.header}>
-      <div className="container">
-        <div className="row">
-          <span className={styles.title}>
-            <code>Software Engineer &</code>
-            <br />
-            <strong>Creative Developer</strong>
-          </span>
+      <Container>
+        <Row className={styles.row}>
+          <div className={styles.brand}>
+            <a href="/">
+              <strong>Sam Wyness</strong>
+            </a>
+            <span>
+              Software Engineer &
+              <br />
+              <i>Creative Developer</i>
+            </span>
+          </div>
           <AvailableForHire />
-        </div>
-      </div>
+        </Row>
+      </Container>
     </header>
   );
 }

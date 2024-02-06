@@ -3,19 +3,23 @@
   --color-on-surface: var(--color-white);
   --color-on-surface-opaque: var(--color-text-opaque-white);
 
-  display: flex;
-  padding-top: 70px;
-  padding-bottom: 70px;
+  padding-top: 40px;
+  padding-bottom: 40px;
   background: var(--color-surface);
   color: var(--color-on-surface);
   font-size: 20px;
+
+  @media (min-width: 768px) {
+    padding-top: 70px;
+    padding-bottom: 70px;
+  }
 }
 
-.footer > :global(.container) {
+.footerContainer {
   gap: 200px;
 }
 
-.footerRow {
+.footerGrid {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   gap: 20px;
@@ -60,6 +64,10 @@
 .footer nav {
   gap: 40px;
   margin-top: 20px;
+}
+
+.footer nav p {
+  max-width: 420px;
 }
 
 .navTitle {

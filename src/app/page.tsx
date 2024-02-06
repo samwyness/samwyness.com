@@ -1,60 +1,95 @@
-import { ScrollTextMask } from 'src/shared/components/ScrollTextMask/ScrollTextMask';
-import { TextAnimateWeight } from 'src/shared/components/TextAnimateWeight';
+import { ScrollTextMask } from 'src/shared/components/core/ScrollTextMask';
+import { Container } from 'src/shared/components/layout/Container';
+import { Row } from 'src/shared/components/layout/Row';
+import { HeroSection } from 'src/shared/components/sections/HeroSection';
+import pageData from './page-data.json';
 import styles from './page.module.css';
-
-function calculateAge(birthday: number) {
-  // birthday is a date
-  var ageDifMs = Date.now() - birthday;
-  var ageDate = new Date(ageDifMs); // milliseconds from epoch
-  return Math.abs(ageDate.getUTCFullYear() - 1970);
-}
 
 export default function Home() {
   return (
     <main className={styles.main}>
-      <section className={styles.sectionHero}>
-        <div className={styles.horizon}>
-          <div className={styles.aurora} />
-          <div className={styles.sun} />
-        </div>
+      <HeroSection />
 
-        <div className="container">
-          <div className="row">
-            <h1 className={styles.heroTitle}>
-              <ScrollTextMask
-                inputRange={[0.3, 0.55]}
-                outputRange={['100% 100%', '0% 100%']}>
-                <TextAnimateWeight inputRange={[0.3, 0.7]}>
-                  S<i>a</i>m
-                </TextAnimateWeight>
-              </ScrollTextMask>
+      {/* <section className={classNames(styles.section, styles.showreel)}>
+        <Container className={styles.container}>
+          <video></video>
+        </Container>
+      </section> */}
 
-              <br />
-
-              <ScrollTextMask inputRange={[0.15, 0.4]}>
-                <TextAnimateWeight
-                  inputRange={[0.15, 0.475]}
-                  outputRange={[`'wght' 300`, `'wght' 600`]}>
-                  Wyness
-                </TextAnimateWeight>
-              </ScrollTextMask>
-            </h1>
-            <p className={styles.heroDescription}>
-              I help brands design and build products from idea to final
-              execution. Over the years I&apos;ve worn many hats, and worked on
-              a wide range of projects across multiple platforms.
-              <br />
-              <br />
-              Currently working at{' '}
-              <i>
-                <a href="https://www.district-technologies.com/">
-                  District Technologies.
-                </a>
-              </i>
-            </p>
+      <section className={styles.section}>
+        <Container className={styles.container}>
+          <div className={styles.topBorder}>
+            <h2 className={styles.title}>
+              <strong>Brand collaborations</strong>
+            </h2>
+            <Row>
+              <ul>
+                {pageData.brands.map(brand => (
+                  <li key={brand}>
+                    <ScrollTextMask>{brand}</ScrollTextMask>
+                  </li>
+                ))}
+              </ul>
+            </Row>
           </div>
-        </div>
+        </Container>
       </section>
+
+      <section className={styles.section}>
+        <Container className={styles.container}>
+          <div className={styles.topBorder}>
+            <h2 className={styles.title}>
+              <strong>Experience</strong>
+            </h2>
+            <Row>
+              {pageData.experience.map((column, index) => (
+                <div
+                  key={`experience_${index}`}
+                  className={styles.experienceColumn}>
+                  {column.map((data, index2) => (
+                    <p key={`role_${data.role}_${index2}`}>
+                      <ScrollTextMask>
+                        <strong>{data.role}</strong>
+                        <br />
+                      </ScrollTextMask>
+                      {data.company && (
+                        <ScrollTextMask>
+                          {data.company}
+                          <br />
+                        </ScrollTextMask>
+                      )}
+                      <ScrollTextMask>
+                        <span className="text-muted">{data.period}</span>
+                      </ScrollTextMask>
+                    </p>
+                  ))}
+                </div>
+              ))}
+            </Row>
+          </div>
+        </Container>
+      </section>
+
+      <section className={styles.section}>
+        <Container className={styles.container}>
+          <div className={styles.topBorder}>
+            <h2 className={styles.title}>
+              <strong>Areas of expertise</strong>
+            </h2>
+            <Row>
+              <ul>
+                {pageData.expertise.map(expertise => (
+                  <li key={expertise}>
+                    <ScrollTextMask>{expertise}</ScrollTextMask>
+                  </li>
+                ))}
+              </ul>
+            </Row>
+          </div>
+        </Container>
+      </section>
+
+      {/* <StickyCursor /> */}
     </main>
   );
 }

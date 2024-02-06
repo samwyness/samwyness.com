@@ -1,0 +1,1 @@
+export { TextAnimateWeight } from './TextAnimateWeight';

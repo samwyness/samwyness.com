@@ -1,0 +1,20 @@
+.scrollTextMask {
+  position: relative;
+  display: inline;
+  /* clip-path: (0 var(--scroll-progress) 0 0); */
+
+  @supports (background-clip: text) {
+    background-clip: text;
+    background-repeat: no-repeat;
+    background-image: linear-gradient(
+      var(--color-on-surface),
+      var(--color-on-surface)
+    );
+    background-size: var(--scroll-progress) 100%;
+    -webkit-text-fill-color: var(--color-on-surface-opaque);
+  }
+}
+
+.scrollTextMask:has(.text-muted) {
+  background-image: linear-gradient(#e6e4dd, #e6e4dd);
+}

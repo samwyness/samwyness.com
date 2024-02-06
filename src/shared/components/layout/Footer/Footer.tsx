@@ -1,8 +1,9 @@
 import classNames from 'classnames';
 import type { Metadata } from 'next';
-import { AvailableForHire } from '../../AvailableForHire';
-import { HelloWorld } from '../../HelloWorld';
-import { ScrollTextMask } from '../../ScrollTextMask';
+import { AvailableForHire } from '../../core/AvailableForHire';
+import { HelloWorld } from '../../core/HelloWorld';
+import { ScrollTextMask } from '../../core/ScrollTextMask';
+import { Container } from '../Container';
 import styles from './Footer.module.css';
 
 export const metadata: Metadata = {
@@ -13,8 +14,8 @@ export const metadata: Metadata = {
 export function Footer({}) {
   return (
     <footer className={styles.footer}>
-      <div className="container">
-        <div className={styles.footerRow}>
+      <Container className={styles.footerContainer}>
+        <div className={styles.footerGrid}>
           <div className={styles.column}>
             <HelloWorld />
           </div>
@@ -30,7 +31,7 @@ export function Footer({}) {
           </nav>
         </div>
 
-        <div className={classNames(styles.footerRow, styles.footerMeta)}>
+        <div className={classNames(styles.footerGrid, styles.footerMeta)}>
           <div className={styles.column}>
             <span>© {new Date().getFullYear()} Sam Wyness</span>
           </div>
@@ -56,7 +57,7 @@ export function Footer({}) {
             </ul>
           </div>
         </div>
-      </div>
+      </Container>
     </footer>
   );
 }

@@ -1,1 +1,0 @@
-export { ScrollTextMask } from './ScrollTextMask';
