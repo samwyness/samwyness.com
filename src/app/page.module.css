@@ -1,13 +1,6 @@
 .main {
   display: flex;
   flex-direction: column;
-  /* gap: 40px;
-  padding-bottom: 40px;
-
-  @media (min-width: 1024px) {
-    gap: 100px;
-    padding-bottom: 100px;
-  } */
 }
 
 .section {
@@ -60,9 +53,16 @@
   background-color: var(--color-surface-container);
 }
 
+.experienceRow {
+  flex-wrap: wrap;
+}
+
 .experienceColumn {
-  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 40px;
+
+  @media (min-width: 1024px) {
+    flex: 1 1;
+  }
 }

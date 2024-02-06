@@ -41,7 +41,7 @@ export default function Home() {
             <h2 className={styles.title}>
               <strong>Experience</strong>
             </h2>
-            <Row>
+            <Row className={styles.experienceRow}>
               {pageData.experience.map((column, index) => (
                 <div
                   key={`experience_${index}`}
