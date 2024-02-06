@@ -1,4 +1,4 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { ScrollTextMask } from 'src/shared/components/core/ScrollTextMask';
 import { Container } from 'src/shared/components/layout/Container';
 import { Row } from 'src/shared/components/layout/Row';
