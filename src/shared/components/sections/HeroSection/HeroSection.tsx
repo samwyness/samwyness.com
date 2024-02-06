@@ -6,7 +6,11 @@ import { Container } from '../../layout/Container';
 import { Row } from '../../layout/Row';
 import styles from './HeroSection.module.css';
 
-export function HeroSection() {
+type HeroSectionProps = {
+  intro: string;
+};
+
+export function HeroSection({ intro }: HeroSectionProps) {
   return (
     <section className={styles.sectionHero}>
       {/* <Horizon positionX="30vw" positionY="70vh" /> */}
@@ -17,18 +21,18 @@ export function HeroSection() {
           <div className={styles.columnLeft}>
             <h1 className={styles.title}>
               <ScrollTextMask
-                inputRange={[0.3, 0.7]}
+                inputRange={[0.3, 0.9]}
                 outputRange={['100%', '0%']}>
-                <TextAnimateWeight inputRange={[0.4, 0.65]}>
+                <TextAnimateWeight inputRange={[0.4, 0.85]}>
                   Sam
                 </TextAnimateWeight>
               </ScrollTextMask>
 
               <br />
 
-              <ScrollTextMask inputRange={[0.1, 0.5]}>
+              <ScrollTextMask inputRange={[0.1, 0.7]}>
                 <TextAnimateWeight
-                  inputRange={[0.2, 0.45]}
+                  inputRange={[0.2, 0.65]}
                   outputRange={[`'wght' 300`, `'wght' 600`]}>
                   Wyness
                 </TextAnimateWeight>
@@ -40,7 +44,7 @@ export function HeroSection() {
             <div className={styles.imageContainer}>
               <Image
                 className={styles.imageUnderlay}
-                src="/images/sam-wyness-profile-image-01.png"
+                src="/images/sam-wyness-profile-image-02.png"
                 alt="Sam Wyness profile image"
                 sizes="(max-width: 768px) 100vw, 420px"
                 priority
@@ -50,7 +54,7 @@ export function HeroSection() {
                 inputRange={[1, 0.75]}
                 className={styles.imageContainer}>
                 <Image
-                  src="/images/sam-wyness-profile-image-02.png"
+                  src="/images/sam-wyness-profile-image-01.png"
                   alt="Sam Wyness profile image( B+W)"
                   sizes="(max-width: 768px) 100vw, 420px"
                   priority
@@ -59,11 +63,7 @@ export function HeroSection() {
               </AnimateScrollProgress>
             </div>
 
-            <p className={styles.description}>
-              I help brands design and build products from idea to final
-              execution. Over the years I&apos;ve worn many hats, and worked on
-              a wide range of projects across multiple platforms.
-            </p>
+            <p className={styles.description}>{intro}</p>
           </div>
         </Row>
       </Container>
