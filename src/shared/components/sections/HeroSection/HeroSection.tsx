@@ -51,7 +51,7 @@ export function HeroSection({ intro }: HeroSectionProps) {
                 fill
               />
               <AnimateScrollProgress
-                inputRange={[1, 0.75]}
+                inputRange={[1, 0.25]}
                 className={styles.imageContainer}>
                 <Image
                   src="/images/sam-wyness-profile-image-01.png"
