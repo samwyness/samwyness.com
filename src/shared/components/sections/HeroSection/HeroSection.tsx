@@ -40,7 +40,7 @@ export function HeroSection() {
             <div className={styles.imageContainer}>
               <Image
                 className={styles.imageUnderlay}
-                src="/images/sam-wyness-profile-image-03.png"
+                src="/images/sam-wyness-profile-image-01.png"
                 alt="Sam Wyness profile image"
                 sizes="(max-width: 768px) 100vw, 420px"
                 priority
@@ -50,7 +50,7 @@ export function HeroSection() {
                 inputRange={[1, 0.75]}
                 className={styles.imageContainer}>
                 <Image
-                  src="/images/sam-wyness-profile-image-05.png"
+                  src="/images/sam-wyness-profile-image-02.png"
                   alt="Sam Wyness profile image( B+W)"
                   sizes="(max-width: 768px) 100vw, 420px"
                   priority

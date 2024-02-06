@@ -97,6 +97,7 @@
   opacity: var(--scroll-progress);
   object-fit: cover;
   object-position: center 80%;
+  background-color: var(--color-surface-container);
 }
 
 .imageUnderlay {
