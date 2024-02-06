@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     siteName: 'Sam Wyness',
     images: [
       {
-        url: 'https://example.com/images/og_image.png',
+        url: 'https://samwyness.com/images/og_image.png',
       },
     ],
   },
