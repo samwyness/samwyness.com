@@ -9,8 +9,8 @@ import styles from './HeroSection.module.css';
 export function HeroSection() {
   return (
     <section className={styles.sectionHero}>
-      {/* <Horizon positionX="30vw" positionY="70vh" />
-      <Horizon /> */}
+      {/* <Horizon positionX="30vw" positionY="70vh" /> */}
+      {/* <Horizon /> */}
 
       <Container className={styles.container}>
         <Row className={styles.row}>
@@ -46,7 +46,9 @@ export function HeroSection() {
                 priority
                 fill
               />
-              <AnimateScrollProgress inputRange={[1, 0.75]}>
+              <AnimateScrollProgress
+                inputRange={[1, 0.75]}
+                className={styles.imageContainer}>
                 <Image
                   src="/images/sam-wyness-profile-image-05.png"
                   alt="Sam Wyness profile image( B+W)"
