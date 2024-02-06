@@ -1,9 +1,31 @@
+import { Metadata } from 'next';
 import { ScrollTextMask } from 'src/shared/components/core/ScrollTextMask';
 import { Container } from 'src/shared/components/layout/Container';
 import { Row } from 'src/shared/components/layout/Row';
 import { HeroSection } from 'src/shared/components/sections/HeroSection';
 import pageData from './page-data.json';
 import styles from './page.module.css';
+
+export const metadata: Metadata = {
+  metadataBase: new URL('https://samwyness.com'),
+  title: 'Sam Wyness ~ Software Engineer & Creative Developer',
+  description:
+    'Software Engineer from Australia based on the Sunshine Coast. I help brands take their digital ideas from concept to final execution.',
+  keywords: 'Sam Wyness, Software Engineer, Creative Developer, Sunshine Coast',
+  openGraph: {
+    type: 'website',
+    url: 'https://samwyness.com',
+    title: 'Sam Wyness ~ Software Engineer & Creative Developer',
+    description:
+      'Software Engineer from Australia based on the Sunshine Coast. I help brands take their digital ideas from concept to final execution.',
+    siteName: 'Sam Wyness',
+    images: [
+      {
+        url: 'https://example.com/images/og_image.png',
+      },
+    ],
+  },
+};
 
 export default function Home() {
   return (
