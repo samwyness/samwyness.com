@@ -13,6 +13,10 @@
     padding-top: 70px;
     padding-bottom: 70px;
   }
+
+  @media (prefers-color-scheme: dark) {
+    border-top: 1px solid var(--color-white);
+  }
 }
 
 .footerContainer {
