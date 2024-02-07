@@ -25,7 +25,7 @@ export function Footer({}) {
             <p>
               <TextAnimateMask inputRange={[0, 0.25]}>
                 Schedule a quick 30min chat to discuss details about your
-                project, and discover what services I can offer.
+                project and discover what services I can offer.
               </TextAnimateMask>
             </p>
           </nav>
