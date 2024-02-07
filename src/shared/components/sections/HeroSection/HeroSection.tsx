@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import { AnimateRotation } from '../../core/AnimateRotation';
 import { AnimateScrollProgress } from '../../core/AnimateScrollProgress';
 import { TextAnimateMask } from '../../core/TextAnimateMask';
 import { TextAnimateWeight } from '../../core/TextAnimateWeight';
@@ -22,7 +21,10 @@ export function HeroSection({ intro }: HeroSectionProps) {
                 inputRange={[0.3, 0.9]}
                 outputRange={['100%', '0%']}>
                 <TextAnimateWeight inputRange={[0.4, 0.85]}>
-                  S<i>a</i>m<AnimateRotation>✳︎</AnimateRotation>
+                  S<i>a</i>m
+                  <>
+                    <span>✳︎</span>
+                  </>
                 </TextAnimateWeight>
               </TextAnimateMask>
 
