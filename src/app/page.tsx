@@ -59,7 +59,7 @@ export default function Home() {
                     </TextAnimateMask>
                   </div>
 
-                  <div className={styles.workCardLinkIcon}>VISIT SITE</div>
+                  <div className={styles.workCardLinkIcon}>VIEW</div>
 
                   <div className={styles.workCardImage}>
                     <Image src={item.image} alt={item.title} fill />
