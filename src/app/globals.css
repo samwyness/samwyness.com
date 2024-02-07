@@ -10,8 +10,11 @@
 
   --color-surface: #fdf6f3;
   --color-surface-container: #e5e5e5;
-  --color-on-surface: #3a0c0a;
+  --color-on-surface: #2a0807;
   --color-on-surface-opaque: var(--color-text-opaque-black);
+
+  --color-blinker: #4bc893;
+  --color-blinker-rgb: 75, 200, 147;
 
   --gradient-aurora: radial-gradient(
     50% 50% at 50% 50%,

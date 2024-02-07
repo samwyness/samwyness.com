@@ -4,6 +4,7 @@
     {
       "title": "Matt Bradley Designs",
       "image": "/images/work-matt-bradley-designs.png",
+      "link": "https://www.mattbradleydesigns.com.au/",
       "completed": "2024",
       "tags": [
         "Product Design",
@@ -14,6 +15,7 @@
     {
       "title": "Super Swim",
       "image": "/images/work-super-swim.png",
+      "link": "https://superswim.org.au/app",
       "completed": "2024",
       "tags": [
         "Product Design",
@@ -23,6 +25,7 @@
     {
       "title": "Steptember",
       "image": "/images/work-steptember.png",
+      "link": "https://www.steptember.org.au/app",
       "completed": "2023",
       "tags": [
         "Product Design",
@@ -32,6 +35,7 @@
     {
       "title": "Tour de Kids",
       "image": "/images/work-tour-de-kids.png",
+      "link": "https://tourdekids.org.au/app",
       "completed": "2023",
       "tags": [
         "Product Design",
@@ -41,6 +45,7 @@
     {
       "title": "Red Bull Takeover",
       "image": "/images/work-red-bull-takeover.png",
+      "link": "https://www.youtube.com/watch?v=BvBrfXUJbrE",
       "completed": "2022",
       "tags": [
         "App Development"
@@ -49,6 +54,7 @@
     {
       "title": "The Dawn Light",
       "image": "/images/work-the-dawn-light.png",
+      "link": "https://thedawnlight.com.au/",
       "completed": "2022",
       "tags": [
         "Product Design",

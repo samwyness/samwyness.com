@@ -22,7 +22,7 @@ export type AnimateScrollProgressProps = HTMLMotionProps<'span'> & {
 
 export function AnimateScrollProgress({
   useTarget = true,
-  inputRange = [0.1, 0.45],
+  inputRange = [0, 0.35],
   outputRange = ['0%', '100%'],
   offset = ['end end', 'start start'],
   children,

@@ -69,7 +69,7 @@
   }
 }
 
-.title span {
+.title > span {
   display: inline-block;
 
   @media (max-width: 1279px) {
@@ -77,12 +77,17 @@
   }
 }
 
-.title span:nth-child(2) {
+.title > span:nth-child(2) {
   font-variation-settings: 'wght' 300;
 }
 
 .title i {
   margin-right: 12px;
+}
+
+.title > span > span > span {
+  font-size: 0.5em;
+  font-variation-settings: 'wght' 600;
 }
 
 .imageContainer {

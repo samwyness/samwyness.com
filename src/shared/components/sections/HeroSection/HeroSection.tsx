@@ -1,6 +1,7 @@
 import Image from 'next/image';
+import { AnimateRotation } from '../../core/AnimateRotation';
 import { AnimateScrollProgress } from '../../core/AnimateScrollProgress';
-import { ScrollTextMask } from '../../core/ScrollTextMask';
+import { TextAnimateMask } from '../../core/TextAnimateMask';
 import { TextAnimateWeight } from '../../core/TextAnimateWeight';
 import { Container } from '../../layout/Container';
 import { Row } from '../../layout/Row';
@@ -17,23 +18,23 @@ export function HeroSection({ intro }: HeroSectionProps) {
         <Row className={styles.row}>
           <div className={styles.columnLeft}>
             <h1 className={styles.title}>
-              <ScrollTextMask
+              <TextAnimateMask
                 inputRange={[0.3, 0.9]}
                 outputRange={['100%', '0%']}>
                 <TextAnimateWeight inputRange={[0.4, 0.85]}>
-                  S<i>a</i>m
+                  S<i>a</i>m<AnimateRotation>✳︎</AnimateRotation>
                 </TextAnimateWeight>
-              </ScrollTextMask>
+              </TextAnimateMask>
 
               <br />
 
-              <ScrollTextMask inputRange={[0.1, 0.7]}>
+              <TextAnimateMask inputRange={[0.1, 0.7]}>
                 <TextAnimateWeight
                   inputRange={[0.2, 0.65]}
                   outputRange={[`'wght' 300`, `'wght' 600`]}>
                   Wyness
                 </TextAnimateWeight>
-              </ScrollTextMask>
+              </TextAnimateMask>
             </h1>
           </div>
 

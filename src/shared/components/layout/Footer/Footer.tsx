@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import type { Metadata } from 'next';
 import { AvailableForHire } from '../../core/AvailableForHire';
 import { HelloWorld } from '../../core/HelloWorld';
-import { ScrollTextMask } from '../../core/ScrollTextMask';
+import { TextAnimateMask } from '../../core/TextAnimateMask';
 import { Container } from '../Container';
 import styles from './Footer.module.css';
 
@@ -23,10 +23,10 @@ export function Footer({}) {
           <nav className={classNames(styles.column, styles.columnOffset)}>
             <AvailableForHire />
             <p>
-              <ScrollTextMask inputRange={[0, 0.25]}>
+              <TextAnimateMask inputRange={[0, 0.25]}>
                 Schedule a quick 30min chat to discuss details about your
                 project, and discover what services I can offer.
-              </ScrollTextMask>
+              </TextAnimateMask>
             </p>
           </nav>
         </div>

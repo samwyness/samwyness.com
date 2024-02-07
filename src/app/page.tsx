@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import { ScrollTextMask } from 'src/shared/components/core/ScrollTextMask';
+import { TextAnimateMask } from 'src/shared/components/core/TextAnimateMask';
 import { Container } from 'src/shared/components/layout/Container';
 import { Row } from 'src/shared/components/layout/Row';
 import { HeroSection } from 'src/shared/components/sections/HeroSection';
@@ -44,19 +44,28 @@ export default function Home() {
         <section className={classNames(styles.section, styles.work)}>
           <Container className={styles.container}>
             {pageData.work.map(item => (
-              <Row key={item.title} className={styles.workCard}>
-                <div className={styles.workCardContent}>
-                  <h2>
-                    <strong className={styles.title}>{item.title}</strong>
-                  </h2>
-                  <ScrollTextMask>
-                    {item.completed} ~ {item.tags.join(', ')}
-                  </ScrollTextMask>
-                </div>
-                <div className={styles.workCardImage}>
-                  <Image src={item.image} alt={item.title} fill />
-                </div>
-              </Row>
+              <a
+                key={item.title}
+                href={item.link}
+                target="_blank"
+                referrerPolicy="no-referrer">
+                <Row className={styles.workCard}>
+                  <div className={styles.workCardContent}>
+                    <h2>
+                      <strong className={styles.title}>{item.title}</strong>
+                    </h2>
+                    <TextAnimateMask>
+                      {item.completed} ~ {item.tags.join(', ')}
+                    </TextAnimateMask>
+                  </div>
+
+                  <div className={styles.workCardLinkIcon}>VISIT SITE</div>
+
+                  <div className={styles.workCardImage}>
+                    <Image src={item.image} alt={item.title} fill />
+                  </div>
+                </Row>
+              </a>
             ))}
           </Container>
         </section>
@@ -73,7 +82,7 @@ export default function Home() {
                     <ul>
                       {pageData.brands.map(brand => (
                         <li key={brand}>
-                          <ScrollTextMask>{brand}</ScrollTextMask>
+                          <TextAnimateMask>{brand}</TextAnimateMask>
                         </li>
                       ))}
                     </ul>
@@ -88,7 +97,7 @@ export default function Home() {
                     <ul>
                       {pageData.expertise.map(expertise => (
                         <li key={expertise}>
-                          <ScrollTextMask>{expertise}</ScrollTextMask>
+                          <TextAnimateMask>{expertise}</TextAnimateMask>
                         </li>
                       ))}
                     </ul>
@@ -110,19 +119,19 @@ export default function Home() {
                   <div key={`experience_${index}`} className={styles.column}>
                     {column.map((data, index2) => (
                       <p key={`role_${data.role}_${index2}`}>
-                        <ScrollTextMask>
+                        <TextAnimateMask>
                           <strong>{data.role}</strong>
                           <br />
-                        </ScrollTextMask>
+                        </TextAnimateMask>
                         {data.company && (
-                          <ScrollTextMask>
+                          <TextAnimateMask>
                             {data.company}
                             <br />
-                          </ScrollTextMask>
+                          </TextAnimateMask>
                         )}
-                        <ScrollTextMask>
+                        <TextAnimateMask>
                           <span className="text-muted">{data.period}</span>
-                        </ScrollTextMask>
+                        </TextAnimateMask>
                       </p>
                     ))}
                   </div>

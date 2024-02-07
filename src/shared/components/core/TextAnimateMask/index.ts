@@ -1,0 +1,1 @@
+export { TextAnimateMask } from './TextAnimateMask';
