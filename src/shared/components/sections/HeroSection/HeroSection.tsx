@@ -13,9 +13,6 @@ type HeroSectionProps = {
 export function HeroSection({ intro }: HeroSectionProps) {
   return (
     <section className={styles.sectionHero}>
-      {/* <Horizon positionX="30vw" positionY="70vh" /> */}
-      {/* <Horizon /> */}
-
       <Container className={styles.container}>
         <Row className={styles.row}>
           <div className={styles.columnLeft}>
@@ -24,7 +21,7 @@ export function HeroSection({ intro }: HeroSectionProps) {
                 inputRange={[0.3, 0.9]}
                 outputRange={['100%', '0%']}>
                 <TextAnimateWeight inputRange={[0.4, 0.85]}>
-                  Sam
+                  S<i>a</i>m
                 </TextAnimateWeight>
               </ScrollTextMask>
 

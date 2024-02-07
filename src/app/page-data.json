@@ -1,5 +1,61 @@
 {
   "intro": "I help brands take their digital ideas from concept to final execution. Over the years I've worn many hats, and worked on a wide range of products across multiple platforms.",
+  "work": [
+    {
+      "title": "Matt Bradley Designs",
+      "image": "/images/work-matt-bradley-designs.png",
+      "completed": "2024",
+      "tags": [
+        "Product Design",
+        "Website Development",
+        "SEO"
+      ]
+    },
+    {
+      "title": "Super Swim",
+      "image": "/images/work-super-swim.png",
+      "completed": "2024",
+      "tags": [
+        "Product Design",
+        "App Development"
+      ]
+    },
+    {
+      "title": "Steptember",
+      "image": "/images/work-steptember.png",
+      "completed": "2023",
+      "tags": [
+        "Product Design",
+        "App Development"
+      ]
+    },
+    {
+      "title": "Tour de Kids",
+      "image": "/images/work-tour-de-kids.png",
+      "completed": "2023",
+      "tags": [
+        "Product Design",
+        "App Development"
+      ]
+    },
+    {
+      "title": "Red Bull Takeover",
+      "image": "/images/work-red-bull-takeover.png",
+      "completed": "2022",
+      "tags": [
+        "App Development"
+      ]
+    },
+    {
+      "title": "The Dawn Light",
+      "image": "/images/work-the-dawn-light.png",
+      "completed": "2022",
+      "tags": [
+        "Product Design",
+        "Website Development"
+      ]
+    }
+  ],
   "brands": [
     "District Technologies",
     "DEFY",

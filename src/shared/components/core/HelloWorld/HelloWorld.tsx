@@ -48,9 +48,11 @@ export function HelloWorld() {
         <GlobeIcon className={styles.globeIcon} />
 
         <div className={styles.locationText}>
-          <ScrollTextMask>Sunshine Coast, Australia</ScrollTextMask>
+          <ScrollTextMask inputRange={[0, 0.25]}>
+            Sunshine Coast, Australia
+          </ScrollTextMask>
 
-          <ScrollTextMask>
+          <ScrollTextMask inputRange={[0, 0.25]}>
             <time>{timeNow}</time>
           </ScrollTextMask>
         </div>

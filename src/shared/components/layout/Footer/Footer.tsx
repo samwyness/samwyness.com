@@ -23,7 +23,7 @@ export function Footer({}) {
           <nav className={classNames(styles.column, styles.columnOffset)}>
             <AvailableForHire />
             <p>
-              <ScrollTextMask>
+              <ScrollTextMask inputRange={[0, 0.25]}>
                 Schedule a quick 30min chat to discuss details about your
                 project, and discover what services I can offer.
               </ScrollTextMask>
@@ -51,7 +51,7 @@ export function Footer({}) {
                   href="https://linkedin.com/in/samwyness22"
                   target="_blank"
                   referrerPolicy="no-referrer">
-                  Linkedin
+                  LinkedIn
                 </a>
               </li>
             </ul>

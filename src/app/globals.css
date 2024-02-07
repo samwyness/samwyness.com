@@ -1,5 +1,5 @@
 :root {
-  --color-brand: #f9501b;
+  --color-brand: #f03933;
   --color-black: #000000;
   --color-white: #ffffff;
   --color-text-opaque-white: rgba(255, 255, 255, 0.3);
@@ -8,9 +8,9 @@
   --color-primary: var(--color-brand);
   --color-on-primary: var(--color-white);
 
-  --color-surface: var(--color-white);
+  --color-surface: #fdf6f3;
   --color-surface-container: #e5e5e5;
-  --color-on-surface: var(--color-black);
+  --color-on-surface: #3a0c0a;
   --color-on-surface-opaque: var(--color-text-opaque-black);
 
   --gradient-aurora: radial-gradient(
@@ -60,6 +60,7 @@ html {
 body {
   position: relative;
   background: var(--color-surface);
+  color: var(--color-on-surface);
   font-family: var(--font-family-base);
   font-size: 16px;
   font-variation-settings: 'wght' 300;
@@ -69,12 +70,7 @@ body {
 p,
 li {
   font-size: 20px;
-  line-height: 1.5;
-}
-
-code {
-  font-size: 0.9em;
-  line-height: 1.5;
+  line-height: 1.75;
 }
 
 a {

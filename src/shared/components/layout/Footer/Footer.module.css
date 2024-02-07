@@ -82,8 +82,6 @@
 }
 
 .footerMeta {
-  font-size: 16px;
-
   @media (min-width: 768px) {
     grid-column-start: 2;
   }
@@ -102,5 +100,4 @@
   display: flex;
   flex-direction: row;
   gap: 40px;
-  text-transform: uppercase;
 }
