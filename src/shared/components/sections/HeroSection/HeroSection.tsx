@@ -43,16 +43,7 @@ export function HeroSection({ intro }: HeroSectionProps) {
 
           <div className={styles.columnRight}>
             <TiltCard className={styles.imageContainer}>
-              <Image
-                className={styles.imageUnderlay}
-                src="/images/sam-wyness-profile-image-02.png"
-                alt="Sam Wyness profile image"
-                sizes="(max-width: 768px) 100vw, 420px"
-                priority
-                fill
-              />
-
-              <AnimateScrollProgress inputRange={[1, 0.6]}>
+              <AnimateScrollProgress inputRange={[1, 0.6]} outputRange={[0, 1]}>
                 <Image
                   src="/images/sam-wyness-profile-image-01.png"
                   alt="Sam Wyness profile image( B+W)"

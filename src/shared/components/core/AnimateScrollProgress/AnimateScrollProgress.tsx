@@ -15,8 +15,8 @@ const EASE = cubicBezier(0.49, 0, 0.6, 0.99);
 
 export type AnimateScrollProgressProps = HTMLMotionProps<'span'> & {
   useTarget?: boolean;
-  inputRange?: [number, number];
-  outputRange?: [string, string];
+  inputRange?: number[];
+  outputRange?: (string | number)[];
   offset?: [string, string];
 };
 
