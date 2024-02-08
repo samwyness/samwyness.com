@@ -1,10 +1,4 @@
 .footer {
-  --color-surface: var(--color-brand);
-  --color-on-surface: var(--color-white);
-  --color-on-surface-opaque: var(--color-text-opaque-white);
-  --color-blinker: var(--color-white);
-  --color-blinker-rgb: 255, 255, 255;
-
   padding-top: 40px;
   padding-bottom: 40px;
   background: var(--color-surface);
@@ -17,10 +11,7 @@
     padding-bottom: 100px;
   }
 
-  @media (prefers-color-scheme: dark) {
-    --color-surface: var(--color-black);
-    border-top: 1px solid var(--color-white);
-  }
+  border-top: 1px solid currentColor;
 }
 
 .footerContainer {

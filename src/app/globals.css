@@ -29,7 +29,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-surface: var(--color-black);
+    --color-surface: #151515;
     --color-surface-container: #1a1a1a;
     --color-on-surface: #e6e4dd;
     --color-on-surface-opaque: var(--color-text-opaque-white);
