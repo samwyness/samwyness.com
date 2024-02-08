@@ -60,9 +60,7 @@ export default function Home() {
               <Row className={styles.row}>
                 <div className={styles.column}>
                   <h2 className={styles.title}>
-                    <strong>
-                      Brand collaborations ({pageData.brands.length})
-                    </strong>
+                    <strong>Brand collaborations</strong>
                   </h2>
                   <Row>
                     <ul>
@@ -97,7 +95,7 @@ export default function Home() {
         <section className={styles.section}>
           <Container className={styles.container}>
             <h2 className={styles.title}>
-              <strong>History ({pageData.experience.flat().length})</strong>
+              <strong>History</strong>
             </h2>
             <Row className={styles.row}>
               {pageData.experience.map((column, index) => (
