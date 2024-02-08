@@ -1,0 +1,1 @@
+export { HoverImageLink } from './HoverImageLink';

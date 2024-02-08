@@ -1,8 +1,18 @@
+'use client';
+
 import classNames from 'classnames';
+import {
+  LazyMotion,
+  domAnimation,
+  m as motion,
+  useMotionValueEvent,
+  useScroll,
+  useTransform,
+} from 'framer-motion';
 import type { Metadata } from 'next';
+import { ElementRef, useRef } from 'react';
 import { AvailableForHire } from '../../core/AvailableForHire';
 import { HelloWorld } from '../../core/HelloWorld';
-import { TextAnimateMask } from '../../core/TextAnimateMask';
 import { Container } from '../Container';
 import styles from './Footer.module.css';
 
@@ -12,52 +22,65 @@ export const metadata: Metadata = {
 };
 
 export function Footer({}) {
+  const ref = useRef<ElementRef<'div'>>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start end', 'end end'],
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], ['-30%', '0%']);
+  const opacity = useTransform(scrollYProgress, [0.25, 1], [0, 1]);
+
+  useMotionValueEvent(scrollYProgress, 'change', last => console.log(last));
+
   return (
-    <footer className={styles.footer}>
-      <Container className={styles.footerContainer}>
-        <div className={styles.footerGrid}>
-          <div className={styles.column}>
-            <HelloWorld />
-          </div>
+    <LazyMotion features={domAnimation}>
+      <footer className={styles.footer}>
+        <motion.div ref={ref} style={{ translateY: y, opacity }}>
+          <Container className={styles.footerContainer}>
+            <div className={styles.footerGrid}>
+              <div className={styles.column}>
+                <HelloWorld />
+              </div>
 
-          <nav className={classNames(styles.column, styles.columnOffset)}>
-            <AvailableForHire />
-            <p>
-              <TextAnimateMask inputRange={[0, 0.25]}>
-                Schedule a quick 30min chat to discuss details about your
-                project and discover what services I can offer.
-              </TextAnimateMask>
-            </p>
-          </nav>
-        </div>
+              <nav className={classNames(styles.column, styles.columnOffset)}>
+                <AvailableForHire />
+                <p>
+                  Schedule a quick 30min chat to discuss details about your
+                  project and discover what services I can offer.
+                </p>
+              </nav>
+            </div>
 
-        <div className={classNames(styles.footerGrid, styles.footerMeta)}>
-          <div className={styles.column}>
-            <span>© {new Date().getFullYear()} Sam Wyness</span>
-          </div>
+            <div className={classNames(styles.footerGrid, styles.footerMeta)}>
+              <div className={styles.column}>
+                <span>© {new Date().getFullYear()} Sam Wyness</span>
+              </div>
 
-          <div className={classNames(styles.column, styles.columnOffset)}>
-            <ul className={styles.socialLinks}>
-              <li>
-                <a
-                  href="https://github.com/samwyness"
-                  target="_blank"
-                  referrerPolicy="no-referrer">
-                  GitHub
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://linkedin.com/in/samwyness22"
-                  target="_blank"
-                  referrerPolicy="no-referrer">
-                  LinkedIn
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </Container>
-    </footer>
+              <div className={classNames(styles.column, styles.columnOffset)}>
+                <ul className={styles.socialLinks}>
+                  <li>
+                    <a
+                      href="https://github.com/samwyness"
+                      target="_blank"
+                      referrerPolicy="no-referrer">
+                      GitHub
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://linkedin.com/in/samwyness22"
+                      target="_blank"
+                      referrerPolicy="no-referrer">
+                      LinkedIn
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </Container>
+        </motion.div>
+      </footer>
+    </LazyMotion>
   );
 }

@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import type { Metadata } from 'next';
-import Image from 'next/image';
+import { HoverImageLink } from 'src/shared/components/core/HoverImageLink';
 import { TextAnimateMask } from 'src/shared/components/core/TextAnimateMask';
 import { Container } from 'src/shared/components/layout/Container';
 import { Row } from 'src/shared/components/layout/Row';
@@ -35,46 +35,28 @@ export default function Home() {
       <main className={styles.main}>
         <HeroSection intro={pageData.intro} />
 
-        {/* <section className={classNames(styles.section, styles.showreel)}>
-          <Container className={styles.container}>
-            <video></video>
-          </Container>
-        </section> */}
-
         <section className={classNames(styles.section, styles.work)}>
           <Container className={styles.container}>
+            <h2 className={styles.title}>
+              <strong>Recent ({pageData.work.length})</strong>
+            </h2>
+
             {pageData.work.map(item => (
-              <a
+              <HoverImageLink
                 key={item.title}
-                href={item.link}
-                target="_blank"
-                referrerPolicy="no-referrer">
-                <Row className={styles.workCard}>
-                  <div className={styles.workCardContent}>
-                    <h2>
-                      <strong className={styles.title}>{item.title}</strong>
-                    </h2>
-                    <div>
-                      <TextAnimateMask>
-                        {item.completed} ~ {item.tags.join(', ')}
-                      </TextAnimateMask>
-                    </div>
-                  </div>
-
-                  <div className={styles.workCardLinkIcon}>VIEW</div>
-
-                  <div className={styles.workCardImage}>
-                    <Image src={item.image} alt={item.title} fill />
-                  </div>
-                </Row>
-              </a>
+                link={item.link}
+                title={item.title}
+                completed={item.completed}
+                tags={item.tags}
+                image={item.image}
+              />
             ))}
           </Container>
         </section>
 
         <section className={styles.section}>
           <Container className={styles.container}>
-            <div className={styles.topBorder}>
+            <div className={styles.borderSection}>
               <Row className={styles.row}>
                 <div className={styles.column}>
                   <h2 className={styles.title}>
@@ -112,34 +94,32 @@ export default function Home() {
 
         <section className={styles.section}>
           <Container className={styles.container}>
-            <div className={styles.topBorder}>
-              <h2 className={styles.title}>
-                <strong>History</strong>
-              </h2>
-              <Row className={styles.row}>
-                {pageData.experience.map((column, index) => (
-                  <div key={`experience_${index}`} className={styles.column}>
-                    {column.map((data, index2) => (
-                      <p key={`role_${data.role}_${index2}`}>
+            <h2 className={styles.title}>
+              <strong>History</strong>
+            </h2>
+            <Row className={styles.row}>
+              {pageData.experience.map((column, index) => (
+                <div key={`experience_${index}`} className={styles.column}>
+                  {column.map((data, index2) => (
+                    <p key={`role_${data.role}_${index2}`}>
+                      <TextAnimateMask>
+                        <strong>{data.role}</strong>
+                        <br />
+                      </TextAnimateMask>
+                      {data.company && (
                         <TextAnimateMask>
-                          <strong>{data.role}</strong>
+                          {data.company}
                           <br />
                         </TextAnimateMask>
-                        {data.company && (
-                          <TextAnimateMask>
-                            {data.company}
-                            <br />
-                          </TextAnimateMask>
-                        )}
-                        <TextAnimateMask>
-                          <span className="text-muted">{data.period}</span>
-                        </TextAnimateMask>
-                      </p>
-                    ))}
-                  </div>
-                ))}
-              </Row>
-            </div>
+                      )}
+                      <TextAnimateMask>
+                        <span className="text-muted">{data.period}</span>
+                      </TextAnimateMask>
+                    </p>
+                  ))}
+                </div>
+              ))}
+            </Row>
           </Container>
         </section>
       </main>

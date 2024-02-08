@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { GlobeIcon } from '../../icons/GlobeIcon';
-import { TextAnimateMask } from '../TextAnimateMask';
 import styles from './HelloWorld.module.css';
 
 const HelloWorlds = [
@@ -48,13 +47,8 @@ export function HelloWorld() {
         <GlobeIcon className={styles.globeIcon} />
 
         <div className={styles.locationText}>
-          <TextAnimateMask inputRange={[0, 0.25]}>
-            Sunshine Coast, Australia
-          </TextAnimateMask>
-
-          <TextAnimateMask inputRange={[0, 0.25]}>
-            <time>{timeNow}</time>
-          </TextAnimateMask>
+          Sunshine Coast, Australia
+          <time>{timeNow}</time>
         </div>
       </div>
     </div>

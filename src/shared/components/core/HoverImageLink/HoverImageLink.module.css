@@ -1,0 +1,93 @@
+.hoverImageLink {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  position: relative;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid var(--color-on-surface);
+  overflow: hidden;
+  transition: color 0.2s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.work:hover .hoverImageLink:not(:hover) {
+  opacity: 0.25;
+}
+
+.hoverImageLink:hover {
+  color: var(--color-brand);
+}
+
+.hoverImageLink:hover {
+  color: var(--color-brand);
+}
+
+.content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+}
+
+.title {
+  font-size: 20px;
+
+  @media (min-width: 768px) {
+    font-size: 32px;
+  }
+
+  @media (min-width: 1280px) {
+    font-size: 40px;
+  }
+}
+
+.image {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  min-width: 80px;
+  opacity: 1;
+  transform-origin: center;
+  transition: opacity 0.3s ease, transform 0.25s ease;
+
+  @media (min-width: 768px) {
+    width: 160px;
+    height: 160px;
+    min-width: 160px;
+  }
+}
+
+.hoverImageLink:hover .image {
+  opacity: 0;
+  transform: translate(160px, 0);
+}
+
+.linkText {
+  position: absolute;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  min-width: 80px;
+  font-size: 0.8em;
+  text-transform: uppercase;
+  font-style: italic;
+  transform: translate(-80px, 0);
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.25s ease;
+
+  @media (min-width: 768px) {
+    font-size: 1.2em;
+    width: 160px;
+    height: 160px;
+    min-width: 160px;
+  }
+}
+
+.hoverImageLink:hover .linkText {
+  transform: translate(0, 0);
+  opacity: 1;
+}

@@ -10,10 +10,11 @@
   background: var(--color-surface);
   color: var(--color-on-surface);
   font-size: 20px;
+  overflow: hidden;
 
   @media (min-width: 768px) {
-    padding-top: 70px;
-    padding-bottom: 70px;
+    padding-top: 100px;
+    padding-bottom: 100px;
   }
 
   @media (prefers-color-scheme: dark) {
