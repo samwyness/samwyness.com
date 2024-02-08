@@ -38,7 +38,7 @@ export default function Home() {
         <section className={classNames(styles.section, styles.work)}>
           <Container className={styles.container}>
             <h2 className={styles.title}>
-              <strong>Recent ({pageData.work.length})</strong>
+              <strong>Featured ({pageData.work.length})</strong>
             </h2>
 
             {pageData.work.map(item => (
