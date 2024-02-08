@@ -32,7 +32,7 @@ export function HeroSection({ intro }: HeroSectionProps) {
 
               <TextAnimateMask inputRange={[0.1, 0.7]}>
                 <TextAnimateWeight
-                  inputRange={[0.2, 0.65]}
+                  inputRange={[0.3, 0.65]}
                   outputRange={[`'wght' 300`, `'wght' 600`]}>
                   Wyness
                 </TextAnimateWeight>
