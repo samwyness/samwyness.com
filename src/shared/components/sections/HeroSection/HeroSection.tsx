@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { AnimateScrollProgress } from '../../core/AnimateScrollProgress';
 import { TextAnimateMask } from '../../core/TextAnimateMask';
 import { TextAnimateWeight } from '../../core/TextAnimateWeight';
 import { TiltCard } from '../../core/TiltCard';
@@ -51,9 +52,7 @@ export function HeroSection({ intro }: HeroSectionProps) {
                 fill
               />
 
-              {/* <AnimateScrollProgress
-                inputRange={[1, 0.25]}
-                className={styles.imageContainer}>
+              <AnimateScrollProgress inputRange={[1, 0.6]}>
                 <Image
                   src="/images/sam-wyness-profile-image-01.png"
                   alt="Sam Wyness profile image( B+W)"
@@ -61,7 +60,7 @@ export function HeroSection({ intro }: HeroSectionProps) {
                   priority
                   fill
                 />
-              </AnimateScrollProgress> */}
+              </AnimateScrollProgress>
             </TiltCard>
 
             <p className={styles.description}>{intro}</p>
