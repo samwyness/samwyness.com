@@ -54,9 +54,11 @@ export default function Home() {
                     <h2>
                       <strong className={styles.title}>{item.title}</strong>
                     </h2>
-                    <TextAnimateMask>
-                      {item.completed} ~ {item.tags.join(', ')}
-                    </TextAnimateMask>
+                    <div>
+                      <TextAnimateMask>
+                        {item.completed} ~ {item.tags.join(', ')}
+                      </TextAnimateMask>
+                    </div>
                   </div>
 
                   <div className={styles.workCardLinkIcon}>VIEW</div>

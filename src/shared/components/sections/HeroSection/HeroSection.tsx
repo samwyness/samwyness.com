@@ -18,7 +18,7 @@ export function HeroSection({ intro }: HeroSectionProps) {
           <div className={styles.columnLeft}>
             <h1 className={styles.title}>
               <TextAnimateMask
-                inputRange={[0.3, 0.9]}
+                inputRange={[0.3, 0.95]}
                 outputRange={['100%', '0%']}>
                 <TextAnimateWeight inputRange={[0.4, 0.85]}>
                   S<i>a</i>m
