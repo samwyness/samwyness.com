@@ -9,7 +9,7 @@ import {
   useScroll,
   useTransform,
 } from 'framer-motion';
-import { CSSProperties, useRef } from 'react';
+import React, { CSSProperties } from 'react';
 
 const EASE = cubicBezier(0.49, 0, 0.6, 0.99);
 
@@ -28,7 +28,7 @@ export function AnimateScrollProgress({
   children,
   ...props
 }: AnimateScrollProgressProps) {
-  const ref = useRef<HTMLSpanElement>(null);
+  const ref = React.useRef<HTMLSpanElement>(null);
   const { scrollYProgress } = useScroll({
     target: useTarget ? ref : undefined,
     offset:

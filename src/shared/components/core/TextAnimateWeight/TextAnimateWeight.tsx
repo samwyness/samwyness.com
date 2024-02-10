@@ -7,7 +7,7 @@ import {
   useScroll,
   useTransform,
 } from 'framer-motion';
-import { useRef } from 'react';
+import React from 'react';
 import { AnimateScrollProgressProps } from '../AnimateScrollProgress/AnimateScrollProgress';
 
 export function TextAnimateWeight({
@@ -15,7 +15,7 @@ export function TextAnimateWeight({
   outputRange = [`'wght' 600`, `'wght' 300`],
   children,
 }: AnimateScrollProgressProps) {
-  const ref = useRef<HTMLSpanElement>(null);
+  const ref = React.useRef<HTMLSpanElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ['end end', 'start start'],

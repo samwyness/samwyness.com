@@ -5,23 +5,22 @@ import {
   TargetAndTransition,
   domAnimation,
   m as motion,
+  transform,
 } from 'framer-motion';
-import { ElementRef, PropsWithChildren, useRef } from 'react';
-import useHover3d from 'src/shared/utils/useHover3d';
+import React, { ElementRef, PropsWithChildren } from 'react';
+import useMousePosition from 'src/shared/hooks/useMousePosition';
 
 type TiltCardProps = PropsWithChildren & {
   className?: string;
-  rotationRange?: number;
   translateZ?: number;
 };
 
-export function TiltCard({
-  rotationRange = 15,
-  translateZ = 40,
-  ...props
-}: TiltCardProps) {
-  const ref = useRef<ElementRef<'div'>>(null);
-  const { isHovering, rotateX, rotateY } = useHover3d(ref, rotationRange);
+export function TiltCard({ translateZ = 25, ...props }: TiltCardProps) {
+  const ref = React.useRef<ElementRef<'div'>>(null);
+  const { isHovering, position } = useMousePosition(ref);
+
+  const rotateX = transform(position.yPct, [0, 1], ['7.5deg', '-7.5deg']);
+  const rotateY = transform(position.xPct, [0, 1], ['-7.5deg', '7.5deg']);
 
   return (
     <LazyMotion features={domAnimation}>
@@ -30,13 +29,13 @@ export function TiltCard({
         ref={ref}
         animate={
           {
-            '--rotateX': rotateX + 'deg',
-            '--rotateY': rotateY + 'deg',
+            '--rotateX': isHovering ? rotateX : 0,
+            '--rotateY': isHovering ? rotateY : 0,
             '--translateZ': (isHovering ? translateZ : 0) + 'px',
             transformStyle: 'preserve-3d',
           } as TargetAndTransition
         }
-        transition={{ type: 'tween', duration: 0.1 }}
+        transition={{ duration: 0.1 }}
       />
     </LazyMotion>
   );

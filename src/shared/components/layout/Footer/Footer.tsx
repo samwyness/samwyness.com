@@ -9,7 +9,7 @@ import {
   useTransform,
 } from 'framer-motion';
 import type { Metadata } from 'next';
-import { ElementRef, useRef } from 'react';
+import React, { ElementRef } from 'react';
 import { AvailableForHire } from '../../core/AvailableForHire';
 import { HelloWorld } from '../../core/HelloWorld';
 import { Container } from '../Container';
@@ -21,7 +21,8 @@ export const metadata: Metadata = {
 };
 
 export function Footer({}) {
-  const ref = useRef<ElementRef<'div'>>(null);
+  const ref = React.useRef<ElementRef<'div'>>(null);
+
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ['start end', 'end end'],

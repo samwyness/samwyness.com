@@ -1,46 +1,40 @@
 'use client';
 
-import React, { RefObject, useCallback, useState } from 'react';
+import React, { RefObject } from 'react';
 
-export default function useHover3d<T extends HTMLElement>(
+const INITIAL_POS = { x: 0, y: 0, xPct: 0, yPct: 0 };
+
+export default function useMousePosition<T extends HTMLElement>(
   ref: RefObject<T>,
-  rotationRange = 15,
 ) {
-  const [isHovering, setIsHovering] = useState(false);
-  const [rotateX, setRotateX] = useState(0);
-  const [rotateY, setRotateY] = useState(0);
+  const [isHovering, setIsHovering] = React.useState(false);
+  const [position, setPosition] = React.useState(INITIAL_POS);
 
-  const handleMouseMove = useCallback(
+  const handleMouseMove = React.useCallback(
     (e: MouseEvent) => {
       if (!ref.current) return;
 
       const rect = ref.current.getBoundingClientRect();
       const { width, height } = rect;
 
-      const mouseX = (e.clientX - rect.left) * rotationRange;
-      const mouseY = (e.clientY - rect.top) * rotationRange;
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
 
-      const rX = (mouseY / height - rotationRange / 2) * -1;
-      const rY = mouseX / width - rotationRange / 2;
-
-      setRotateX(rX);
-      setRotateY(rY);
+      setPosition({ x, y, xPct: x / width, yPct: y / height });
     },
-    [ref, rotationRange],
+    [ref],
   );
 
-  const handleMouseEnter = useCallback(() => {
+  const handleMouseEnter = React.useCallback(() => {
     if (!ref.current) return;
     setIsHovering(true);
-    setRotateX(0);
-    setRotateY(0);
+    setPosition(INITIAL_POS);
   }, [ref]);
 
-  const handleMouseLeave = useCallback(() => {
+  const handleMouseLeave = React.useCallback(() => {
     if (!ref.current) return;
     setIsHovering(false);
-    setRotateX(0);
-    setRotateY(0);
+    setPosition(INITIAL_POS);
   }, [ref]);
 
   React.useEffect(() => {
@@ -62,8 +56,7 @@ export default function useHover3d<T extends HTMLElement>(
   }, [handleMouseEnter, handleMouseLeave, handleMouseMove, ref]);
 
   return {
-    rotateX,
-    rotateY,
+    position,
     isHovering,
   };
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import React from 'react';
 import { GlobeIcon } from '../../icons/GlobeIcon';
 import styles from './HelloWorld.module.css';
 
@@ -24,9 +24,9 @@ const formatTime = (date: Date) =>
     .toUpperCase();
 
 export function HelloWorld() {
-  const [timeNow, setTimeNow] = useState('');
+  const [timeNow, setTimeNow] = React.useState('');
 
-  useEffect(() => {
+  React.useEffect(() => {
     setTimeNow(formatTime(new Date()));
 
     const unsubscribe = setInterval(
