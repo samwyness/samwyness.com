@@ -38,3 +38,13 @@
 .brand i {
   color: var(--color-brand);
 }
+
+.scrollDown {
+  display: none;
+  margin-top: 12px;
+  font-size: 16px;
+
+  @media (min-width: 1280px) {
+    display: initial;
+  }
+}

@@ -24,6 +24,7 @@ export function Header({}) {
               <i>Creative Developer</i>
             </span>
           </div>
+          <span className={styles.scrollDown}>( SCROLL DOWN )</span>
           <AvailableForHire />
         </Row>
       </Container>
