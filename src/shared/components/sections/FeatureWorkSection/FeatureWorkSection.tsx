@@ -14,16 +14,18 @@ type HeroSectionProps = {
 export function FeatureWorkSection({ items }: HeroSectionProps) {
   return (
     <Section title={`Featured (${items.length})`}>
-      {items.map(item => (
-        <HoverImageLink
-          key={item.title}
-          link={item.link}
-          title={item.title}
-          completed={item.completed}
-          tags={item.tags}
-          image={item.image}
-        />
-      ))}
+      <div>
+        {items.map(item => (
+          <HoverImageLink
+            key={item.title}
+            link={item.link}
+            title={item.title}
+            completed={item.completed}
+            tags={item.tags}
+            image={item.image}
+          />
+        ))}
+      </div>
     </Section>
   );
 }
