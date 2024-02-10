@@ -1,0 +1,9 @@
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+
+  @media (min-width: 768px) {
+    flex: 1 1;
+  }
+}

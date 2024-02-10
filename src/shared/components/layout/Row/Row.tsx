@@ -1,8 +1,19 @@
 import classNames from 'classnames';
 import styles from './Row.module.css';
 
-type RowProps = React.HTMLAttributes<HTMLDivElement> & {};
+type RowProps = React.HTMLAttributes<HTMLDivElement> & {
+  wrap?: boolean;
+};
 
-export function Row(props: RowProps) {
-  return <div {...props} className={classNames(styles.row, props.className)} />;
+export function Row({ wrap = false, ...props }: RowProps) {
+  return (
+    <div
+      {...props}
+      className={classNames(
+        styles.row,
+        wrap && styles.rowWrap,
+        props.className,
+      )}
+    />
+  );
 }

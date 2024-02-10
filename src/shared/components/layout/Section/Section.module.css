@@ -1,0 +1,28 @@
+.section {
+  width: 100%;
+  position: relative;
+  font-size: 20px;
+  margin-top: 80px;
+  margin-bottom: 80px;
+
+  @media (min-width: 1024px) {
+    gap: 100px;
+    margin-top: 10px;
+    margin-bottom: 100px;
+  }
+
+  @media (min-width: 1280px) {
+    max-width: calc(100% - 25vw);
+    margin-left: auto;
+  }
+}
+
+.section .title {
+  margin-bottom: 40px;
+  font-size: 20px;
+  text-transform: uppercase;
+}
+
+.section ul {
+  list-style: none;
+}

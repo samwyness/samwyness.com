@@ -34,7 +34,7 @@ export function HoverImageLink({
 
       <div className={styles.linkText}>VIEW</div>
 
-      <div className={styles.image}>
+      <div className={styles.imageContainer}>
         <Image src={image} alt={title} width={160} height={160} />
       </div>
     </a>

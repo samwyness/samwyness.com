@@ -1,5 +1,7 @@
-import { AnimateScrollProgress } from '../AnimateScrollProgress';
-import { AnimateScrollProgressProps } from '../AnimateScrollProgress/AnimateScrollProgress';
+import {
+  AnimateScrollProgress,
+  AnimateScrollProgressProps,
+} from '../AnimateScrollProgress';
 import styles from './TextAnimateMask.module.css';
 
 export function TextAnimateMask({

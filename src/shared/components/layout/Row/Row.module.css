@@ -4,3 +4,7 @@
   width: 100%;
   gap: 40px;
 }
+
+.rowWrap {
+  flex-wrap: wrap;
+}

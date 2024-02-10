@@ -8,7 +8,7 @@ import {
   useTransform,
 } from 'framer-motion';
 import React from 'react';
-import { AnimateScrollProgressProps } from '../AnimateScrollProgress/AnimateScrollProgress';
+import { AnimateScrollProgressProps } from './AnimateScrollProgress';
 
 export function TextAnimateWeight({
   inputRange = [0, 0.25],

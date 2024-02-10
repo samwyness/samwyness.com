@@ -1,0 +1,21 @@
+.row {
+  padding-bottom: 80px;
+  border-bottom: 1px solid currentColor;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  width: 100%;
+
+  @media (min-width: 768px) {
+    flex: 1 1;
+    width: auto;
+  }
+}
+
+.title {
+  font-size: 20px;
+  text-transform: uppercase;
+}
