@@ -3,6 +3,7 @@
   --color-black: #000000;
   --color-white: #ffffff;
   --color-text-opaque-white: rgba(255, 255, 255, 0.3);
+  --color-text-opaque-white: rgba(240, 221, 195, 0.3);
   --color-text-opaque-black: rgba(0, 0, 0, 0.1);
 
   --color-primary: var(--color-brand);
@@ -30,8 +31,9 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --color-surface: #151515;
-    --color-surface-container: #1a1a1a;
+    --color-surface-container: #1a1a1b;
     --color-on-surface: #e6e4dd;
+    --color-on-surface: rgb(240, 221, 195);
     --color-on-surface-opaque: var(--color-text-opaque-white);
 
     --gradient-aurora: radial-gradient(

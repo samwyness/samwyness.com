@@ -63,6 +63,10 @@ div:hover > .hoverImageLink:not(:hover) .content {
   transform: translate(160px, 0);
 }
 
+.imageContainer img {
+  filter: saturate(0.7);
+}
+
 .linkText {
   position: absolute;
   right: 0;
