@@ -1,7 +1,12 @@
 'use client';
 
-import { LazyMotion, domAnimation, m as motion } from 'framer-motion';
-import { CSSProperties, ElementRef, PropsWithChildren, useRef } from 'react';
+import {
+  LazyMotion,
+  TargetAndTransition,
+  domAnimation,
+  m as motion,
+} from 'framer-motion';
+import { ElementRef, PropsWithChildren, useRef } from 'react';
 import useHover3d from 'src/shared/utils/useHover3d';
 
 type TiltCardProps = PropsWithChildren & {
@@ -12,7 +17,7 @@ type TiltCardProps = PropsWithChildren & {
 
 export function TiltCard({
   rotationRange = 15,
-  translateZ = -40,
+  translateZ = 40,
   ...props
 }: TiltCardProps) {
   const ref = useRef<ElementRef<'div'>>(null);
@@ -23,15 +28,15 @@ export function TiltCard({
       <motion.div
         {...props}
         ref={ref}
-        style={
+        animate={
           {
             '--rotateX': rotateX + 'deg',
             '--rotateY': rotateY + 'deg',
-            '--translateZ': (isHovering ? translateZ : 10) + 'px',
-            transition: 'transform 0.12s ease',
+            '--translateZ': (isHovering ? translateZ : 0) + 'px',
             transformStyle: 'preserve-3d',
-          } as CSSProperties
+          } as TargetAndTransition
         }
+        transition={{ type: 'tween', duration: 0.1 }}
       />
     </LazyMotion>
   );
