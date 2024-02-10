@@ -31,98 +31,96 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <>
-      <main className={styles.main}>
-        <HeroSection intro={pageData.intro} />
+    <main className={styles.main}>
+      <HeroSection intro={pageData.intro} />
 
-        <section className={classNames(styles.section, styles.work)}>
-          <Container className={styles.container}>
-            <h2 className={styles.title}>
-              <strong>Featured ({pageData.work.length})</strong>
-            </h2>
+      <section className={classNames(styles.section, styles.work)}>
+        <Container className={styles.container}>
+          <h2 className={styles.title}>
+            <strong>Featured ({pageData.work.length})</strong>
+          </h2>
 
-            {pageData.work.map(item => (
-              <HoverImageLink
-                key={item.title}
-                link={item.link}
-                title={item.title}
-                completed={item.completed}
-                tags={item.tags}
-                image={item.image}
-              />
-            ))}
-          </Container>
-        </section>
+          {pageData.work.map(item => (
+            <HoverImageLink
+              key={item.title}
+              link={item.link}
+              title={item.title}
+              completed={item.completed}
+              tags={item.tags}
+              image={item.image}
+            />
+          ))}
+        </Container>
+      </section>
 
-        <section className={styles.section}>
-          <Container className={styles.container}>
-            <div className={styles.borderSection}>
-              <Row className={styles.row}>
-                <div className={styles.column}>
-                  <h2 className={styles.title}>
-                    <strong>Brand collaborations</strong>
-                  </h2>
-                  <Row>
-                    <ul>
-                      {pageData.brands.map(brand => (
-                        <li key={brand}>
-                          <TextAnimateMask>{brand}</TextAnimateMask>
-                        </li>
-                      ))}
-                    </ul>
-                  </Row>
-                </div>
-
-                <div className={styles.column}>
-                  <h2 className={styles.title}>
-                    <strong>Areas of expertise</strong>
-                  </h2>
-                  <Row>
-                    <ul>
-                      {pageData.expertise.map(expertise => (
-                        <li key={expertise}>
-                          <TextAnimateMask>{expertise}</TextAnimateMask>
-                        </li>
-                      ))}
-                    </ul>
-                  </Row>
-                </div>
-              </Row>
-            </div>
-          </Container>
-        </section>
-
-        <section className={styles.section}>
-          <Container className={styles.container}>
-            <h2 className={styles.title}>
-              <strong>History</strong>
-            </h2>
+      <section className={styles.section}>
+        <Container className={styles.container}>
+          <div className={styles.borderSection}>
             <Row className={styles.row}>
-              {pageData.experience.map((column, index) => (
-                <div key={`experience_${index}`} className={styles.column}>
-                  {column.map((data, index2) => (
-                    <p key={`role_${data.role}_${index2}`}>
+              <div className={styles.column}>
+                <h2 className={styles.title}>
+                  <strong>Brand collaborations</strong>
+                </h2>
+                <Row>
+                  <ul>
+                    {pageData.brands.map(brand => (
+                      <li key={brand}>
+                        <TextAnimateMask>{brand}</TextAnimateMask>
+                      </li>
+                    ))}
+                  </ul>
+                </Row>
+              </div>
+
+              <div className={styles.column}>
+                <h2 className={styles.title}>
+                  <strong>Areas of expertise</strong>
+                </h2>
+                <Row>
+                  <ul>
+                    {pageData.expertise.map(expertise => (
+                      <li key={expertise}>
+                        <TextAnimateMask>{expertise}</TextAnimateMask>
+                      </li>
+                    ))}
+                  </ul>
+                </Row>
+              </div>
+            </Row>
+          </div>
+        </Container>
+      </section>
+
+      <section className={styles.section}>
+        <Container className={styles.container}>
+          <h2 className={styles.title}>
+            <strong>History</strong>
+          </h2>
+          <Row className={styles.row}>
+            {pageData.experience.map((column, index) => (
+              <div key={`experience_${index}`} className={styles.column}>
+                {column.map((data, index2) => (
+                  <p key={`role_${data.role}_${index2}`}>
+                    <TextAnimateMask>
+                      <strong>{data.role}</strong>
+                      <br />
+                    </TextAnimateMask>
+                    {data.company && (
                       <TextAnimateMask>
-                        <strong>{data.role}</strong>
+                        {data.company}
                         <br />
                       </TextAnimateMask>
-                      {data.company && (
-                        <TextAnimateMask>
-                          {data.company}
-                          <br />
-                        </TextAnimateMask>
-                      )}
-                      <TextAnimateMask>
-                        <span className="text-muted">{data.period}</span>
-                      </TextAnimateMask>
-                    </p>
-                  ))}
-                </div>
-              ))}
-            </Row>
-          </Container>
-        </section>
-      </main>
-    </>
+                    )}
+                    <TextAnimateMask>
+                      <span className="text-muted">{data.period}</span>
+                    </TextAnimateMask>
+                  </p>
+                ))}
+              </div>
+            ))}
+          </Row>
+        </Container>
+      </section>
+    </main>
   );
 }

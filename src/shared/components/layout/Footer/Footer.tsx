@@ -5,7 +5,6 @@ import {
   LazyMotion,
   domAnimation,
   m as motion,
-  useMotionValueEvent,
   useScroll,
   useTransform,
 } from 'framer-motion';
@@ -30,8 +29,6 @@ export function Footer({}) {
 
   const y = useTransform(scrollYProgress, [0, 1], ['-30%', '0%']);
   const opacity = useTransform(scrollYProgress, [0.25, 1], [0, 1]);
-
-  useMotionValueEvent(scrollYProgress, 'change', last => console.log(last));
 
   return (
     <LazyMotion features={domAnimation}>

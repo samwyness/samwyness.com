@@ -41,8 +41,6 @@ export function AnimateScrollProgress({
     ease: EASE,
   });
 
-  // useMotionValueEvent(progress, 'change', last => console.log(last));
-
   return (
     <LazyMotion features={domAnimation}>
       <motion.span

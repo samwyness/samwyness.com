@@ -1,0 +1,40 @@
+.main {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+  overflow: hidden;
+  padding-bottom: 40px;
+
+  @media (min-width: 768px) {
+    padding-bottom: 100px;
+  }
+}
+
+header:has(+ .main),
+.main + footer {
+  display: none;
+}
+
+.container {
+  align-items: flex-start;
+  gap: 40px;
+}
+
+.title {
+  line-height: 0.85;
+  font-size: 280px;
+  font-size: clamp(80px, 13.5vw, 100px);
+  font-variation-settings: 'wght' 600;
+  text-transform: uppercase;
+
+  @media (min-width: 1024px) {
+    font-size: clamp(140px, 12.5vw, 320px);
+  }
+}
+
+.title > span {
+  font-size: 0.5em;
+  font-variation-settings: 'wght' 600;
+}
