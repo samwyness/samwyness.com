@@ -1,16 +1,28 @@
 .header {
+  display: none;
   padding-top: 20px;
   padding-bottom: 20px;
   font-size: 20px;
+  opacity: 0;
+  animation: headerReveal 1s 1s var(--curve-primary) forwards;
 
   @media (min-width: 768px) {
+    display: flex;
     padding-top: 40px;
     padding-bottom: 40px;
+    transform: translate(0, -20%);
   }
 
   @media (min-width: 1440px) {
     padding-top: 70px;
     padding-bottom: 70px;
+  }
+}
+
+@keyframes headerReveal {
+  100% {
+    opacity: 1;
+    transform: translate(0, 0);
   }
 }
 
@@ -25,14 +37,6 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-}
-
-.brand a {
-  font-size: 28px;
-
-  @media (min-width: 768px) {
-    display: none;
-  }
 }
 
 .brand i {

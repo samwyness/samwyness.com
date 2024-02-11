@@ -16,13 +16,12 @@ export function Header({}) {
         <Row className={styles.row}>
           <div className={styles.brand}>
             <a href="/">
-              <strong>Sam Wyness</strong>
+              <span>
+                Software Engineer &
+                <br />
+                <i>Creative Developer</i>
+              </span>
             </a>
-            <span>
-              Software Engineer &
-              <br />
-              <i>Creative Developer</i>
-            </span>
           </div>
           <span className={styles.scrollDown}>( SCROLL DOWN )</span>
           <AvailableForHire />

@@ -1,7 +1,6 @@
 .TextAnimateMask {
   position: relative;
   display: inline;
-  /* clip-path: (0 var(--scroll-progress) 0 0); */
 
   @supports (background-clip: text) {
     background-clip: text;
@@ -13,8 +12,4 @@
     background-size: var(--scroll-progress) 100%;
     -webkit-text-fill-color: var(--color-on-surface-opaque);
   }
-}
-
-.TextAnimateMask:has(.text-muted) {
-  background-image: linear-gradient(#e6e4dd, #e6e4dd);
 }

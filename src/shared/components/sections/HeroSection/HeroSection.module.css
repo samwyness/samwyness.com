@@ -2,6 +2,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
   overflow: hidden;
   padding-top: 40px;
   padding-bottom: 40px;
@@ -44,14 +45,6 @@
   gap: 40px;
 }
 
-.columnLeft {
-  display: none;
-
-  @media (min-width: 768px) {
-    display: initial;
-  }
-}
-
 .columnRight {
   @media (min-width: 1280px) {
     max-width: 320px;
@@ -69,12 +62,34 @@
 .title {
   line-height: 0.85;
   font-size: 280px;
-  font-size: clamp(80px, 13.5vw, 100px);
+  font-size: clamp(70px, 13.5vw, 100px);
   font-variation-settings: 'wght' 600;
   text-transform: uppercase;
 
   @media (min-width: 1024px) {
     font-size: clamp(140px, 12.5vw, 320px);
+  }
+}
+
+.title > span:nth-child(1) {
+  clip-path: inset(0% 100% 0% 0%);
+  animation: titleReveal 0.75s 1s var(--curve-primary) forwards;
+}
+
+.title > span:nth-child(2) {
+  clip-path: inset(0% 0% 0% 100%);
+  animation: title2Reveal 1s 1s var(--curve-primary) forwards;
+}
+
+@keyframes titleReveal {
+  100% {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes title2Reveal {
+  100% {
+    clip-path: inset(0 0 0 0);
   }
 }
 
@@ -119,6 +134,14 @@
   object-fit: cover;
   object-position: center 80%;
   background-color: var(--color-surface-container);
+  clip-path: inset(100% 10% 20% 10%);
+  animation: imageReveal 1.25s 0.25s var(--curve-primary) forwards;
+}
+
+@keyframes imageReveal {
+  100% {
+    clip-path: inset(0 0 0 0);
+  }
 }
 
 .imageUnderlay {
@@ -129,4 +152,12 @@
 
 .description {
   text-align: justify;
+  clip-path: inset(0% 0% 0% 100%);
+  animation: textReveal 0.75s 1s var(--curve-primary) forwards;
+}
+
+@keyframes textReveal {
+  100% {
+    clip-path: inset(0 0 0 0);
+  }
 }

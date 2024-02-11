@@ -2,14 +2,13 @@
   --color-brand: #f03933;
   --color-black: #000000;
   --color-white: #ffffff;
-  --color-text-opaque-white: rgba(255, 255, 255, 0.3);
   --color-text-opaque-white: rgba(240, 221, 195, 0.3);
-  --color-text-opaque-black: rgba(0, 0, 0, 0.1);
+  --color-text-opaque-black: rgba(0, 0, 0, 0.2);
 
   --color-primary: var(--color-brand);
   --color-on-primary: var(--color-white);
 
-  --color-surface: #fdf6f3;
+  --color-surface: var(--color-white);
   --color-surface-container: #e5e5e5;
   --color-on-surface: #2a0807;
   --color-on-surface-opaque: var(--color-text-opaque-black);
@@ -23,16 +22,13 @@
     rgba(255, 255, 255, 0) 100%
   );
 
-  --screen-width-tablet-portrait: 768px;
-  --screen-width-tablet-landscape: 1024px;
-  --screen-width-laptop: 1440px;
+  --curve-primary: cubic-bezier(0.62, 0.05, 0.01, 0.99);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-surface: #151515;
-    --color-surface-container: #1a1a1b;
-    --color-on-surface: #e6e4dd;
+    --color-surface: #1a1a1b;
+    --color-surface-container: #363638;
     --color-on-surface: rgb(240, 221, 195);
     --color-on-surface-opaque: var(--color-text-opaque-white);
 

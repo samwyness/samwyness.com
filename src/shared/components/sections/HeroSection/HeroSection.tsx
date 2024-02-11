@@ -29,8 +29,6 @@ export function HeroSection({ intro }: HeroSectionProps) {
                 </TextAnimateWeight>
               </TextAnimateMask>
 
-              <br />
-
               <TextAnimateMask inputRange={[0.1, 0.7]}>
                 <TextAnimateWeight
                   inputRange={[0.3, 0.65]}
@@ -46,7 +44,7 @@ export function HeroSection({ intro }: HeroSectionProps) {
               <AnimateScrollProgress inputRange={[1, 0.6]} outputRange={[0, 1]}>
                 <Image
                   src="/images/sam-wyness-profile-image-01.png"
-                  alt="Sam Wyness profile image( B+W)"
+                  alt="Sam Wyness profile image(B+W)"
                   sizes="(max-width: 768px) 100vw, 420px"
                   priority
                   fill
