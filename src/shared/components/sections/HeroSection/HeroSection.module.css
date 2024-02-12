@@ -67,7 +67,7 @@
   text-transform: uppercase;
 
   @media (min-width: 1024px) {
-    font-size: clamp(140px, 12.5vw, 320px);
+    font-size: clamp(140px, 12.5vw, 420px);
   }
 }
 

@@ -28,7 +28,6 @@ export function HeroSection({ intro }: HeroSectionProps) {
                   </>
                 </TextAnimateWeight>
               </TextAnimateMask>
-
               <TextAnimateMask inputRange={[0.1, 0.7]}>
                 <TextAnimateWeight
                   inputRange={[0.3, 0.65]}
