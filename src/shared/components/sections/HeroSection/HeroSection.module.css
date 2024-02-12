@@ -71,12 +71,12 @@
   }
 }
 
-.title > span:nth-child(1) {
+.title > span:first-child {
   clip-path: inset(0% 100% 0% 0%);
   animation: titleReveal 0.75s 1s var(--curve-primary) forwards;
 }
 
-.title > span:nth-child(2) {
+.title > span:last-child {
   clip-path: inset(0% 0% 0% 100%);
   animation: title2Reveal 1s 1s var(--curve-primary) forwards;
 }

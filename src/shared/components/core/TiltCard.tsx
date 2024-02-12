@@ -19,8 +19,8 @@ export function TiltCard({ translateZ = 25, ...props }: TiltCardProps) {
   const ref = React.useRef<ElementRef<'div'>>(null);
   const { isHovering, position } = useMousePosition(ref);
 
-  const rotateX = transform(position.yPct, [0, 1], ['7.5deg', '-7.5deg']);
-  const rotateY = transform(position.xPct, [0, 1], ['-7.5deg', '7.5deg']);
+  const rotateX = transform(position.yPct, [0, 1], ['-2.5deg', '2.5deg']);
+  const rotateY = transform(position.xPct, [0, 1], ['5deg', '-5deg']);
 
   return (
     <LazyMotion features={domAnimation}>
