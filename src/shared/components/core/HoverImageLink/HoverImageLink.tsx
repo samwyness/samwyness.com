@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { TextAnimateMask } from '../TextAnimateMask';
 import styles from './HoverImageLink.module.css';
+import classnames from 'classnames';
 
 type HoverImageLinkProps = {
   link: string;
@@ -19,7 +20,10 @@ export function HoverImageLink({
 }: HoverImageLinkProps) {
   return (
     <a
-      className={styles.hoverImageLink}
+      className={classnames([
+        styles.hoverImageLink,
+        link === '' ? styles.disabled : '',
+      ])}
       href={link}
       target="_blank"
       referrerPolicy="no-referrer">
@@ -27,7 +31,8 @@ export function HoverImageLink({
         <h2 className={styles.title}>{title}</h2>
         <div>
           <TextAnimateMask>
-            {completed} ~ {tags.join(', ')}
+            {/* {completed} ~ {tags.join(', ')} */}
+            {tags.join(' ~ ')}
           </TextAnimateMask>
         </div>
       </div>

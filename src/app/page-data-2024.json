@@ -2,39 +2,17 @@
   "intro": "I help brands take their digital ideas from concept to final execution. Over the years I've worn many hats, and worked on a wide range of products across multiple platforms.",
   "work": [
     {
-      "title": "District",
-      "image": "/images/work-district.png",
-      "link": "https://exploredistrict.com",
-      "completed": "2025",
-      "tags": ["Product Design", "App Development"]
-    },
-
-    {
-      "title": "ZERO F*CKS (coming soon)",
-      "image": "/images/work-zero-fcks.png",
-      "link": "",
-      "completed": "Coming soon..",
+      "title": "Super Swim",
+      "image": "/images/work-super-swim.png",
+      "link": "https://superswim.org.au/app",
+      "completed": "2024",
       "tags": ["Product Design", "App Development"]
     },
     {
       "title": "Steptember",
       "image": "/images/work-steptember.png",
       "link": "https://www.steptember.org.au/app",
-      "completed": "2023, 2024, 2025",
-      "tags": ["Product Design", "App Development"]
-    },
-    {
-      "title": "Medworld",
-      "image": "/images/work-medenterprises.png",
-      "link": "https://apps.apple.com/au/app/medworld/id6480072311",
-      "completed": "2024, 2025",
-      "tags": ["App Development"]
-    },
-    {
-      "title": "Super Swim",
-      "image": "/images/work-super-swim.png",
-      "link": "https://superswim.org.au/app",
-      "completed": "2024, 2025",
+      "completed": "2024",
       "tags": ["Product Design", "App Development"]
     },
     {
@@ -57,11 +35,17 @@
       "link": "https://www.youtube.com/watch?v=BvBrfXUJbrE",
       "completed": "2022",
       "tags": ["App Development"]
+    },
+    {
+      "title": "The Dawn Light",
+      "image": "/images/work-the-dawn-light.png",
+      "link": "https://thedawnlight.com.au/",
+      "completed": "2022",
+      "tags": ["Product Design", "Website Development"]
     }
   ],
   "brands": [
     "District Technologies",
-    "OliveX",
     "Medenterprises",
     "DEFY",
     "Matt Bradley Designs",

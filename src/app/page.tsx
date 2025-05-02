@@ -8,15 +8,14 @@ import pageData from './page-data.json';
 export const metadata: Metadata = {
   metadataBase: new URL('https://samwyness.com'),
   title: 'Sam Wyness ~ Software Engineer & Creative Developer',
-  description:
-    'Software Engineer from Australia based on the Sunshine Coast. I help brands take their digital ideas from concept to final execution.',
-  keywords: 'Sam Wyness, Software Engineer, Creative Developer, Sunshine Coast',
+  description: "I'm Sam Wyness, a Software Engineer & Creative Developer from Sunshine Coast, Australia. I design and build high-quality applications with Expo, React Native, TypeScript, Reanimated, and Figma, help brands take their digital ideas from concept to final execution.",
+  keywords: 'Sam Wyness, Software Engineer, Creative Developer, Expo, React Native, TypeScript, Figma, Sunshine Coast, Australia',
   openGraph: {
     type: 'website',
     url: 'https://samwyness.com',
     title: 'Sam Wyness ~ Software Engineer & Creative Developer',
     description:
-      'Software Engineer from Australia based on the Sunshine Coast. I help brands take their digital ideas from concept to final execution.',
+      "I'm Sam Wyness, a Software Engineer & Creative Developer from Sunshine Coast, Australia. I design and build high-quality applications with Expo, React Native, TypeScript, Reanimated, and Figma, help brands take their digital ideas from concept to final execution.",
     siteName: 'Sam Wyness',
     images: [
       {

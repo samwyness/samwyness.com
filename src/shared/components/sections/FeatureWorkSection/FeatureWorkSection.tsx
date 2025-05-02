@@ -13,7 +13,7 @@ type HeroSectionProps = {
 
 export function FeatureWorkSection({ items }: HeroSectionProps) {
   return (
-    <Section title={`Featured (${items.length})`}>
+    <Section title={`Featured work (${items.length})`}>
       <div>
         {items.map(item => (
           <HoverImageLink

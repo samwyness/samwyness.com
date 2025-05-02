@@ -14,6 +14,11 @@
   color: var(--color-brand);
 }
 
+.hoverImageLink.disabled {
+  color: var(--color-on-surface);
+}
+
+
 .content {
   flex-grow: 1;
   display: flex;
@@ -63,6 +68,12 @@ div:hover > .hoverImageLink:not(:hover) .content {
   opacity: 0;
   transform: translate(160px, 0);
 }
+
+.hoverImageLink.disabled .imageContainer {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
 
 .imageContainer img {
   filter: saturate(0.7);
