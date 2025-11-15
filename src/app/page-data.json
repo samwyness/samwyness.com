@@ -8,14 +8,6 @@
       "completed": "2025",
       "tags": ["Product Design", "App Development"]
     },
-
-    {
-      "title": "ZERO F*CKS (coming soon)",
-      "image": "/images/work-zero-fcks.png",
-      "link": "",
-      "completed": "Coming soon..",
-      "tags": ["Product Design", "App Development"]
-    },
     {
       "title": "Steptember",
       "image": "/images/work-steptember.png",
@@ -24,18 +16,18 @@
       "tags": ["Product Design", "App Development"]
     },
     {
-      "title": "Medworld",
-      "image": "/images/work-medenterprises.png",
-      "link": "https://apps.apple.com/au/app/medworld/id6480072311",
-      "completed": "2024, 2025",
-      "tags": ["App Development"]
-    },
-    {
       "title": "Super Swim",
       "image": "/images/work-super-swim.png",
       "link": "https://superswim.org.au/app",
       "completed": "2024, 2025",
       "tags": ["Product Design", "App Development"]
+    },
+    {
+      "title": "Medworld",
+      "image": "/images/work-medenterprises.png",
+      "link": "https://apps.apple.com/au/app/medworld/id6480072311",
+      "completed": "2024, 2025",
+      "tags": ["App Development"]
     },
     {
       "title": "Matt Bradley Designs",
@@ -61,6 +53,7 @@
   ],
   "brands": [
     "District Technologies",
+    "Bearmore",
     "OliveX",
     "Medenterprises",
     "DEFY",
@@ -68,13 +61,8 @@
     "Cerebral Palsy Alliance",
     "Starlight Children's Foundation",
     "Red Bull",
-    "MS Australia",
-    "Glow Festival",
-    "RBC",
     "Yama-Nui Studio",
-    "The Dawn Light",
-    "North Shore Tavern",
-    "Park Ridge Tavern"
+    "The Dawn Light"
   ],
   "experience": [
     [
