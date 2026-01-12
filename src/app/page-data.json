@@ -5,7 +5,14 @@
       "title": "District",
       "image": "/images/work-district.png",
       "link": "https://exploredistrict.com",
-      "completed": "2025",
+      "completed": "2026",
+      "tags": ["Product Design", "App Development"]
+    },
+    {
+      "title": "Sands - Walk 100k",
+      "image": "/images/work-sands.png",
+      "link": "https://fundraising.sands.org.uk/event/walk-100k-march-26/app",
+      "completed": "2026",
       "tags": ["Product Design", "App Development"]
     },
     {
