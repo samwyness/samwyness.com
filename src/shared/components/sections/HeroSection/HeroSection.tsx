@@ -53,7 +53,7 @@ export function HeroSection({ role }: HeroSectionProps) {
         <div className={styles.columnRight}>
           <TiltCard className={styles.imageContainer}>
             <Image
-              src="/images/sam-wyness-profile-image.webp"
+              src="/images/sam-wyness-profile-image-02.webp"
               alt="Sam Wyness profile image"
               sizes="(max-width: 1023px) 100vw, 590px"
               preload
