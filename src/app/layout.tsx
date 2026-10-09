@@ -15,8 +15,9 @@ const funnelDisplay = Funnel_Display({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://samwyness.com'),
   title: 'Sam Wyness',
-  description: 'Software Engineer & Creative Developer',
+  description: 'Software Engineer & Product Designer',
 };
 
 export default function RootLayout({

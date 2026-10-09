@@ -8,24 +8,21 @@ import { WorkSection } from 'src/shared/components/sections/WorkSection';
 import pageData from './page-data.json';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://samwyness.com'),
-  title: 'Sam Wyness ~ Software Engineer & Creative Developer',
+  title: 'Sam Wyness ~ Software Engineer & Product Designer',
   description:
-    "I'm Sam Wyness, a Software Engineer & Creative Developer from Sunshine Coast, Australia. I design and build high-quality applications with Expo, React Native, TypeScript, Reanimated, and Figma, help brands take their digital ideas from concept to final execution.",
+    "I'm Sam Wyness, a Software Engineer & Product Designer from Sunshine Coast, Australia. I build high-quality web and mobile applications with Expo, React Native, TypeScript, Reanimated, and Figma.",
   keywords:
-    'Sam Wyness, Software Engineer, Creative Developer, Expo, React Native, TypeScript, Figma, Sunshine Coast, Australia',
+    'Sam Wyness, Software Engineer, Product Designer, Expo, React Native, TypeScript, Figma, Sunshine Coast, Australia',
   openGraph: {
     type: 'website',
     url: 'https://samwyness.com',
-    title: 'Sam Wyness ~ Software Engineer & Creative Developer',
+    title: 'Sam Wyness ~ Software Engineer & Product Designer',
     description:
-      "I'm Sam Wyness, a Software Engineer & Creative Developer from Sunshine Coast, Australia. I design and build high-quality applications with Expo, React Native, TypeScript, Reanimated, and Figma, help brands take their digital ideas from concept to final execution.",
+      "I'm Sam Wyness, a Software Engineer & Product Designer from Sunshine Coast, Australia. I build high-quality web and mobile applications with Expo, React Native, TypeScript, Reanimated, and Figma.",
     siteName: 'Sam Wyness',
-    images: [
-      {
-        url: 'https://samwyness.com/images/og_image.png',
-      },
-    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
   },
 };
 
