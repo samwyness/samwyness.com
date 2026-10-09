@@ -67,7 +67,7 @@ export default async function OpengraphImage() {
               style={{
                 display: 'flex',
                 flexDirection: 'column',
-                fontSize: 168,
+                fontSize: 132,
                 lineHeight: 0.88,
                 letterSpacing: -2,
               }}>
