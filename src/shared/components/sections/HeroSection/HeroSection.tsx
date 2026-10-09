@@ -1,60 +1,67 @@
 import Image from 'next/image';
-import { AnimateScrollProgress } from '../../core/AnimateScrollProgress';
+import { AnimateScrollProgressProps } from '../../core/AnimateScrollProgress';
 import { TextAnimateMask } from '../../core/TextAnimateMask';
 import { TextAnimateWeight } from '../../core/TextAnimateWeight';
 import { TiltCard } from '../../core/TiltCard';
-import { Container } from '../../layout/Container';
 import { Row } from '../../layout/Row';
+import { Section } from '../../layout/Section';
 import styles from './HeroSection.module.css';
 
+// Progress = page scroll / viewport height, so title starts at 0 on load
+// regardless of where it sits vertically
+const TITLE_SCROLL = {
+  useTarget: false,
+  offset: ['start start', '75vh start'],
+} satisfies AnimateScrollProgressProps;
+
 type HeroSectionProps = {
-  intro: string;
+  role: string;
 };
 
-export function HeroSection({ intro }: HeroSectionProps) {
+export function HeroSection({ role }: HeroSectionProps) {
   return (
-    <section className={styles.sectionHero}>
-      <Container className={styles.container}>
-        <Row className={styles.row}>
-          <div className={styles.columnLeft}>
-            <h1 className={styles.title}>
-              <TextAnimateMask
-                inputRange={[0.3, 0.95]}
-                outputRange={['100%', '0%']}>
-                <TextAnimateWeight inputRange={[0.4, 0.85]}>
-                  S<i>a</i>m
-                  <>
-                    <span>✳︎</span>
-                  </>
-                </TextAnimateWeight>
-              </TextAnimateMask>
-              <TextAnimateMask inputRange={[0.1, 0.7]}>
-                <TextAnimateWeight
-                  inputRange={[0.3, 0.65]}
-                  outputRange={[`'wght' 300`, `'wght' 600`]}>
-                  Wyness
-                </TextAnimateWeight>
-              </TextAnimateMask>
-            </h1>
-          </div>
+    <Section
+      className={styles.sectionHero}
+      containerClassName={styles.container}>
+      <Row className={styles.row}>
+        <div className={styles.columnLeft}>
+          <h1 className={styles.title}>
+            <TextAnimateMask
+              {...TITLE_SCROLL}
+              inputRange={[0, 0.65]}
+              outputRange={['100%', '0%']}>
+              <TextAnimateWeight {...TITLE_SCROLL} inputRange={[0, 0.6]}>
+                Sam
+                <>
+                  <span>✳︎</span>
+                </>
+              </TextAnimateWeight>
+            </TextAnimateMask>
+            <TextAnimateMask {...TITLE_SCROLL} inputRange={[0, 0.65]}>
+              <TextAnimateWeight
+                {...TITLE_SCROLL}
+                inputRange={[0, 0.6]}
+                outputRange={[`'wght' 300`, `'wght' 700`]}>
+                Wyness
+              </TextAnimateWeight>
+            </TextAnimateMask>
+          </h1>
 
-          <div className={styles.columnRight}>
-            <TiltCard className={styles.imageContainer}>
-              <AnimateScrollProgress inputRange={[1, 0.6]} outputRange={[0, 1]}>
-                <Image
-                  src="/images/sam-wyness-profile-image-01.png"
-                  alt="Sam Wyness profile image(B+W)"
-                  sizes="(max-width: 768px) 100vw, 420px"
-                  priority
-                  fill
-                />
-              </AnimateScrollProgress>
-            </TiltCard>
+          <p className={styles.role}>{role}</p>
+        </div>
 
-            <p className={styles.description}>{intro}</p>
-          </div>
-        </Row>
-      </Container>
-    </section>
+        <div className={styles.columnRight}>
+          <TiltCard className={styles.imageContainer}>
+            <Image
+              src="/images/sam-wyness-profile-image.webp"
+              alt="Sam Wyness profile image"
+              sizes="(max-width: 1023px) 100vw, 590px"
+              preload
+              fill
+            />
+          </TiltCard>
+        </div>
+      </Row>
+    </Section>
   );
 }

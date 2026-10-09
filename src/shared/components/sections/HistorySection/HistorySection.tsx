@@ -1,42 +1,24 @@
-import { TextAnimateMask } from '../../core/TextAnimateMask';
-import { Row } from '../../layout/Row';
 import { Section } from '../../layout/Section';
+import { History, HistoryEntry } from './HistoryEntry';
 import styles from './HistorySection.module.css';
 
 type HistorySectionProps = {
-  items: {
-    role: string;
-    company: string;
-    period: string;
-  }[][];
+  items: History[];
 };
 
 export function HistorySection({ items }: HistorySectionProps) {
   return (
-    <Section title="History">
-      <Row wrap>
+    <Section title="History" count={items.length}>
+      <ol className={styles.list}>
         {items.map((item, index) => (
-          <div key={`experience_${index}`} className={styles.column}>
-            {item.map((data, dataIndex) => (
-              <p key={`role_${data.role}_${dataIndex}`}>
-                <TextAnimateMask>
-                  <strong>{data.role}</strong>
-                  <br />
-                </TextAnimateMask>
-                {data.company && (
-                  <TextAnimateMask>
-                    {data.company}
-                    <br />
-                  </TextAnimateMask>
-                )}
-                <TextAnimateMask>
-                  <span className="text-muted">{data.period}</span>
-                </TextAnimateMask>
-              </p>
-            ))}
-          </div>
+          // Latest role always sharp
+          <HistoryEntry
+            key={`${item.role}_${item.period}`}
+            {...item}
+            animated={index > 0}
+          />
         ))}
-      </Row>
+      </ol>
     </Section>
   );
 }

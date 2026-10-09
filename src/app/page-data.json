@@ -1,25 +1,55 @@
 {
-  "intro": "I help brands take their digital ideas from concept to final execution. Over the years I've worn many hats, and worked on a wide range of products across multiple platforms.",
+  "role": "Software Engineer / Product Designer",
+  "about": [
+    "Hi, Sam here. I’m a software engineer based on the Sunshine Coast.",
+    "I build everything from web and mobile apps to design systems and developer tools. The fun part is making the complicated feel simple and the ordinary feel a little more interesting.",
+    "Good engineering makes things work, and good design makes them a pleasure to use. I don't see why you should have to choose."
+  ],
   "work": [
     {
-      "title": "District",
-      "image": "/images/work-district.png",
-      "link": "https://exploredistrict.com",
-      "completed": "2026",
-      "tags": ["Product Design", "App Development"]
+      "title": "MapTag",
+      "subtitle": "Mapping Software",
+      "role": "Product Design ~ App Development",
+      "timeline": "2026",
+      "company": "Mapped Outdoors",
+      "image": "/images/work-maptag.webp",
+      "link": "",
+      "comingSoon": true
     },
+    {
+      "title": "District",
+      "subtitle": "The Running Game",
+      "role": "Product Design ~ App Development",
+      "timeline": "2025 - 2026",
+      "company": "District Technologies",
+      "image": "/images/work-district.webp",
+      "link": "https://exploredistrict.com"
+    },
+    {
+      "title": "Steptember",
+      "subtitle": "Steps for Charity",
+      "role": "Product Design ~ App Development",
+      "timeline": "2023 - 2026",
+      "company": "Cerebral Palsy Alliance",
+      "image": "/images/work-steptember.webp",
+      "link": "https://www.steptember.org.au/app"
+    },
+    {
+      "title": "Matt Bradley Designs",
+      "subtitle": "Building Design & Drafting Studio",
+      "role": "Product Design ~ Website Development",
+      "timeline": "2024",
+      "company": "Matt Bradley Designs",
+      "image": "/images/work-matt-bradley-designs.webp",
+      "link": "https://www.mattbradleydesigns.com.au/"
+    }
+  ],
+  "workArchive": [
     {
       "title": "Sands - Walk 100k",
       "image": "/images/work-sands.png",
       "link": "https://fundraising.sands.org.uk/event/walk-100k-march-26/app",
       "completed": "2026",
-      "tags": ["Product Design", "App Development"]
-    },
-    {
-      "title": "Steptember",
-      "image": "/images/work-steptember.png",
-      "link": "https://www.steptember.org.au/app",
-      "completed": "2023, 2024, 2025",
       "tags": ["Product Design", "App Development"]
     },
     {
@@ -37,13 +67,6 @@
       "tags": ["App Development"]
     },
     {
-      "title": "Matt Bradley Designs",
-      "image": "/images/work-matt-bradley-designs.png",
-      "link": "https://www.mattbradleydesigns.com.au/",
-      "completed": "2024",
-      "tags": ["Product Design", "Website Development"]
-    },
-    {
       "title": "Tour de Kids",
       "image": "/images/work-tour-de-kids.png",
       "link": "https://tourdekids.org.au/app",
@@ -58,6 +81,24 @@
       "tags": ["App Development"]
     }
   ],
+  "skills": [
+    {
+      "title": "Web & App Development",
+      "description": "Turning bold ideas into seamless apps, built to launch, made to scale."
+    },
+    {
+      "title": "Product Design",
+      "description": "Digital products designed with intuitive flow, structure, and usability in mind."
+    },
+    {
+      "title": "Brand & Art Direction",
+      "description": "Identities with a point of view, built to be recognized, remembered and used."
+    },
+    {
+      "title": "UX/UI",
+      "description": "Clear interfaces for real behavior, weird edge cases and every screen in between."
+    }
+  ],
   "brands": [
     "District Technologies",
     "Bearmore",
@@ -65,6 +106,7 @@
     "Medenterprises",
     "DEFY",
     "Matt Bradley Designs",
+    "Sands",
     "Cerebral Palsy Alliance",
     "Starlight Children's Foundation",
     "Red Bull",
@@ -72,40 +114,31 @@
     "The Dawn Light"
   ],
   "experience": [
-    [
-      {
-        "role": "Lead Software Engineer",
-        "company": "at District Technologies (remote)",
-        "period": "Aug 2021 - present"
-      },
-      {
-        "role": "Senior Software Engineer",
-        "company": "at Medenterprises (remote)",
-        "period": "Mar 2024 - Apr 2025"
-      },
-      {
-        "role": "Senior Software Engineer",
-        "company": "at Youi (remote)",
-        "period": "Apr 2020 - Aug 2021"
-      }
-    ],
-    [
-      {
-        "role": "Frontend Engineer",
-        "company": "at RACQ (Brisbane, Australia)",
-        "period": "Jun 2019 - Dec 2019"
-      },
-      {
-        "role": "Frontend Engineer",
-        "company": "at miiFile (Sunshine Coast, Australia)",
-        "period": "May 2016 - Jun 2019"
-      },
-      {
-        "role": "Freelance Creative Developer",
-        "company": "",
-        "period": "May 2016 - present"
-      }
-    ]
+    {
+      "role": "Lead Software Engineer",
+      "company": "District Technologies (remote)",
+      "period": "Aug 2021 - present"
+    },
+    {
+      "role": "Software Engineer",
+      "company": "Youi (remote)",
+      "period": "Apr 2020 - Aug 2021"
+    },
+    {
+      "role": "Frontend Engineer",
+      "company": "RACQ (Brisbane, Australia)",
+      "period": "Jun 2019 - Dec 2019"
+    },
+    {
+      "role": "Frontend Engineer",
+      "company": "miiFile (Sunshine Coast, Australia)",
+      "period": "May 2016 - Jun 2019"
+    },
+    {
+      "role": "Freelance Creative Developer",
+      "company": "Self-employed",
+      "period": "May 2016 - present"
+    }
   ],
   "expertise": [
     "Mobile App Development",

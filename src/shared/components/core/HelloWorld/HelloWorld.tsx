@@ -23,21 +23,17 @@ const formatTime = (date: Date) =>
     .replaceAll(' ', '')
     .toUpperCase();
 
+const subscribeToClock = (onTick: () => void) => {
+  const interval = setInterval(onTick, 30 * 1000);
+  return () => clearInterval(interval);
+};
+
 export function HelloWorld() {
-  const [timeNow, setTimeNow] = React.useState('');
-
-  React.useEffect(() => {
-    setTimeNow(formatTime(new Date()));
-
-    const unsubscribe = setInterval(
-      () => setTimeNow(formatTime(new Date())),
-      30 * 1000,
-    );
-
-    return () => {
-      clearInterval(unsubscribe);
-    };
-  }, []);
+  const timeNow = React.useSyncExternalStore(
+    subscribeToClock,
+    () => formatTime(new Date()),
+    () => '',
+  );
 
   return (
     <div className={styles.helloWorld}>

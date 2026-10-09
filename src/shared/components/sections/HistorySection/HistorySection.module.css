@@ -1,9 +1,62 @@
-.column {
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
+/* Single column on mobile, 2 columns from tablet */
+.list {
+  display: grid;
+  grid-template-columns: 1fr;
+  column-gap: 40px;
+  list-style: none;
+  border-top: 1px solid var(--color-outline);
 
   @media (min-width: 768px) {
-    flex: 1 1;
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.entry {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 32px 0;
+  transform-origin: left center;
+  line-height: 1.25;
+  letter-spacing: 0;
+
+  @media (min-width: 1024px) {
+    padding: 40px 0;
+  }
+}
+
+/* Right column tracks a point lower down so rows focus in timeline order */
+.focusTarget {
+  position: absolute;
+  inset: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  @media (min-width: 768px) {
+    .entry:nth-child(even) & {
+      top: 80px;
+      bottom: -80px;
+    }
+  }
+}
+
+.period {
+  margin-bottom: 12px;
+  font-size: 16px;
+  font-variation-settings: 'wght' 400;
+}
+
+.role {
+  margin-bottom: 8px;
+  font-size: clamp(24px, 2.3vw, 32px);
+  font-variation-settings: 'wght' 500;
+}
+
+.company {
+  font-size: 18px;
+  font-variation-settings: 'wght' 400;
+
+  @media (min-width: 1024px) {
+    font-size: 20px;
   }
 }

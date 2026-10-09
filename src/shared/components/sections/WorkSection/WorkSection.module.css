@@ -1,0 +1,181 @@
+.list {
+  border-top: 1px solid var(--color-outline);
+
+  /* Desktop: fixed list height so total never changes while rows swap */
+  @media (min-width: 1280px) {
+    --title-size: clamp(32px, 2.8vw, 40px);
+    --media-width: clamp(320px, 30vw, 500px);
+    --media-height: calc(var(--media-width) * 0.56);
+    /* padding 80 + subtitle 25 + gap 8 + border 1 */
+    --row-collapsed: calc(var(--title-size) * 1.25 + 114px);
+    /* padding 40 + border 1 */
+    --row-expanded: calc(var(--media-height) + 41px);
+    --expand-duration: 450ms;
+    --expand-ease: cubic-bezier(0.25, 1, 0.5, 1);
+
+    display: flex;
+    flex-direction: column;
+    /* + 1px top border */
+    height: calc(
+      var(--row-expanded) + (var(--count) - 1) * var(--row-collapsed) + 1px
+    );
+  }
+}
+
+/* Mobile/tablet: every project fully expanded */
+.project {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 40px 0;
+  border-bottom: 1px solid var(--color-outline);
+  line-height: 1.25;
+
+  @media (min-width: 1280px) {
+    position: relative;
+    flex: none;
+    gap: 0;
+    height: var(--row-collapsed);
+    padding: 20px 0;
+    overflow: hidden;
+    transition: height var(--expand-duration) var(--expand-ease);
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  @media (min-width: 1280px) {
+    justify-content: space-between;
+    gap: 0;
+    height: 100%;
+    padding: 20px calc(var(--media-width) + 40px) 20px 0;
+    opacity: 0.45;
+    transition: opacity var(--expand-duration) ease;
+  }
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+
+  @media (min-width: 1280px) {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.heading {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 8px;
+}
+
+.title {
+  font-size: clamp(32px, 2.8vw, 40px);
+  line-height: 1.25;
+  letter-spacing: 0;
+  font-variation-settings: 'wght' 500;
+}
+
+.subtitle {
+  font-size: 18px;
+  line-height: 1.25;
+  font-variation-settings: 'wght' 400;
+
+  @media (min-width: 1280px) {
+    font-size: 20px;
+  }
+}
+
+.button {
+  flex: none;
+  white-space: nowrap;
+}
+
+.static {
+  pointer-events: none;
+}
+
+.expand {
+  @media (min-width: 1280px) {
+    opacity: 0;
+    transition: opacity var(--expand-duration) ease;
+  }
+}
+
+.details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px clamp(24px, 5vw, 86px);
+  letter-spacing: 0;
+
+  & > div {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  & dt {
+    font-size: 16px;
+    text-transform: uppercase;
+    font-variation-settings: 'wght' 700;
+  }
+
+  & dd {
+    font-size: 18px;
+    font-variation-settings: 'wght' 400;
+  }
+}
+
+.media {
+  position: relative;
+  width: 100%;
+  max-width: 640px;
+  aspect-ratio: 500 / 280;
+  overflow: hidden;
+  background-color: var(--color-surface-container);
+
+  /* Pinned right, height follows row so it never drives layout */
+  @media (min-width: 1280px) {
+    position: absolute;
+    top: 20px;
+    bottom: 20px;
+    right: 0;
+    width: var(--media-width);
+    max-width: none;
+    aspect-ratio: auto;
+    /* Wipes top to bottom on open, reverses on close */
+    clip-path: inset(0 0 100% 0);
+    opacity: 0;
+    transition:
+      clip-path var(--expand-duration) var(--expand-ease),
+      opacity 400ms ease;
+  }
+}
+
+.media img {
+  object-fit: cover;
+}
+
+/* Desktop expanded state */
+@media (min-width: 1280px) {
+  .active {
+    height: var(--row-expanded);
+  }
+
+  .active .content,
+  .active .expand,
+  .active .media {
+    opacity: 1;
+  }
+
+  .active .media {
+    clip-path: inset(0 0 0 0);
+  }
+}

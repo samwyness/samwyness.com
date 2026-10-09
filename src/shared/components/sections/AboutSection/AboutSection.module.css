@@ -1,0 +1,65 @@
+/* Extra height is the frozen scroll distance */
+.pin {
+  position: relative;
+  height: 200vh;
+}
+
+/* Full screen, frozen until wrapper scrolls past */
+.section {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  min-height: 100svh;
+}
+
+.container {
+  gap: 28px;
+}
+
+.text,
+.signatureRow {
+  @media (min-width: 1024px) {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
+
+.text {
+  font-size: clamp(24px, 2.8vw, 40px);
+  line-height: 1.2;
+  letter-spacing: 0;
+  white-space: pre-line;
+  font-variation-settings: 'wght' 400;
+}
+
+.signatureRow {
+  display: flex;
+  justify-content: flex-end;
+
+  @media (min-width: 1024px) {
+    padding-left: 120px;
+    padding-right: 120px;
+  }
+}
+
+/* Single stroke drawn on with scroll */
+.signatureDraw {
+  display: block;
+  width: 200px;
+  height: 100px;
+}
+
+.signatureStroke {
+  fill: none;
+  stroke: var(--color-brand);
+  stroke-width: 7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.signatureDot {
+  fill: var(--color-brand);
+  transform-box: fill-box;
+  transform-origin: center;
+}

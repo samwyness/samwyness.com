@@ -1,21 +1,13 @@
 .header {
   display: none;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  font-size: 20px;
   opacity: 0;
   animation: headerReveal 1s 1s var(--curve-primary) forwards;
 
   @media (min-width: 768px) {
-    display: flex;
+    display: block;
     padding-top: 40px;
     padding-bottom: 40px;
     transform: translate(0, -20%);
-  }
-
-  @media (min-width: 1440px) {
-    padding-top: 70px;
-    padding-bottom: 70px;
   }
 }
 
@@ -27,18 +19,21 @@
 }
 
 .row {
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 40px;
 }
 
 .brand {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  padding: 10px 0;
+  font-size: 40px;
+  line-height: normal;
+  font-variation-settings: 'wght' 400;
+  white-space: nowrap;
 }
 
-.brand i {
+.brand strong {
   color: var(--color-brand);
+  font-variation-settings: 'wght' 700;
 }

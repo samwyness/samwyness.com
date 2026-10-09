@@ -7,7 +7,7 @@ import {
   m as motion,
   transform,
 } from 'framer-motion';
-import React, { ElementRef, PropsWithChildren } from 'react';
+import React, { ComponentRef, PropsWithChildren } from 'react';
 import useMousePosition from 'src/shared/hooks/useMousePosition';
 
 type TiltCardProps = PropsWithChildren & {
@@ -16,7 +16,7 @@ type TiltCardProps = PropsWithChildren & {
 };
 
 export function TiltCard({ translateZ = 25, ...props }: TiltCardProps) {
-  const ref = React.useRef<ElementRef<'div'>>(null);
+  const ref = React.useRef<ComponentRef<'div'>>(null);
   const { isHovering, position } = useMousePosition(ref);
 
   const rotateX = transform(position.yPct, [0, 1], ['-2.5deg', '2.5deg']);

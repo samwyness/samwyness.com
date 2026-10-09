@@ -11,14 +11,18 @@ import React from 'react';
 import { AnimateScrollProgressProps } from './AnimateScrollProgress';
 
 export function TextAnimateWeight({
+  useTarget = true,
+  offset,
   inputRange = [0, 0.25],
   outputRange = [`'wght' 600`, `'wght' 300`],
   children,
 }: AnimateScrollProgressProps) {
   const ref = React.useRef<HTMLSpanElement>(null);
   const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['end end', 'start start'],
+    target: useTarget ? ref : undefined,
+    offset:
+      offset ??
+      (useTarget ? ['end end', 'start start'] : ['start start', 'end end']),
   });
 
   const fontVariationSettings = useTransform(

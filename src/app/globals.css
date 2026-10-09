@@ -10,13 +10,18 @@
 
   --color-surface: var(--color-white);
   --color-surface-container: #e5e5e5;
-  --color-on-surface: #2a0807;
+  --color-on-surface: var(--color-black);
   --color-on-surface-opaque: var(--color-text-opaque-black);
+  --color-outline: #ccc9c4;
 
   --color-blinker: #4bc893;
   --color-blinker-rgb: 75, 200, 147;
 
   --curve-primary: cubic-bezier(0.62, 0.05, 0.01, 0.99);
+
+  /* hotspot = beak tip */
+  --cursor-flamingo: image-set(url('/images/cursor-flamingo.png') 1x, url('/images/cursor-flamingo@2x.png') 2x) 4 13, auto;
+  --cursor-flamingo-pressed: image-set(url('/images/cursor-flamingo-pressed.png') 1x, url('/images/cursor-flamingo-pressed@2x.png') 2x) 5 14, auto;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -25,6 +30,7 @@
     --color-surface-container: #363638;
     --color-on-surface: rgb(240, 230, 217);
     --color-on-surface-opaque: var(--color-text-opaque-white);
+    --color-outline: rgba(240, 230, 217, 0.15);
   }
 }
 
@@ -34,10 +40,11 @@
   margin: 0;
 }
 
+/* clip (not hidden) so position: sticky still works */
 html,
 body {
   max-width: 100vw;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 html {
@@ -52,8 +59,13 @@ body {
   color: var(--color-on-surface);
   font-family: var(--font-family-base);
   font-size: 16px;
-  font-variation-settings: 'wght' 300;
+  font-variation-settings: 'wght' 400;
   letter-spacing: 0.25px;
+  cursor: var(--cursor-flamingo);
+}
+
+body:active {
+  cursor: var(--cursor-flamingo-pressed);
 }
 
 p,
@@ -80,11 +92,12 @@ button,
   appearance: none;
   padding: 12px 20px;
   border: 1px solid var(--color-on-surface);
-  border-radius: 40px;
   background: none;
   color: var(--color-on-surface);
-  font-size: 16px;
-  letter-spacing: 0.75px;
+  font-size: 20px;
+  font-variation-settings: 'wght' 400;
+  letter-spacing: 0;
+  text-transform: uppercase;
   cursor: pointer;
   transition-property: background-color, color;
   transition-timing-function: cubic-bezier(0.17, 0.67, 0, 1);

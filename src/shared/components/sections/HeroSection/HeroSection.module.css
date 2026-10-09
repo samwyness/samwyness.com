@@ -1,23 +1,30 @@
 .sectionHero {
-  position: relative;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  overflow: hidden;
-  padding-top: 40px;
-  padding-bottom: 40px;
+  overflow: clip;
   pointer-events: all;
 
+  /* Hero-specific spacing; Section padding applies from 1024px except top */
+  @media (max-width: 767px) {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+
+  /* Viewport minus header height */
   @media (min-width: 768px) {
-    min-height: calc(100vh - 130px);
+    min-height: calc(100vh - 150px);
     justify-content: flex-end;
+  }
+
+  @media (min-width: 768px) and (max-width: 1023px) {
     padding-top: 0;
     padding-bottom: 60px;
   }
 
-  @media (min-width: 1440px) {
-    min-height: calc(100vh - 190px);
-    padding-bottom: 100px;
+  @media (min-width: 1024px) {
+    justify-content: center;
+    padding-top: 80px;
   }
 }
 
@@ -27,35 +34,49 @@
 
 .row {
   flex-direction: column;
-  align-items: flex-end;
+  align-items: stretch;
   justify-content: space-between;
   gap: 40px;
 
-  @media (min-width: 1280px) {
+  @media (min-width: 1024px) {
     flex-direction: row;
+    gap: clamp(40px, 5.5vw, 80px);
   }
 }
 
 .columnLeft,
 .columnRight {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 100%;
-  gap: 40px;
+  /* Columns flatten on mobile so role can sit below image */
+  display: contents;
+
+  @media (min-width: 1024px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    gap: 40px;
+  }
+}
+
+.columnLeft {
+  @media (min-width: 1024px) {
+    /* Title sticks while taller image scrolls past */
+    /* position: sticky;
+    top: 40px; */
+    align-self: flex-end;
+    flex: 1;
+    justify-content: flex-start;
+    gap: 66px;
+  }
 }
 
 .columnRight {
-  @media (min-width: 1280px) {
-    max-width: 320px;
-  }
-
-  @media (min-width: 1440px) {
-    max-width: 420px;
-  }
-
-  @media (min-width: 2500px) {
-    max-width: 520px;
+  @media (min-width: 1024px) {
+    /* 2:3 image sized by viewport height so it always sits above the fold,
+       capped by width to leave room for title */
+    --image-height: clamp(420px, calc(100svh - 250px), 880px);
+    flex: none;
+    width: min(calc(var(--image-height) * 2 / 3), 36vw);
   }
 }
 
@@ -64,10 +85,10 @@
   font-size: 280px;
   font-size: clamp(70px, 13.5vw, 100px);
   font-variation-settings: 'wght' 600;
-  text-transform: uppercase;
 
   @media (min-width: 1024px) {
-    font-size: clamp(140px, 12.5vw, 420px);
+    line-height: 0.88;
+    font-size: clamp(110px, 12.5vw, 180px);
   }
 }
 
@@ -95,8 +116,12 @@
 
 .title > span {
   display: inline-block;
+  /* Room for descenders inside clip-path/mask box, without shifting layout */
+  padding-bottom: 0.2em;
+  margin-bottom: -0.2em;
 
-  @media (max-width: 1279px) {
+  /* Scroll mask only on desktop layout */
+  @media (max-width: 1023px) {
     --scroll-progress: 100% !important;
   }
 }
@@ -112,6 +137,24 @@
 .title > span > span > span {
   font-size: 0.5em;
   font-variation-settings: 'wght' 600;
+
+  @media (min-width: 1024px) {
+    display: none;
+  }
+}
+
+.role {
+  order: 1;
+  clip-path: inset(0% 0% 0% 100%);
+  animation: textReveal 0.75s 1s var(--curve-primary) forwards;
+
+  @media (min-width: 1024px) {
+    order: 0;
+    padding: 0 4px;
+    font-size: clamp(22px, 2.25vw, 32px);
+    line-height: normal;
+    font-variation-settings: 'wght' 400;
+  }
 }
 
 .imageContainer {
@@ -123,15 +166,16 @@
   transform: perspective(1000px) rotateX(var(--rotateX)) rotateY(var(--rotateY))
     translateZ(var(--translateZ));
 
-  @media (min-width: 1440px) {
-    max-height: 720px;
+  @media (min-width: 1024px) {
+    height: auto;
+    max-height: none;
+    aspect-ratio: 2 / 3;
   }
 }
 
 .imageContainer img {
-  filter: saturate(var(--scroll-progress));
   object-fit: cover;
-  object-position: center 80%;
+  object-position: center 30%;
   background-color: var(--color-surface-container);
   clip-path: inset(100% 10% 20% 10%);
   animation: imageReveal 1.25s 0.25s var(--curve-primary) forwards;
@@ -141,12 +185,6 @@
   100% {
     clip-path: inset(0 0 0 0);
   }
-}
-
-.description {
-  text-align: justify;
-  clip-path: inset(0% 0% 0% 100%);
-  animation: textReveal 0.75s 1s var(--curve-primary) forwards;
 }
 
 @keyframes textReveal {

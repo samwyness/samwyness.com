@@ -1,0 +1,70 @@
+.list {
+  list-style: none;
+}
+
+/* Perspective per row so each flap has its own vanishing point */
+.skill {
+  position: relative;
+  perspective: 1200px;
+}
+
+/* Mobile: number + title, description below title */
+.flap {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  align-items: baseline;
+  gap: 12px 8px;
+  padding: 32px 0;
+  transform-origin: top;
+  line-height: 1.25;
+  letter-spacing: 0;
+
+  @media (min-width: 1024px) {
+    grid-template-columns: 100px 1fr minmax(0, 600px);
+    align-items: center;
+    padding: 40px 0;
+  }
+}
+
+/* Dividers drawn as elements so they can sweep in */
+.line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--color-outline);
+  transform-origin: left;
+}
+
+.lineBottom {
+  top: auto;
+  bottom: 0;
+}
+
+.number {
+  font-size: 16px;
+  color: var(--color-brand);
+  font-variation-settings: 'wght' 400;
+
+  @media (min-width: 1024px) {
+    font-size: 20px;
+  }
+}
+
+.title {
+  font-size: clamp(24px, 2.8vw, 40px);
+  font-variation-settings: 'wght' 500;
+}
+
+.description {
+  grid-column: 2;
+  font-size: 18px;
+  line-height: 1.25;
+  font-variation-settings: 'wght' 400;
+
+  @media (min-width: 1024px) {
+    grid-column: auto;
+    font-size: 20px;
+  }
+}

@@ -9,32 +9,34 @@ import {
   useScroll,
   useTransform,
 } from 'framer-motion';
-import React, { CSSProperties } from 'react';
+import React, { CSSProperties, RefObject } from 'react';
 
 const EASE = cubicBezier(0.49, 0, 0.6, 0.99);
 
 export type AnimateScrollProgressProps = HTMLMotionProps<'span'> & {
   useTarget?: boolean;
+  /** Track another element instead of this span */
+  target?: RefObject<HTMLElement | null>;
   inputRange?: number[];
   outputRange?: (string | number)[];
-  offset?: [string, string];
+  offset?: NonNullable<Parameters<typeof useScroll>[0]>['offset'];
 };
 
 export function AnimateScrollProgress({
   useTarget = true,
+  target,
   inputRange = [0, 0.35],
   outputRange = ['0%', '100%'],
-  offset = ['end end', 'start start'],
+  offset,
   children,
   ...props
 }: AnimateScrollProgressProps) {
   const ref = React.useRef<HTMLSpanElement>(null);
   const { scrollYProgress } = useScroll({
-    target: useTarget ? ref : undefined,
+    target: target ?? (useTarget ? ref : undefined),
     offset:
-      offset || useTarget
-        ? ['end end', 'start start']
-        : ['start start', 'end end'],
+      offset ??
+      (useTarget ? ['end end', 'start start'] : ['start start', 'end end']),
   });
 
   const progress = useTransform(scrollYProgress, inputRange, outputRange, {

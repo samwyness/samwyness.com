@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="61" height="60" viewBox="-2.5 -2.5 61 60">
+  <!-- pressed state: rotated 12deg CCW around beak tip (hotspot) -->
+  <g transform="rotate(-12 3 12)">
+  <defs>
+    <!-- hooked beak (tip ≈ 3,12; +1.5 viewBox offset = hotspot) + body/tail -->
+    <path id="fill" d="M10 5 L5 4.5 Q2 4.5 2.2 8 L3 12 Q4.5 9.5 10 11 Z M24 40 C24 33 32 30 40 31 C46 31.5 50 28 53 25 C53 31 51 36 47 40 C43 46 35 48 30 47 C26 46 24 43 24 40 Z" />
+    <ellipse id="head" cx="13.5" cy="8" rx="5.5" ry="4.8" />
+    <path id="neck" d="M16 11 C25 15 25 22 19 27 C12 32 17 41 28 40" fill="none" stroke-linecap="round" />
+    <path id="legs" d="M35 46 L35 60.5 M38 46 L43 52.5 L36 54.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+    <path id="legGap" d="M35 47 L42.5 52.5 L35.5 54.5 Z" />
+  </defs>
+  <!-- black sticker edge -->
+  <g fill="#000" stroke="#000" stroke-linejoin="round">
+    <use href="#fill" stroke-width="5.5" />
+    <use href="#head" stroke-width="5.5" />
+    <use href="#neck" stroke-width="9.5" />
+    <use href="#legs" stroke-width="7.5" />
+  </g>
+  <!-- white outline -->
+  <g fill="#fff" stroke="#fff" stroke-linejoin="round">
+    <use href="#fill" stroke-width="3.5" />
+    <use href="#head" stroke-width="3.5" />
+    <use href="#neck" stroke-width="7.5" />
+    <use href="#legs" stroke-width="5.5" />
+    <use href="#legGap" stroke-width="2" />
+  </g>
+  <!-- hot pink body -->
+  <g fill="#ff3ea5" stroke="#ff3ea5" stroke-linejoin="round">
+    <use href="#fill" stroke-width="0.5" />
+    <use href="#head" stroke-width="0.5" />
+    <use href="#neck" stroke-width="4.5" />
+    <use href="#legs" stroke-width="2.5" />
+  </g>
+  <!-- details -->
+  <circle cx="14.5" cy="7" r="1.2" fill="#fff" />
+  <path d="M5.5 6.2 L9 6.6" stroke="#fff" stroke-width="0.9" stroke-linecap="round" />
+  <path d="M32 37 C36 34.5 41 34.5 45 36.5" fill="none" stroke="#fff" stroke-width="1.2" stroke-linecap="round" />
+  </g>
+</svg>
