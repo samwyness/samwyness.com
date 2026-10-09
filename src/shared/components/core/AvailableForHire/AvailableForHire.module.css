@@ -1,42 +1,44 @@
 .availableForHire {
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
   gap: 12px;
-  font-size: 24px;
+  font-size: 18px;
+}
+
+.availableForHire :global(.button) {
+  padding: 10px 16px;
+  font-size: 16px;
 }
 
 .blinker {
-  width: 14px;
-  height: 14px;
-  margin: 13px;
+  width: 10px;
+  height: 10px;
+  margin: 10px;
   background-color: var(--color-blinker);
   border-radius: 50%;
-  box-shadow: 0 0 0 0 var(--color-blinker);
-  transform: scale(1);
-  animation-name: pulse-green;
-  animation-duration: 1.6s;
-  animation-iteration-count: infinite;
+  animation: pulse 1.6s infinite;
 }
 
 .text {
-  margin-right: 28px;
+  margin-right: 20px;
   font-variation-settings: 'wght' 500;
 }
 
-@keyframes pulse-green {
+@keyframes pulse {
   0% {
     transform: scale(0.9);
-    box-shadow: 0 0 0 0 rgba(var(--color-blinker-rgb), 0.7);
+    box-shadow: 0 0 0 0
+      color-mix(in srgb, var(--color-blinker) 70%, transparent);
   }
 
   70% {
     transform: scale(1);
-    box-shadow: 0 0 0 13px rgba(var(--color-blinker-rgb), 0);
+    box-shadow: 0 0 0 13px transparent;
   }
+
   100% {
     transform: scale(0.9);
-    box-shadow: 0 0 0 0 rgba(var(--color-blinker-rgb), 0);
+    box-shadow: 0 0 0 0 transparent;
   }
 }

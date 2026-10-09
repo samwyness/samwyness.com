@@ -13,7 +13,7 @@
 
   /* Viewport minus header height */
   @media (min-width: 768px) {
-    min-height: calc(100vh - 150px);
+    min-height: calc(100vh - 120px);
     justify-content: flex-end;
   }
 
