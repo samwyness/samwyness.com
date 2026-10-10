@@ -18,7 +18,8 @@
 .content {
   display: flex;
   flex-direction: column;
-  gap: 60px;
+  /* Same rhythm as .rowInfo so every mobile block is evenly spaced */
+  gap: 56px;
 
   @media (min-width: 1024px) {
     gap: 80px;
@@ -26,10 +27,9 @@
 }
 
 .rowHire,
-.rowInfo,
-.rowMeta {
+.rowInfo {
   flex-direction: column;
-  gap: 28px;
+  gap: 56px;
 
   @media (min-width: 768px) {
     flex-direction: row;
@@ -38,6 +38,9 @@
 }
 
 .rowHire {
+  /* Brand's own padding adds the rest */
+  gap: 20px;
+
   @media (min-width: 768px) {
     align-items: center;
     flex-wrap: wrap;
@@ -49,13 +52,8 @@
   padding: 10px 0;
   font-size: 28px;
   line-height: normal;
-  font-variation-settings: 'wght' 400;
-  white-space: nowrap;
-}
-
-.brand strong {
-  color: var(--color-brand);
   font-variation-settings: 'wght' 700;
+  white-space: nowrap;
 }
 
 .location,
@@ -68,7 +66,77 @@
 .location {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  /* Mobile: match the motto's tight line pair */
+  gap: 2px;
+
+  @media (min-width: 768px) {
+    gap: 8px;
+  }
+}
+
+/* Mobile: coffee link stacks under the time */
+.locationGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 24px;
+  }
+}
+
+/* Text stays aligned with the motto; sticker sits a little loose */
+.coffee {
+  display: flex;
+  align-items: flex-start;
+}
+
+/* Mobile gets .edgeSticker and a bare text link instead */
+.coffee .sticker,
+.coffee .arrow {
+  @media (max-width: 767px) {
+    display: none;
+  }
+}
+
+.sticker {
+  --sticker-size: 76px;
+  flex: none;
+  /* Overhangs below so it doesn't stretch the gap to the motto */
+  margin: -10px 0 -20px;
+}
+
+/* Tucked against the sticker, tip at its mid-height; flipped so it
+   swoops down from the label */
+.arrow {
+  flex: none;
+  width: 64px;
+  margin: 0 0 -16px -6px;
+  scale: 1 -1;
+}
+
+.coffeeLabel {
+  font-family: var(--font-family-hand), cursive;
+  font-size: 24px;
+  line-height: 1;
+  white-space: nowrap;
+  rotate: -3deg;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 4px;
+  transition: text-decoration-color 0.2s;
+
+  /* Level with the arrow's tail */
+  @media (min-width: 768px) {
+    margin: -6px 0 0 2px;
+  }
+}
+
+.coffee:hover .coffeeLabel,
+.coffee:focus-visible .coffeeLabel {
+  text-decoration-color: currentColor;
 }
 
 .motto {
@@ -88,9 +156,19 @@
   width: 150px;
   height: 75px;
   color: var(--color-brand);
+
+  /* Pull the ink (not the viewBox padding) flush with the text */
+  @media (max-width: 767px) {
+    margin: -12px 0 -14px -14px;
+  }
 }
 
 .rowMeta {
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px 28px;
+
   @media (min-width: 768px) {
     align-items: flex-start;
   }
@@ -107,4 +185,21 @@
   display: flex;
   gap: 20px;
   text-transform: uppercase;
+}
+
+.footerWrap {
+  position: relative;
+}
+
+/* Mobile only: half over the section above, half on the footer */
+.edgeSticker {
+  --sticker-size: 88px;
+  position: absolute;
+  z-index: 1;
+  top: -44px;
+  right: 20px;
+
+  @media (min-width: 768px) {
+    display: none;
+  }
 }

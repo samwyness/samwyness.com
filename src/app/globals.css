@@ -17,10 +17,6 @@
   --color-blinker: #4bc893;
 
   --curve-primary: cubic-bezier(0.62, 0.05, 0.01, 0.99);
-
-  /* hotspot = beak tip */
-  --cursor-flamingo: image-set(url('/images/cursor-flamingo.png') 1x, url('/images/cursor-flamingo@2x.png') 2x) 4 13, auto;
-  --cursor-flamingo-pressed: image-set(url('/images/cursor-flamingo-pressed.png') 1x, url('/images/cursor-flamingo-pressed@2x.png') 2x) 5 14, auto;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -60,11 +56,6 @@ body {
   font-size: 16px;
   font-variation-settings: 'wght' 400;
   letter-spacing: 0.25px;
-  cursor: var(--cursor-flamingo);
-}
-
-body:active {
-  cursor: var(--cursor-flamingo-pressed);
 }
 
 p,

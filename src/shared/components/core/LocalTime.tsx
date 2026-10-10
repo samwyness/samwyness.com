@@ -9,10 +9,10 @@ const formatTime = (date: Date) =>
       hour: 'numeric',
       minute: '2-digit',
     })
-    .replaceAll(' ', '')
+    // .replaceAll(' ', '')
     .toUpperCase();
 
-const subscribeToClock = (onTick: () => void) => {
+export const subscribeToClock = (onTick: () => void) => {
   const interval = setInterval(onTick, 30 * 1000);
   return () => clearInterval(interval);
 };

@@ -1,0 +1,261 @@
+.frame {
+  /* Cursor position 0–1, set on pointer move in HeroPhoto.tsx */
+  --x: 0.5;
+  --y: 0.5;
+  /* Radius of the glare and chroma ring around the cursor */
+  --hover-size: 1200px;
+  position: relative;
+  perspective: 1600px;
+  cursor: pointer;
+}
+
+/* Clips the drift and overlays */
+.card,
+.clip,
+.drift {
+  position: absolute;
+  inset: 0;
+}
+
+.clip {
+  overflow: hidden;
+}
+
+.photo {
+  object-fit: cover;
+  object-position: center 30%;
+  background-color: var(--color-surface-container);
+  clip-path: inset(100% 10% 20% 10%);
+  animation: imageReveal 1.25s 0.25s var(--curve-primary) forwards;
+}
+
+@keyframes imageReveal {
+  100% {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* Hover-only extras stay out of the way on touch */
+.glare,
+.chromaLayer {
+  display: none;
+}
+
+.filterDefs {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .drift {
+    transform: translate(
+        calc((0.5 - var(--x)) * 16px),
+        calc((0.5 - var(--y)) * 16px)
+      )
+      scale(1.04);
+    transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .glare {
+    display: block;
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      circle var(--hover-size) at calc(var(--x) * 100%) calc(var(--y) * 100%),
+      rgb(255 255 255 / 0.5),
+      transparent
+    );
+    mix-blend-mode: overlay;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    pointer-events: none;
+  }
+
+  .frame:hover .glare {
+    opacity: 1;
+  }
+
+  /* Red/cyan split, only in a ring around the glare's edge */
+  .chromaLayer {
+    display: block;
+    filter: url(#hero-chroma);
+    mask-image: radial-gradient(
+      circle var(--hover-size) at calc(var(--x) * 100%) calc(var(--y) * 100%),
+      transparent 25%,
+      #000 50%,
+      #000 70%,
+      transparent
+    );
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+
+  .frame:hover .chromaLayer {
+    opacity: 1;
+  }
+}
+
+/* Shrinks and rounds off as the hero scrolls away, while the photo zooms */
+@supports (animation-timeline: scroll()) {
+  .card {
+    animation: scrollShrink linear both;
+  }
+
+  /* Faces round, not the card: clipping it would flatten the flip */
+  .clip,
+  .back {
+    animation: scrollRound linear both;
+  }
+
+  /* After the shorthands, which reset these */
+  .card,
+  .clip,
+  .back {
+    animation-timeline: scroll(root);
+    animation-range: 0 80vh;
+  }
+
+  .photo {
+    animation:
+      imageReveal 1.25s 0.25s var(--curve-primary) forwards,
+      scrollZoom linear both;
+    animation-timeline: auto, scroll(root);
+    animation-range:
+      normal,
+      0 80vh;
+  }
+}
+
+@keyframes scrollShrink {
+  to {
+    scale: 0.92;
+  }
+}
+
+@keyframes scrollRound {
+  to {
+    border-radius: 40px;
+  }
+}
+
+@keyframes scrollZoom {
+  to {
+    scale: 1.15;
+  }
+}
+
+/* Click turns the print over to a handwritten back */
+.card {
+  transform-style: preserve-3d;
+  transition: transform 0.9s var(--curve-primary);
+}
+
+.flipped .card {
+  transform: rotateY(180deg);
+}
+
+.clip,
+.back {
+  backface-visibility: hidden;
+}
+
+/* The print's reverse, turned to face out once flipped */
+.back {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  transform: rotateY(180deg);
+  /* Pages size off the card, page and its contents alike */
+  container-type: size;
+}
+
+/* Hint that the print turns over: a scrawl above it on small screens,
+   beside it, pointing in, once there's a column to its left */
+.aside {
+  position: absolute;
+  right: 12px;
+  bottom: calc(100% + 4px);
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  color: var(--color-brand);
+  font-family: var(--font-family-hand), cursive;
+  font-size: 28px;
+  line-height: 1;
+  white-space: nowrap;
+  rotate: -4deg;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+
+  @media (min-width: 1024px) {
+    right: calc(100% + 16px);
+    /* Clear of the tagline, in the gap under the name */
+    bottom: 64px;
+    font-size: 34px;
+  }
+}
+
+.aside svg {
+  width: 40px;
+  margin-bottom: 10px;
+  /* Points down at the photo when it sits above */
+  rotate: 70deg;
+
+  @media (min-width: 1024px) {
+    rotate: none;
+  }
+}
+
+/* Job done once it's over */
+.flipped .aside {
+  opacity: 0;
+}
+
+/* Blurry flakes drift down over the photo while hovering */
+.snow {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .snow {
+    display: block;
+    position: absolute;
+    inset: 0;
+    container-type: size;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    pointer-events: none;
+  }
+
+  .frame:hover .snow {
+    opacity: 1;
+  }
+
+  .flake {
+    position: absolute;
+    top: -8px;
+    left: var(--left);
+    width: var(--size);
+    height: var(--size);
+    border-radius: 50%;
+    background: var(--color-white);
+    /* Faint edge so flakes still read against the white snow */
+    box-shadow: 0 0 6px rgb(0 0 0 / 0.2);
+    /* Out of focus, depth-of-field style */
+    filter: blur(var(--blur));
+    opacity: var(--opacity);
+    animation: snowfall var(--duration) linear var(--delay) infinite;
+    animation-play-state: paused;
+  }
+
+  .frame:hover .flake {
+    animation-play-state: running;
+  }
+}
+
+@keyframes snowfall {
+  to {
+    translate: var(--sway) calc(100cqh + 16px);
+  }
+}

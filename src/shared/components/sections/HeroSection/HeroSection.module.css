@@ -1,100 +1,156 @@
 .sectionHero {
+  --hero-pad-y: 40px;
+  position: relative;
   display: flex;
   flex-direction: column;
+  width: 100%;
   min-height: 100vh;
+  min-height: 100svh;
+  padding: var(--hero-pad-y) 10px;
+  /* Clip here, not on container, so the photo tilt has room */
   overflow: clip;
+  font-size: 20px;
   pointer-events: all;
 
-  /* Hero-specific spacing; Section padding applies from 1024px except top */
-  @media (max-width: 767px) {
-    padding-top: 40px;
-    padding-bottom: 40px;
-  }
-
-  /* Viewport minus header height */
   @media (min-width: 768px) {
-    min-height: calc(100vh - 120px);
-    justify-content: flex-end;
-  }
-
-  @media (min-width: 768px) and (max-width: 1023px) {
-    padding-top: 0;
+    --hero-pad-y: 32px;
     padding-bottom: 60px;
   }
 
   @media (min-width: 1024px) {
-    justify-content: center;
-    padding-top: 80px;
+    --hero-pad-y: 60px;
   }
 }
 
+/* Own gutters, not the shared Container: 10 + 60 = 70px at desktop */
 .container {
-  gap: 40px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  padding: 0 10px;
+
+  @media (min-width: 768px) {
+    padding: 0 30px;
+  }
+
+  @media (min-width: 1024px) {
+    padding: 0 60px;
+  }
 }
 
 .row {
+  flex: 1;
   flex-direction: column;
   align-items: stretch;
-  justify-content: space-between;
   gap: 40px;
 
   @media (min-width: 1024px) {
     flex-direction: row;
-    gap: clamp(40px, 5.5vw, 80px);
   }
 }
 
 .columnLeft,
-.columnRight {
-  /* Columns flatten on mobile so role can sit below image */
+.columnRight,
+.intro {
+  /* Flatten below desktop so role can sit below image */
   display: contents;
 
   @media (min-width: 1024px) {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    width: 100%;
-    gap: 40px;
   }
 }
 
 .columnLeft {
   @media (min-width: 1024px) {
-    /* Title sticks while taller image scrolls past */
-    /* position: sticky;
-    top: 40px; */
-    align-self: flex-end;
     flex: 1;
-    justify-content: flex-start;
+    min-width: 0;
+    justify-content: space-between;
+    gap: 40px;
+    /* Title scales to whatever width the full-height photo leaves */
+    container-type: inline-size;
+  }
+}
+
+/* Below desktop, header stays at top and the rest drops to the bottom */
+.header {
+  @media (max-width: 1023px) {
+    margin-bottom: auto;
+  }
+}
+
+.intro {
+  @media (min-width: 1024px) {
     gap: 66px;
   }
 }
 
 .columnRight {
   @media (min-width: 1024px) {
-    /* 2:3 image sized by viewport height so it always sits above the fold,
-       capped by width to leave room for title */
-    --image-height: clamp(420px, calc(100svh - 250px), 880px);
+    /* Always full viewport height; 450:638 width, capped so title keeps room
+       (cover crops if capped) */
     flex: none;
-    width: min(calc(var(--image-height) * 2 / 3), 36vw);
+    height: calc(100svh - var(--hero-pad-y) * 2);
+    width: min(calc((100svh - var(--hero-pad-y) * 2) * 450 / 638), 45vw);
+  }
+}
+
+/* Title size lives here so the sticker can size and place itself in em */
+.titleWrap {
+  position: relative;
+  font-size: clamp(70px, 13.5vw, 100px);
+
+  @media (min-width: 1024px) {
+    /* 180px in a 710px column at 1440 (design) */
+    font-size: clamp(64px, 25.4cqi, 180px);
   }
 }
 
 .title {
+  /* Override browser h1 2em; size comes from .titleWrap */
+  font-size: 1em;
   line-height: 0.85;
-  font-size: 280px;
-  font-size: clamp(70px, 13.5vw, 100px);
-  font-variation-settings: 'wght' 600;
+  font-variation-settings: 'wght' 700;
+  /* Wyness (~4em bold) fits, Sam + Wyness (~6.4em) never does: always 2 lines */
+  max-width: 5em;
 
   @media (min-width: 1024px) {
     line-height: 0.88;
-    font-size: clamp(110px, 12.5vw, 180px);
+  }
+}
+
+/* Slapped on in front of "Sam", which is indented to make room */
+.sticker {
+  --sticker-size: 0.75em;
+  position: absolute;
+  top: 0.04em;
+  left: 0;
+
+  @media (min-width: 1024px) {
+    top: -0.02em;
   }
 }
 
 .title > span:first-child {
+  padding-left: 0.88em;
   clip-path: inset(0% 100% 0% 0%);
   animation: titleReveal 0.75s 1s var(--curve-primary) forwards;
+
+  /* Starts flush with "Wyness", then slides right to make room just before
+     the sticker (delay 2.1s in HeroSection.tsx) slaps on */
+  @media (prefers-reduced-motion: no-preference) {
+    translate: -0.88em 0;
+    animation:
+      titleReveal 0.75s 1s var(--curve-primary) forwards,
+      stickerPush 0.6s 1.75s var(--curve-primary) forwards;
+  }
+}
+
+@keyframes stickerPush {
+  100% {
+    translate: 0 0;
+  }
 }
 
 .title > span:last-child {
@@ -127,20 +183,7 @@
 }
 
 .title > span:nth-child(2) {
-  font-variation-settings: 'wght' 300;
-}
-
-.title i {
-  margin-right: 12px;
-}
-
-.title > span > span > span {
-  font-size: 0.5em;
-  font-variation-settings: 'wght' 600;
-
-  @media (min-width: 1024px) {
-    display: none;
-  }
+  font-variation-settings: 'wght' 400;
 }
 
 .role {
@@ -157,33 +200,32 @@
   }
 }
 
+.hire {
+  order: 2;
+  opacity: 0;
+  animation: fadeIn 0.75s 1.25s var(--curve-primary) forwards;
+
+  @media (min-width: 768px) {
+    display: none;
+  }
+}
+
+@keyframes fadeIn {
+  100% {
+    opacity: 1;
+  }
+}
+
 .imageContainer {
   display: block;
   position: relative;
   width: 100%;
   height: 55vh;
   max-height: 380px;
-  transform: perspective(1000px) rotateX(var(--rotateX)) rotateY(var(--rotateY))
-    translateZ(var(--translateZ));
 
   @media (min-width: 1024px) {
-    height: auto;
+    height: 100%;
     max-height: none;
-    aspect-ratio: 2 / 3;
-  }
-}
-
-.imageContainer img {
-  object-fit: cover;
-  object-position: center 30%;
-  background-color: var(--color-surface-container);
-  clip-path: inset(100% 10% 20% 10%);
-  animation: imageReveal 1.25s 0.25s var(--curve-primary) forwards;
-}
-
-@keyframes imageReveal {
-  100% {
-    clip-path: inset(0 0 0 0);
   }
 }
 

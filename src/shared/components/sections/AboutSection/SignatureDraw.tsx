@@ -9,7 +9,7 @@ import {
   useTransform,
 } from 'framer-motion';
 import { RefObject } from 'react';
-import { SIGNATURE_DOT, SIGNATURE_PATH } from '../../icons/SignatureIcon';
+import { SIGNATURE_PATH } from '../../icons/SignatureIcon';
 import styles from './AboutSection.module.css';
 
 export type TextOffset = NonNullable<Parameters<typeof useScroll>[0]>['offset'];
@@ -25,13 +25,9 @@ export function SignatureDraw({ target, offset, range }: SignatureDrawProps) {
   const reduceMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({ target, offset });
 
-  // Name takes most of the range, full stop dabbed at the end
-  const [start, end] = range;
-  const dotStart = start + (end - start) * 0.9;
-  const pathLength = useTransform(scrollYProgress, [start, dotStart], [0, 1]);
+  const pathLength = useTransform(scrollYProgress, range, [0, 1]);
   // Hide round cap that shows at zero length
   const strokeOpacity = useTransform(pathLength, value => (value > 0 ? 1 : 0));
-  const dotScale = useTransform(scrollYProgress, [dotStart, end], [0, 1]);
 
   return (
     <LazyMotion features={domAnimation}>
@@ -46,11 +42,6 @@ export function SignatureDraw({ target, offset, range }: SignatureDrawProps) {
           style={
             reduceMotion ? undefined : { pathLength, opacity: strokeOpacity }
           }
-        />
-        <motion.circle
-          className={styles.signatureDot}
-          {...SIGNATURE_DOT}
-          style={reduceMotion ? undefined : { scale: dotScale }}
         />
       </svg>
     </LazyMotion>

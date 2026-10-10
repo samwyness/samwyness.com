@@ -12,7 +12,6 @@
   }
 }
 
-header:has(+ .main),
 .main + footer {
   display: none;
 }
@@ -37,4 +36,12 @@ header:has(+ .main),
 .title > span {
   font-size: 0.5em;
   font-variation-settings: 'wght' 600;
+}
+
+.sticker {
+  --sticker-size: 120px;
+
+  @media (min-width: 1024px) {
+    --sticker-size: 180px;
+  }
 }

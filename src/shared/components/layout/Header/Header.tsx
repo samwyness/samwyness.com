@@ -1,18 +1,20 @@
+import classNames from 'classnames';
 import Link from 'next/link';
 import { AvailableForHire } from '../../core/AvailableForHire';
-import { Row } from '../Row';
-import { Section } from '../Section';
 import styles from './Header.module.css';
 
-export function Header() {
+type HeaderProps = {
+  className?: string;
+};
+
+/** Brand + hire status; sits inside the hero's left column */
+export function Header({ className }: HeaderProps) {
   return (
-    <Section as="header" className={styles.header}>
-      <Row className={styles.row}>
-        <Link href="/" className={styles.brand}>
-          <strong>SW</strong>.STUDIO
-        </Link>
-        <AvailableForHire />
-      </Row>
-    </Section>
+    <header className={classNames(styles.header, className)}>
+      <Link href="/" className={styles.brand}>
+        SW.
+      </Link>
+      <AvailableForHire />
+    </header>
   );
 }

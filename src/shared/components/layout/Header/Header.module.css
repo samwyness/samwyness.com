@@ -4,9 +4,11 @@
   animation: headerReveal 1s 1s var(--curve-primary) forwards;
 
   @media (min-width: 768px) {
-    display: block;
-    padding-top: 32px;
-    padding-bottom: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 40px;
     transform: translate(0, -20%);
   }
 }
@@ -18,22 +20,9 @@
   }
 }
 
-.row {
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 40px;
-}
-
 .brand {
-  padding: 10px 0;
   font-size: 28px;
   line-height: normal;
-  font-variation-settings: 'wght' 400;
-  white-space: nowrap;
-}
-
-.brand strong {
-  color: var(--color-brand);
   font-variation-settings: 'wght' 700;
+  white-space: nowrap;
 }

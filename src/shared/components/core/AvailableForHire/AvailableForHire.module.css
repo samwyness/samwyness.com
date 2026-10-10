@@ -14,7 +14,8 @@
 .blinker {
   width: 10px;
   height: 10px;
-  margin: 10px;
+  /* Dot flush left; pulse ring spills into the gutter */
+  margin: 10px 4px 10px 0;
   background-color: var(--color-blinker);
   border-radius: 50%;
   animation: pulse 1.6s infinite;

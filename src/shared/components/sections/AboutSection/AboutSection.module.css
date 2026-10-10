@@ -57,9 +57,3 @@
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-
-.signatureDot {
-  fill: var(--color-brand);
-  transform-box: fill-box;
-  transform-origin: center;
-}

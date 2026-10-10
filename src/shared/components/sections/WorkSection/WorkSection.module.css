@@ -102,6 +102,50 @@
   pointer-events: none;
 }
 
+/* Coming soon: "View project" marked out in red brush, "soon!" written on */
+.strike {
+  position: relative;
+  flex: none;
+
+  & s {
+    position: relative;
+    display: block;
+    border-color: var(--color-on-surface-opaque);
+    color: var(--color-on-surface-opaque);
+    text-decoration: none;
+  }
+}
+
+.strikeLine {
+  position: absolute;
+  /* Overhangs the button on both sides */
+  inset: 0 -20px;
+  width: calc(100% + 40px);
+  height: 100%;
+  overflow: visible;
+  fill: var(--color-primary);
+}
+
+/* Mask centreline; drawing it on reveals the stroke beneath */
+.strikePath {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 12;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+}
+
+.scribble {
+  position: absolute;
+  top: -18px;
+  right: -22px;
+  color: var(--color-primary);
+  font-family: var(--font-family-hand), cursive;
+  font-size: 34px;
+  transform: rotate(-12deg);
+}
+
 .expand {
   @media (min-width: 1280px) {
     opacity: 0;
@@ -177,5 +221,38 @@
 
   .active .media {
     clip-path: inset(0 0 0 0);
+  }
+
+  /* Coming soon: strike draws, then scribble lands as the row opens */
+  .active .strikePath {
+    animation: drawStroke 400ms 200ms cubic-bezier(0.5, 0, 0.3, 1) backwards;
+  }
+
+  /* Written left to right, after the cross-out */
+  .active .scribble {
+    animation: writeOn 450ms 650ms ease-out backwards;
+  }
+}
+
+@keyframes drawStroke {
+  from {
+    stroke-dashoffset: 1;
+  }
+}
+
+@keyframes writeOn {
+  from {
+    clip-path: inset(-20% 100% -20% 0);
+  }
+
+  to {
+    clip-path: inset(-20% 0 -20% 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .strikePath,
+  .scribble {
+    animation: none !important;
   }
 }

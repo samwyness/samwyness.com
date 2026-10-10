@@ -1,15 +1,22 @@
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata } from 'next';
-import { Funnel_Display } from 'next/font/google';
+import { Funnel_Display, Reenie_Beanie } from 'next/font/google';
 import { Footer } from 'src/shared/components/layout/Footer/Footer';
-import { Header } from 'src/shared/components/layout/Header/Header';
 
 import { Cursor } from 'src/shared/components/layout/Cursor';
 import './globals.css';
+import classNames from 'classnames';
 
-const funnelDisplay = Funnel_Display({
+const fontFamilyBase = Funnel_Display({
   variable: '--font-family-base',
+  subsets: ['latin'],
+  display: 'swap',
+});
+
+const fontFamilyHand = Reenie_Beanie({
+  variable: '--font-family-hand',
+  weight: '400',
   subsets: ['latin'],
   display: 'swap',
 });
@@ -27,8 +34,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={funnelDisplay.variable}>
-        <Header />
+      <body
+        className={classNames(
+          fontFamilyBase.variable,
+          fontFamilyHand.variable,
+        )}>
         {children}
         <Footer />
         {/* <Cursor /> */}

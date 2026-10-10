@@ -1,0 +1,167 @@
+/* Travel stamp book page: dot grid on washi, shaded toward the spine */
+.page {
+  --book-ink: #2b3a5c;
+  --book-paper: #f3efe2;
+  /* Washi tile: cloudy pulp (first matrix) with light and dark fibres caught
+     in it (the creases of turbulence noise); last value of each alpha row
+     sets strength */
+  --washi: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320'%3E%3Cfilter id='w' x='0' y='0' width='100%25' height='100%25' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.012' numOctaves='3' seed='4' stitchTiles='stitch' result='c'/%3E%3CfeColorMatrix in='c' values='0 0 0 0 0.5 0 0 0 0 0.42 0 0 0 0 0.3 0.14 0 0 0 -0.05' result='p'/%3E%3CfeTurbulence type='turbulence' baseFrequency='0.018 0.03' numOctaves='2' seed='9' stitchTiles='stitch' result='t1'/%3E%3CfeColorMatrix in='t1' values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 -16 0 0 0 0.7' result='l'/%3E%3CfeTurbulence type='turbulence' baseFrequency='0.03 0.016' numOctaves='2' seed='21' stitchTiles='stitch' result='t2'/%3E%3CfeColorMatrix in='t2' values='0 0 0 0 0.45 0 0 0 0 0.38 0 0 0 0 0.28 -14 0 0 0 0.16' result='d'/%3E%3CfeMerge%3E%3CfeMergeNode in='p'/%3E%3CfeMergeNode in='d'/%3E%3CfeMergeNode in='l'/%3E%3C/feMerge%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23w)'/%3E%3C/svg%3E");
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgb(0 0 0 / 0.07), transparent 10%),
+    radial-gradient(circle, rgb(43 58 92 / 0.16) 1px, transparent 1.5px) 0 0 /
+      18px 18px,
+    var(--washi) 0 0 / 320px 320px,
+    var(--book-paper);
+  /* Stamps size off the shorter side, so a squat mobile card isn't crowded */
+  container-type: size;
+}
+
+/* Printed page frame */
+.page::before {
+  content: '';
+  position: absolute;
+  inset: 14px;
+  border: 1px solid rgb(43 58 92 / 0.3);
+  pointer-events: none;
+}
+
+.pageHeader {
+  position: absolute;
+  top: 28px;
+  left: 32px;
+  right: 32px;
+  /* Middle truly centred, whatever the sides' widths */
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: baseline;
+  color: var(--book-ink);
+  font-size: 13px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  font-variation-settings: 'wght' 600;
+  /* Fallback Japanese font ignores the variation axis */
+  font-weight: 600;
+
+  /* Tracking trails the last letter; pull it back so edges sit true */
+  > span {
+    margin-right: -0.3em;
+  }
+
+  > span:last-child {
+    justify-self: end;
+  }
+}
+
+/* Stuck over the round stamp, each sketched in its own ink */
+.postage {
+  position: absolute;
+  width: min(30cqw, 27cqh);
+  filter: drop-shadow(0 2px 3px rgb(0 0 0 / 0.12));
+}
+
+.fuji {
+  /* Clear of the header */
+  top: max(9%, 52px);
+  right: 5%;
+  color: var(--book-ink);
+  rotate: 4deg;
+}
+
+.osaka {
+  top: max(12%, 58px);
+  left: 6%;
+  color: #2f5d4a;
+  rotate: -6deg;
+}
+
+.nozawa {
+  top: 46%;
+  right: 6%;
+  color: #6b3557;
+  rotate: -3deg;
+}
+
+.skyline {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  width: calc(100% - 30px);
+  color: var(--book-ink);
+}
+
+.stamp {
+  position: absolute;
+  top: 32%;
+  left: 9%;
+  width: min(46cqw, 42cqh);
+  color: var(--color-brand);
+  opacity: 0.85;
+  rotate: -12deg;
+  mix-blend-mode: multiply;
+}
+
+/* Inked over whatever it landed on */
+.stationStamp {
+  position: absolute;
+  top: 31%;
+  left: 47%;
+  width: min(26cqw, 23cqh);
+  color: #6a4c93;
+  opacity: 0.8;
+  rotate: 7deg;
+  mix-blend-mode: multiply;
+}
+
+/* Tickets and slips tucked in among the stamps */
+.keepsake {
+  position: absolute;
+  filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.14));
+}
+
+.omikuji {
+  top: 41%;
+  left: 3%;
+  width: min(10cqw, 9cqh);
+  rotate: -10deg;
+}
+
+/* In the gap between the top two postage stamps */
+.chopsticks {
+  top: max(10%, 56px);
+  left: 57%;
+  width: min(7cqw, 6cqh);
+  rotate: 8deg;
+}
+
+/* Up top, just left of centre */
+.monkey {
+  top: max(9%, 54px);
+  left: 34%;
+  width: min(25cqw, 22cqh);
+  rotate: -4deg;
+}
+
+.soy {
+  top: 62%;
+  left: 49%;
+  width: min(22cqw, 20cqh);
+  rotate: -30deg;
+}
+
+.ticket {
+  top: 62%;
+  left: 2%;
+  width: min(52cqw, 46cqh);
+  color: #23262d;
+  rotate: -4deg;
+}
+
+.liftPass {
+  top: 73%;
+  right: 3%;
+  width: min(36cqw, 32cqh);
+  color: #23262d;
+  rotate: 6deg;
+}
