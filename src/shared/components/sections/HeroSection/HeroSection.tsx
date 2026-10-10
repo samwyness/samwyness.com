@@ -1,6 +1,7 @@
 import { AnimateScrollProgressProps } from '../../core/AnimateScrollProgress';
 import { AvailableForHire } from '../../core/AvailableForHire';
 import { CyclingSticker } from '../../core/CyclingSticker';
+import { DrawnArrow } from '../../core/DrawnArrow';
 import { TextAnimateMask } from '../../core/TextAnimateMask';
 import { TextAnimateWeight } from '../../core/TextAnimateWeight';
 import { Header } from '../../layout/Header';
@@ -66,6 +67,17 @@ export function HeroSection({ role }: HeroSectionProps) {
           </div>
 
           <div className={styles.columnRight}>
+            {/* Points at the photo: just above it below desktop, off to its
+                left on desktop */}
+            <span className={styles.aside} aria-hidden>
+              psst, turn me over
+              {/* Draws in once the scrawl has faded in */}
+              <DrawnArrow
+                className={styles.asideArrow}
+                color="var(--color-brand)"
+                delay={2.8}
+              />
+            </span>
             <HeroPhoto className={styles.imageContainer} />
           </div>
         </Row>

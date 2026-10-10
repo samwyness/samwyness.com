@@ -1,5 +1,8 @@
+/* Side by side from 1024px, but portrait screens keep the stacked layout
+   until 1440px: "desktop" in comments below means that query */
 .sectionHero {
-  --hero-pad-y: 40px;
+  /* One padding all round, top/bottom matching the side gutters */
+  --hero-pad: 20px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -7,39 +10,32 @@
   /* A touch under full height below desktop, so the next section peeks */
   min-height: 96vh;
   min-height: 96svh;
-  padding: var(--hero-pad-y) 10px;
+  padding: var(--hero-pad);
   /* Clip here, not on container, so the photo tilt has room */
   overflow: clip;
   font-size: 20px;
   pointer-events: all;
 
   @media (min-width: 768px) {
-    --hero-pad-y: 32px;
-    padding-bottom: 60px;
+    --hero-pad: 40px;
   }
 
-  @media (min-width: 1024px) {
-    --hero-pad-y: 60px;
+  @media (min-width: 1440px) {
+    --hero-pad: 60px;
+  }
+
+  @media (min-width: 1024px) and (orientation: landscape), (min-width: 1440px) {
     min-height: 100vh;
     min-height: 100svh;
   }
 }
 
-/* Own gutters, not the shared Container: 10 + 60 = 70px at desktop */
+/* Own layout, not the shared Container (gutters come from the section) */
 .container {
   display: flex;
   flex-direction: column;
   flex: 1;
   width: 100%;
-  padding: 0 10px;
-
-  @media (min-width: 768px) {
-    padding: 0 30px;
-  }
-
-  @media (min-width: 1024px) {
-    padding: 0 60px;
-  }
 }
 
 .row {
@@ -48,7 +44,7 @@
   align-items: stretch;
   gap: 40px;
 
-  @media (min-width: 1024px) {
+  @media (min-width: 1024px) and (orientation: landscape), (min-width: 1440px) {
     flex-direction: row;
   }
 }
@@ -59,14 +55,14 @@
   /* Flatten below desktop so role can sit below image */
   display: contents;
 
-  @media (min-width: 1024px) {
+  @media (min-width: 1024px) and (orientation: landscape), (min-width: 1440px) {
     display: flex;
     flex-direction: column;
   }
 }
 
 .columnLeft {
-  @media (min-width: 1024px) {
+  @media (min-width: 1024px) and (orientation: landscape), (min-width: 1440px) {
     flex: 1;
     min-width: 0;
     justify-content: space-between;
@@ -78,24 +74,26 @@
 
 /* Below desktop, header stays at top and the rest drops to the bottom */
 .header {
-  @media (max-width: 1023px) {
+  @media (max-width: 1023px), (max-width: 1439px) and (orientation: portrait) {
     margin-bottom: auto;
   }
 }
 
 .intro {
-  @media (min-width: 1024px) {
+  @media (min-width: 1024px) and (orientation: landscape), (min-width: 1440px) {
     gap: 66px;
   }
 }
 
 .columnRight {
-  @media (min-width: 1024px) {
+  @media (min-width: 1024px) and (orientation: landscape), (min-width: 1440px) {
+    /* Holds the hint */
+    position: relative;
     /* Always full viewport height; 450:638 width, capped so title keeps room
        (cover crops if capped) */
     flex: none;
-    height: calc(100svh - var(--hero-pad-y) * 2);
-    width: min(calc((100svh - var(--hero-pad-y) * 2) * 450 / 638), 45vw);
+    height: calc(100svh - var(--hero-pad) * 2);
+    width: min(calc((100svh - var(--hero-pad) * 2) * 450 / 638), 45vw);
   }
 }
 
@@ -104,7 +102,7 @@
   position: relative;
   font-size: clamp(70px, 13.5vw, 100px);
 
-  @media (min-width: 1024px) {
+  @media (min-width: 1024px) and (orientation: landscape), (min-width: 1440px) {
     /* 180px in a 710px column at 1440 (design) */
     font-size: clamp(64px, 25.4cqi, 180px);
   }
@@ -118,7 +116,7 @@
   /* Wyness (~4em bold) fits, Sam + Wyness (~6.4em) never does: always 2 lines */
   max-width: 5em;
 
-  @media (min-width: 1024px) {
+  @media (min-width: 1024px) and (orientation: landscape), (min-width: 1440px) {
     line-height: 0.88;
   }
 }
@@ -130,8 +128,8 @@
   top: 0.04em;
   left: 0;
 
-  @media (min-width: 1024px) {
-    top: -0.02em;
+  @media (min-width: 1024px) and (orientation: landscape), (min-width: 1440px) {
+    top: 0em;
   }
 }
 
@@ -180,7 +178,7 @@
   margin-bottom: -0.2em;
 
   /* Scroll mask only on desktop layout */
-  @media (max-width: 1023px) {
+  @media (max-width: 1023px), (max-width: 1439px) and (orientation: portrait) {
     --scroll-progress: 100% !important;
   }
 }
@@ -191,13 +189,18 @@
 
 .role {
   order: 1;
+  /* Grows with big tablets in the stacked layout: 20px on phones, ~31px on
+     a 1024px-wide portrait iPad */
+  font-size: clamp(20px, 3vw, 32px);
   clip-path: inset(0% 0% 0% 100%);
   animation: textReveal 0.75s 1s var(--curve-primary) forwards;
 
-  @media (min-width: 1024px) {
+  @media (min-width: 1024px) and (orientation: landscape), (min-width: 1440px) {
     order: 0;
     padding: 0 4px;
-    font-size: clamp(22px, 2.25vw, 32px);
+    /* Off the column, not the viewport, so it stays on one line however
+       much room the photo leaves (the role is ~18.2em wide) */
+    font-size: clamp(16px, 5.2cqi, 32px);
     line-height: normal;
     font-variation-settings: 'wght' 400;
   }
@@ -227,14 +230,86 @@
      keeps it a photo on short screens, which then scroll */
   flex: 1 0 auto;
   min-height: 300px;
-  /* Room for the scrawl above it, clear of the title */
-  margin-top: 20px;
 
-  @media (min-width: 1024px) {
+  @media (min-width: 1024px) and (orientation: landscape), (min-width: 1440px) {
     flex: none;
     height: 100%;
     min-height: 0;
-    margin-top: 0;
+  }
+}
+
+/* Hint that the photo turns over. Below desktop it sits just above the
+   photo, pointing down; on desktop it's placed off the photo's left edge,
+   pointing across. The arrow hangs off the text, so it moves with it */
+.aside {
+  position: relative;
+  top: -12px;
+  /* Over the photo where the arrow overlaps it */
+  z-index: 1;
+  align-self: flex-end;
+  /* Tucked into the row gaps either side; right leaves room for the arrow */
+  margin: -12px 66px -36px 0;
+  color: var(--color-brand);
+  font-family: var(--font-family-hand), cursive;
+  font-size: 28px;
+  line-height: 1;
+  white-space: nowrap;
+  rotate: -4deg;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  /* After the photo and title sticker; backwards fill only, so the flipped
+     fade still applies after */
+  animation: asideIn 0.8s 2.8s ease backwards;
+
+  /* Position it here: top/bottom from the photo's top/bottom, right from
+     the photo's left edge */
+  @media (min-width: 1024px) and (orientation: landscape), (min-width: 1440px) {
+    position: absolute;
+    right: calc(100% + 64px);
+    bottom: 48px;
+    margin: 0;
+    font-size: 34px;
+  }
+
+  /* Narrower columns leave the role no room beside it: up just under the
+     header's "Book a call" instead */
+  @media (min-width: 1024px) and (max-width: 1899px) and (orientation: landscape),
+    (min-width: 1440px) and (max-width: 1899px) {
+    top: 100px;
+    bottom: auto;
+  }
+}
+
+@keyframes asideIn {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Job done once it's turned over */
+.sectionHero:has([aria-pressed='true']) .aside {
+  opacity: 0;
+}
+
+/* The arrow points left: mirrored to point right, then turned down at the
+   photo when the scrawl sits above it */
+.asideArrow {
+  position: absolute;
+  left: calc(100% + 6px);
+  bottom: -14px;
+  width: 48px;
+  scale: -1 1;
+  rotate: 90deg;
+
+  /* Turned right round: tail tucked under the end of "over", curving down
+     and across to the photo */
+  @media (min-width: 1024px) and (orientation: landscape), (min-width: 1440px) {
+    top: 100%;
+    bottom: auto;
+    left: calc(100% - 12px);
+    width: 56px;
+    scale: -1 -1;
+    rotate: none;
   }
 }
 

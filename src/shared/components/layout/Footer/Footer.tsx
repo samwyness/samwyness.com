@@ -11,12 +11,12 @@ import { track } from '@vercel/analytics';
 import Link from 'next/link';
 import React, { ComponentRef } from 'react';
 import { AvailableForHire } from '../../core/AvailableForHire';
+import { DrawnArrow } from '../../core/DrawnArrow';
 import { LocalTime } from '../../core/LocalTime';
 import { Sticker } from '../../core/Sticker';
 import { SignatureIcon } from '../../icons/SignatureIcon';
 import { Row } from '../Row';
 import { Section } from '../Section';
-import { CoffeeArrow } from './CoffeeArrow';
 import styles from './Footer.module.css';
 
 export function Footer() {
@@ -68,7 +68,7 @@ export function Footer() {
                     rotate={-8}
                     className={styles.sticker}
                   />
-                  <CoffeeArrow className={styles.arrow} />
+                  <DrawnArrow className={styles.arrow} />
                   <span className={styles.coffeeLabel}>buy me a coffee?</span>
                 </a>
               </div>

@@ -30,7 +30,8 @@ const FLAKES = Array.from({ length: 28 }, (_, i) => {
 
 const PHOTO = {
   src: '/images/sam-wyness-profile-image.webp',
-  sizes: '(max-width: 1023px) 100vw, 40vw',
+  sizes:
+    '(max-width: 1023px) 100vw, (max-width: 1439px) and (orientation: portrait) 100vw, 40vw',
 };
 
 type HeroPhotoProps = {
@@ -109,20 +110,6 @@ export function HeroPhoto({ back = 'notebook', className }: HeroPhotoProps) {
           {back === 'notebook' ? <NotebookPage /> : <StampBookPage />}
         </div>
       </div>
-
-      {/* Scrawled beside the print, pointing at it */}
-      <span className={styles.aside} aria-hidden>
-        psst, turn me over
-        <svg
-          viewBox="0 0 40 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth={2}
-          strokeLinecap="round"
-          strokeLinejoin="round">
-          <path d="M 2 18 C 12 6, 26 4, 37 11 M 30 5.5 L 37 11 L 29.5 14.5" />
-        </svg>
-      </span>
 
       <svg className={styles.filterDefs} aria-hidden>
         {/* Red shifted left, cyan right, screened back together */}

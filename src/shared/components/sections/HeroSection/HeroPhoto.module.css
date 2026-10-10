@@ -23,7 +23,7 @@
 
 .photo {
   object-fit: cover;
-  object-position: center 30%;
+  object-position: center right;
   background-color: var(--color-surface-container);
   clip-path: inset(100% 10% 20% 10%);
   animation: imageReveal 1.25s 0.25s var(--curve-primary) forwards;
@@ -168,57 +168,6 @@
   transform: rotateY(180deg);
   /* Pages size off the card, page and its contents alike */
   container-type: size;
-}
-
-/* Hint that the print turns over: a scrawl above it on small screens,
-   beside it, pointing in, once there's a column to its left */
-.aside {
-  position: absolute;
-  right: 12px;
-  bottom: calc(100% + 4px);
-  display: flex;
-  align-items: flex-end;
-  gap: 6px;
-  color: var(--color-brand);
-  font-family: var(--font-family-hand), cursive;
-  font-size: 28px;
-  line-height: 1;
-  white-space: nowrap;
-  rotate: -4deg;
-  pointer-events: none;
-  transition: opacity 0.4s ease;
-  /* After the photo and title sticker; backwards fill only, so the flipped fade
-     still applies after */
-  animation: asideIn 0.8s 2.8s ease backwards;
-
-  @media (min-width: 1024px) {
-    right: calc(100% + 16px);
-    /* Clear of the tagline, in the gap under the name */
-    bottom: 64px;
-    font-size: 34px;
-  }
-}
-
-.aside svg {
-  width: 40px;
-  margin-bottom: 10px;
-  /* Points down at the photo when it sits above */
-  rotate: 70deg;
-
-  @media (min-width: 1024px) {
-    rotate: none;
-  }
-}
-
-@keyframes asideIn {
-  from {
-    opacity: 0;
-  }
-}
-
-/* Job done once it's over */
-.flipped .aside {
-  opacity: 0;
 }
 
 /* Blurry flakes drift down over the photo while hovering */
