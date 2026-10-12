@@ -1,10 +1,7 @@
 .footer {
-  /* Light theme: inverted dark surface; dark theme: site colors.
-     Children follow via theme vars */
-  @media (prefers-color-scheme: light) {
-    --color-surface: var(--color-black);
-    --color-on-surface: var(--color-white);
-  }
+  /* Footer theme from globals; children follow via surface vars */
+  --color-surface: var(--color-footer-surface);
+  --color-on-surface: var(--color-on-footer-surface);
 
   background: var(--color-surface);
   color: var(--color-on-surface);

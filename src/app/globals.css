@@ -14,6 +14,10 @@
   --color-on-surface-opaque: var(--color-text-opaque-black);
   --color-outline: #ccc9c4;
 
+  /* Footer: inverted on the light theme, site colors on dark */
+  --color-footer-surface: var(--color-black);
+  --color-on-footer-surface: var(--color-white);
+
   --color-blinker: #4bc893;
 
   --curve-primary: cubic-bezier(0.62, 0.05, 0.01, 0.99);
@@ -26,6 +30,8 @@
     --color-on-surface: rgb(240, 230, 217);
     --color-on-surface-opaque: var(--color-text-opaque-white);
     --color-outline: rgba(240, 230, 217, 0.15);
+    --color-footer-surface: var(--color-surface);
+    --color-on-footer-surface: var(--color-on-surface);
   }
 }
 
