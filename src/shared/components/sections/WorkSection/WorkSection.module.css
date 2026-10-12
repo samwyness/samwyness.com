@@ -2,10 +2,10 @@
   border-top: 1px solid var(--color-outline);
 
   @media (min-width: 1024px) {
-    /* Year column fits "Coming soon". Tight below 1280, where the subtitle
-       sits under the title and the second column is left clear */
+    /* Year column fits "Coming soon", button column the button. Fixed, as
+       the panel shares these columns without a button in it */
     --cols: minmax(0, 1fr) minmax(0, 1fr) calc(110px + var(--gap) / 2)
-      max-content;
+      170px;
     --gap: 24px;
     --media-width: clamp(320px, 30vw, 500px);
     --media-height: calc(var(--media-width) * 0.56);
