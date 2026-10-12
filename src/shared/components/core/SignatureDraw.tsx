@@ -43,8 +43,7 @@ export function SignatureDraw({ className, delay = 0 }: SignatureDrawProps) {
                 // Hidden at zero length so round cap doesn't show before signing
                 initial: { pathLength: 0, opacity: 0 },
                 whileInView: { pathLength: 1, opacity: 1 },
-                // Whole signature on screen, so it's seen from the first stroke
-                viewport: { once: true, amount: 'all' },
+                viewport: { once: true },
                 transition: {
                   pathLength: {
                     duration: SIGN_SECONDS,
