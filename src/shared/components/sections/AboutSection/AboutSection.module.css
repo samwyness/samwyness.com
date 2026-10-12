@@ -1,10 +1,22 @@
-/* Full screen, content centred */
+/* Extra height is the locked scroll distance, desktop only as mobile section can outgrow the screen */
+.pin {
+  position: relative;
+
+  @media (min-width: 1024px) {
+    height: calc(100vh + var(--pin-scroll));
+  }
+}
+
+/* Full screen, content centred, locked until wrapper scrolls past on desktop */
 .section {
   display: flex;
   align-items: center;
   min-height: 100svh;
 
   @media (min-width: 1024px) {
+    position: sticky;
+    top: 0;
+
     /* Tighter than default so content fits short screens, centring handles the rest */
     padding-block: 80px;
   }
@@ -18,15 +30,12 @@
   display: grid;
   grid-template-areas:
     'copy'
-    'signature'
     'stats';
   gap: 24px;
 
   @media (min-width: 1024px) {
     grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
-    grid-template-areas:
-      'copy stats'
-      'signature stats';
+    grid-template-areas: 'copy stats';
     gap: 24px 80px;
     padding-inline: 40px;
   }
@@ -136,28 +145,4 @@
 
 .accent {
   fill: var(--color-brand);
-}
-
-/* Single stroke drawn on after stats */
-.signatureDraw {
-  grid-area: signature;
-  display: block;
-  /* Pull in svg's side bearing so stroke lines up with text */
-  margin-left: -15px;
-  width: 150px;
-  height: 75px;
-
-  @media (min-width: 1024px) {
-    margin-left: -20px;
-    width: 200px;
-    height: 100px;
-  }
-}
-
-.signatureStroke {
-  fill: none;
-  stroke: var(--color-brand);
-  stroke-width: 7;
-  stroke-linecap: round;
-  stroke-linejoin: round;
 }

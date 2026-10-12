@@ -7,6 +7,7 @@ import {
   useReducedMotion,
 } from 'framer-motion';
 import styles from './AboutSection.module.css';
+import { STAT_HIDE_SECONDS } from './StatCount';
 import { InkLayer, STAT_INK } from './statInk';
 
 const LAYER_CLASS: Record<InkLayer, string> = {
@@ -31,14 +32,28 @@ export function StatVisual({ visual, play, delay }: StatVisualProps) {
   if (!layers) return null;
 
   const show = play || reduceMotion;
+  const hidden = { opacity: 0, scale: 1.4, rotate: -12 };
 
   return (
     <LazyMotion features={domAnimation}>
       <motion.svg
         viewBox="0 0 100 100"
-        initial={reduceMotion ? false : { opacity: 0, scale: 1.4, rotate: -12 }}
-        animate={show ? { opacity: 1, scale: 1, rotate: 0 } : undefined}
-        transition={{ type: 'spring', stiffness: 500, damping: 18, delay }}>
+        initial={reduceMotion ? false : hidden}
+        animate={
+          show
+            ? {
+                opacity: 1,
+                scale: 1,
+                rotate: 0,
+                transition: {
+                  type: 'spring',
+                  stiffness: 500,
+                  damping: 18,
+                  delay,
+                },
+              }
+            : { ...hidden, transition: { duration: STAT_HIDE_SECONDS } }
+        }>
         {layers.map(([layer, d], i) => (
           <path key={i} className={LAYER_CLASS[layer]} d={d} />
         ))}

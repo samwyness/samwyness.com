@@ -4,6 +4,8 @@ import { animate, useReducedMotion } from 'framer-motion';
 import { useEffect, useRef } from 'react';
 
 const STAT_COUNT_SECONDS = 1;
+/** Fade out when scrolled back past a row, count resets once hidden */
+export const STAT_HIDE_SECONDS = 0.2;
 
 type StatCountProps = {
   /** e.g. "$25M+", only the number counts */
@@ -28,7 +30,14 @@ export function StatCount({ value, play, delay = 0 }: StatCountProps) {
   const target = parts?.number;
 
   useEffect(() => {
-    if (!play || target === undefined || reduceMotion) return;
+    if (target === undefined || reduceMotion) return;
+    if (!play) {
+      // Back to 0 once faded out, ready to count again
+      const reset = setTimeout(() => {
+        if (numberRef.current) numberRef.current.textContent = '0';
+      }, STAT_HIDE_SECONDS * 1000);
+      return () => clearTimeout(reset);
+    }
     let shown = 0;
     const controls = animate(0, target, {
       duration: STAT_COUNT_SECONDS,
