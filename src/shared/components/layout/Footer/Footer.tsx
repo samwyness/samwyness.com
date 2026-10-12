@@ -16,7 +16,7 @@ import { DrawnArrow } from '../../core/DrawnArrow';
 import { ExternalLink } from '../../core/ExternalLink';
 import { LocalTime } from '../../core/LocalTime';
 import { Sticker } from '../../core/Sticker';
-import { SignatureIcon } from '../../icons/SignatureIcon';
+import { SignatureDraw } from '../../core/SignatureDraw';
 import { Row } from '../Row';
 import { Section } from '../Section';
 import { SOCIAL_LINKS } from 'src/shared/constants';
@@ -79,7 +79,7 @@ export function Footer() {
                   <br />
                   Curious by default.
                 </p>
-                <SignatureIcon className={styles.signature} />
+                <SignatureDraw className={styles.signature} />
               </div>
             </Row>
 
