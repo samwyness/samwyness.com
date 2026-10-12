@@ -75,7 +75,6 @@
 .stats {
   grid-area: stats;
   align-self: center;
-  display: grid;
 }
 
 /* Drawing right of the whole row */
