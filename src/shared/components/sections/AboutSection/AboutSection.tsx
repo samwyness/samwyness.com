@@ -28,7 +28,9 @@ const PIN_OFFSET: ScrollOffset = ['start start', 'end end'];
 const DESKTOP_QUERY = '(min-width: 1024px)';
 // Scroll in vh per row while locked, last row's slot doubles as hold before unlock
 // Rows show and hide with scroll in both directions
-const ROW_VH = 40;
+const ROW_VH = 50;
+// Locked scroll before the first row, time to read the copy
+const LEAD_VH = 30;
 
 // Min gap between rows starting, mobile stagger and desktop's floor for quick scrolls
 const COUNT_STAGGER_SECONDS = 0.4;
@@ -79,7 +81,7 @@ export function AboutSection({ copy }: AboutSectionProps) {
   const reduceMotion = useReducedMotion();
   const isDesktop = useIsDesktop();
   const rowCount = copy.stats.length;
-  const pinVh = rowCount * ROW_VH;
+  const pinVh = LEAD_VH + rowCount * ROW_VH;
 
   // Mobile: all rows play once stats top is 60% down the viewport
   const statsInView = useInView(statsRef, {
@@ -94,10 +96,11 @@ export function AboutSection({ copy }: AboutSectionProps) {
   const [shownRows, setShownRows] = useState(0);
   const lastShownAt = useRef(0);
   useMotionValueEvent(scrollYProgress, 'change', progress => {
+    const scrolledVh = progress * pinVh - LEAD_VH;
     const rows =
-      progress <= 0
+      scrolledVh <= 0
         ? 0
-        : Math.min(rowCount, Math.floor((progress * pinVh) / ROW_VH) + 1);
+        : Math.min(rowCount, Math.floor(scrolledVh / ROW_VH) + 1);
     setScrolledRows(rows);
     // Hiding is immediate
     setShownRows(shown => Math.min(shown, rows));
