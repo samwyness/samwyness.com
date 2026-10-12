@@ -2,11 +2,22 @@ import { OGLRenderingContext, Renderer, Texture } from 'ogl';
 
 /** Transparent renderer at up to 2x DPR, or null without WebGL */
 export function createRenderer(canvas: HTMLCanvasElement) {
+  // Probed first, as OGL console.errors (a Next dev issue) before throwing.
+  // Same attributes as OGL's, since the canvas hands it this same context
+  const attributes = {
+    alpha: true,
+    premultipliedAlpha: true,
+    antialias: false,
+  };
+  if (
+    !canvas.getContext('webgl2', attributes) &&
+    !canvas.getContext('webgl', attributes)
+  )
+    return null;
   try {
     const renderer = new Renderer({
       canvas,
-      alpha: true,
-      premultipliedAlpha: true,
+      ...attributes,
       dpr: Math.min(window.devicePixelRatio, 2),
     });
     renderer.gl.clearColor(0, 0, 0, 0);
@@ -14,6 +25,35 @@ export function createRenderer(canvas: HTMLCanvasElement) {
   } catch {
     return null;
   }
+}
+
+/**
+ * Runs setup now, and again if the GPU drops then restores the context (iOS
+ * can when the tab's backgrounded), as everything built on the old one is
+ * gone. Torn down meanwhile so fallbacks show. Returns a stop function
+ */
+export function keepContext(
+  canvas: HTMLCanvasElement,
+  setup: () => (() => void) | undefined,
+) {
+  let teardown = setup();
+  const handleLost = (e: Event) => {
+    // Opts in to a restore, which otherwise never comes
+    e.preventDefault();
+    teardown?.();
+    teardown = undefined;
+  };
+  const handleRestored = () => {
+    teardown = setup();
+  };
+  canvas.addEventListener('webglcontextlost', handleLost);
+  canvas.addEventListener('webglcontextrestored', handleRestored);
+
+  return () => {
+    canvas.removeEventListener('webglcontextlost', handleLost);
+    canvas.removeEventListener('webglcontextrestored', handleRestored);
+    teardown?.();
+  };
 }
 
 /**

@@ -7,18 +7,43 @@ def f(v):
     return t[:-2] if t.endswith('.0') else t
 
 # ---- geometry -------------------------------------------------------------
+def _tenths(v): return round(v*10)
+
+def _num(t):
+    """tenths int -> shortest svg number: 12->1.2, 5->.5, -5->-.5, 10->1"""
+    s='-' if t<0 else ''; a=abs(t)
+    return s+(str(a//10) if a%10==0 else (str(a//10) if a>=10 else '')+'.'+str(a%10))
+
+def _join(nums):
+    """svg number list with only the separators the grammar needs"""
+    out=''; prev=''
+    for s in nums:
+        if prev and not s.startswith('-') and not (s.startswith('.') and '.' in prev): out+=' '
+        out+=s; prev=s
+    return out
+
 def catmull(pts, closed, tension=1.0):
+    """Catmull-Rom spline as a compact path: relative coords, and since the
+    spline is C1 every segment after the first is an `s` (reflected control)"""
     n=len(pts)
     if n<2: return ''
     P=lambda i: pts[i % n] if closed else pts[max(0,min(n-1,i))]
-    d=f'M{f(pts[0][0])} {f(pts[0][1])}'
-    segs = n if closed else n-1
-    for i in range(segs):
+    T=lambda p: (_tenths(p[0]), _tenths(p[1]))
+    cur=T(pts[0]); first=[]; rest=[]
+    for i in range(n if closed else n-1):
         p0,p1,p2,p3=P(i-1),P(i),P(i+1),P(i+2)
-        c1=(p1[0]+(p2[0]-p0[0])/6*tension, p1[1]+(p2[1]-p0[1])/6*tension)
-        c2=(p2[0]-(p3[0]-p1[0])/6*tension, p2[1]-(p3[1]-p1[1])/6*tension)
-        d+=f' C{f(c1[0])} {f(c1[1])} {f(c2[0])} {f(c2[1])} {f(p2[0])} {f(p2[1])}'
-    return d+(' Z' if closed else '')
+        c2=T((p2[0]-(p3[0]-p1[0])/6*tension, p2[1]-(p3[1]-p1[1])/6*tension))
+        end=T(p2)
+        rel=lambda q: [_num(q[0]-cur[0]), _num(q[1]-cur[1])]
+        if i==0:
+            c1=T((p1[0]+(p2[0]-p0[0])/6*tension, p1[1]+(p2[1]-p0[1])/6*tension))
+            first=rel(c1)+rel(c2)+rel(end)
+        else:
+            rest+=rel(c2)+rel(end)
+        cur=end
+    d='M'+_join([_num(t) for t in T(pts[0])])+'c'+_join(first)
+    if rest: d+='s'+_join(rest)
+    return d+('z' if closed else '')
 
 def resample(pts, closed, step=2.5):
     """spline through control pts, then evenly resample"""

@@ -1,5 +1,4 @@
-// GLSL for the hero photo effect, see HeroFx.tsx. The lab's extra variants
-// live in HeroFxLab.tsx, so they stay out of production builds
+// GLSL for the hero photo effect, see HeroFx.tsx
 
 export const vertex = /* glsl */ `
   attribute vec2 uv;
@@ -11,9 +10,9 @@ export const vertex = /* glsl */ `
   }
 `;
 
-// Shared by every variant: uniforms, the lens and the riso print. vUv and
-// uMouse are 0–1, y up
-export const base = /* glsl */ `
+// Riso print all over, part faded over the photo; the lens cuts through to
+// the real photo. vUv and uMouse are 0–1, y up
+export const fragment = /* glsl */ `
   precision highp float;
 
   uniform sampler2D tMap;
@@ -27,11 +26,6 @@ export const base = /* glsl */ `
   // Riso misregistration, follows the cursor and settles back on leave
   uniform vec2 uSlip;
   uniform vec3 uInk;
-  // Picked ink colour, for the custom variants
-  uniform vec3 uSpot;
-  // Print strength for the custom variants, 0–2: fades the print over the
-  // photo below 1, pushes it heavier above
-  uniform float uAmount;
   uniform vec3 uPaper;
   varying vec2 vUv;
 
@@ -138,33 +132,27 @@ export const base = /* glsl */ `
   // Riso spot ink, a soft red (#ff7a7a)
   const vec3 RED = vec3(1.0, 0.478, 0.478);
 
-  // Two-drum riso print on paper, black over a spot colour; the spot layer
-  // slips out of register towards the cursor
-  vec3 riso(vec3 spot, float boost) {
+  // Two-drum riso print on paper, black over the red; the red layer slips out
+  // of register towards the cursor
+  vec3 riso() {
     vec2 p = vUv * uResolution;
-    // Eased towards the cursor in the loop below, back to rest on leave
-    vec2 slip = ((uSlip - 0.5) * 18.0 + vec2(2.0, -1.5)) * (1.0 + boost * 1.5);
-    float inkTone = smoothstep(0.5 + boost * 0.2, 0.05, luma(photo(vUv)));
-    float spotTone = smoothstep(
-      0.95,
-      0.3 - boost * 0.25,
-      luma(photo(vUv - slip / uResolution))
-    ) * (0.9 + boost * 0.1);
+    // Eased towards the cursor in the loop, back to rest on leave
+    vec2 slip = (uSlip - 0.5) * 18.0 + vec2(2.0, -1.5);
+    float inkTone = smoothstep(0.5, 0.05, luma(photo(vUv)));
+    float spotTone =
+      smoothstep(0.95, 0.3, luma(photo(vUv - slip / uResolution))) * 0.9;
     float inkDot = halftone(p, 0.785, 4.5, inkTone);
     float spotDot = halftone(p - slip, 0.262, 4.5, spotTone);
 
     // Inks multiply on the paper
-    vec3 col = uPaper * mix(vec3(1.0), spot, spotDot);
+    vec3 col = uPaper * mix(vec3(1.0), RED, spotDot);
     col *= mix(vec3(1.0), uInk * 1.4, inkDot);
     return col * (0.93 + 0.07 * hash(floor(p) + floor(uTime * 12.0)));
   }
-`;
 
-// Print all over; the lens cuts through to the real photo
-export const reveal = (print: string, amount = '1.0') => /* glsl */ `
   void main() {
     float inside = lens(0.3);
-    float a = (1.0 - inside) * uIn * ${amount};
+    float a = (1.0 - inside) * uIn * 0.6;
     vec2 border = lensBorder(0.3) * uIn;
     float b = border.x + border.y;
     if (a <= 0.0 && b <= 0.0) {
@@ -174,11 +162,8 @@ export const reveal = (print: string, amount = '1.0') => /* glsl */ `
     // Shadow on the print, then the border over both
     float shadow =
       lensShadow(0.3) * (1.0 - clamp(inside + b, 0.0, 1.0)) * uIn * 0.4;
-    vec4 col = vec4(${print} * a, a);
+    vec4 col = vec4(riso() * a, a);
     col = vec4(uInk * shadow, shadow) + col * (1.0 - shadow);
     gl_FragColor = vec4(vec3(border.x) + uInk * border.y, b) + col * (1.0 - b);
   }
 `;
-
-// Riso print all over, part faded over the photo
-export const RISO_REVEAL = reveal('riso(RED, 0.0)', '0.6');

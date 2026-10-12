@@ -1,7 +1,8 @@
 'use client';
 
-import { animate, useReducedMotion } from 'framer-motion';
+import { animate } from 'framer-motion';
 import { useEffect, useRef } from 'react';
+import { useReducedMotion } from '../../../hooks/useReducedMotion';
 
 const STAT_COUNT_SECONDS = 1;
 /** Fade out when scrolled back past a row, count resets once hidden */
@@ -38,6 +39,8 @@ export function StatCount({ value, play, delay = 0 }: StatCountProps) {
       }, STAT_HIDE_SECONDS * 1000);
       return () => clearTimeout(reset);
     }
+    // Server HTML has the total, so reduced motion never flashes 0 pre-hydration
+    if (numberRef.current) numberRef.current.textContent = '0';
     let shown = 0;
     const controls = animate(0, target, {
       duration: STAT_COUNT_SECONDS,
@@ -64,7 +67,8 @@ export function StatCount({ value, play, delay = 0 }: StatCountProps) {
       <span className="sr-only">{value}</span>
       <span aria-hidden>
         {parts.prefix}
-        <span ref={numberRef}>0</span>
+        {/* Total until play starts the count, hidden by the row fade */}
+        <span ref={numberRef}>{target}</span>
         {parts.suffix}
       </span>
     </>

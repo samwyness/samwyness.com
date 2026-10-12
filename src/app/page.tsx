@@ -66,7 +66,7 @@ export default function Home() {
         <SkillsetSection items={pageData.skills} />
         <HistorySection items={pageData.experience} />
       </main>
-      <Footer />
+      <Footer buildYear={new Date().getFullYear()} />
     </>
   );
 }

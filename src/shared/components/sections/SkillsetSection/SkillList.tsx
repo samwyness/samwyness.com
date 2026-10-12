@@ -5,7 +5,6 @@ import {
   cubicBezier,
   domAnimation,
   m as motion,
-  useReducedMotion,
   useScroll,
   useTransform,
 } from 'framer-motion';
@@ -13,6 +12,7 @@ import classNames from 'classnames';
 import { useRef } from 'react';
 import { ScrollOffset } from '../../core/AnimateScrollProgress';
 import styles from './SkillsetSection.module.css';
+import { useReducedMotion } from '../../../hooks/useReducedMotion';
 
 export type Skill = {
   title: string;
@@ -42,7 +42,10 @@ function Divider({ className }: DividerProps) {
     <motion.span
       ref={ref}
       className={classNames(styles.line, className)}
-      style={reduceMotion ? undefined : { scaleX }}
+      data-motion-start
+      // Resting value, not undefined, which would leave the hydrated start
+      // state behind once reduced motion kicks in
+      style={{ scaleX: reduceMotion ? 1 : scaleX }}
     />
   );
 }
@@ -77,7 +80,11 @@ function SkillRow({
 
       <motion.div
         className={styles.flap}
-        style={reduceMotion ? undefined : { rotateX, opacity }}>
+        data-motion-start
+        // Resting values, as above
+        style={
+          reduceMotion ? { rotateX: 0, opacity: 1 } : { rotateX, opacity }
+        }>
         <span className={styles.number} aria-hidden>
           {String(number).padStart(2, '0')}
         </span>

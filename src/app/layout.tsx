@@ -25,6 +25,15 @@ export const metadata: Metadata = {
   description: 'Software Engineer & Product Designer',
 };
 
+// Without JS, framer's inline start states never animate out. Same reset as
+// reduced motion in globals.css
+const NO_SCRIPT_REST = `[data-motion-start] {
+  opacity: 1 !important;
+  transform: none !important;
+  filter: none !important;
+  stroke-dasharray: none !important;
+}`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -37,6 +46,9 @@ export default function RootLayout({
           fontFamilyBase.variable,
           fontFamilyHand.variable,
         )}>
+        <noscript>
+          <style>{NO_SCRIPT_REST}</style>
+        </noscript>
         {children}
         <Analytics />
         <SpeedInsights />

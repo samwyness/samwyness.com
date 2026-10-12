@@ -11,7 +11,6 @@ import styles from './WorkSection.module.css';
 export type Project = {
   title: string;
   subtitle: string;
-  role: string;
   company: string;
   image: string;
   link: string;
@@ -77,6 +76,43 @@ function useOpenRows(activeIndex: number, count: number) {
   return rowsRef;
 }
 
+/**
+ * Tallest panel body (summary, chips and details) as --body-height on the
+ * list, so the fixed height fits the longest copy at any width
+ */
+function useBodyHeight() {
+  const listRef = useRef<HTMLUListElement>(null);
+
+  useEffect(() => {
+    const list = listRef.current;
+    if (!list) return;
+    const bodies = [...list.querySelectorAll<HTMLElement>(`.${styles.body}`)];
+
+    // Children's own heights, the body itself stretches to the panel
+    const measure = () => {
+      const tallest = Math.max(
+        ...bodies.map(body => {
+          const gap = parseFloat(getComputedStyle(body).rowGap) || 0;
+          const children = [...body.children] as HTMLElement[];
+          return children.reduce(
+            (sum, child) => sum + child.offsetHeight,
+            gap * (children.length - 1),
+          );
+        }),
+      );
+      list.style.setProperty('--body-height', `${Math.ceil(tallest)}px`);
+    };
+
+    const observer = new ResizeObserver(measure);
+    bodies.forEach(body => {
+      for (const child of body.children) observer.observe(child);
+    });
+    return () => observer.disconnect();
+  }, []);
+
+  return listRef;
+}
+
 /** Project image, linking to the project once it's live */
 function ProjectMedia({ item }: { item: Project }) {
   const image = (
@@ -113,10 +149,10 @@ export function WorkSection({ items }: WorkSectionProps) {
   // GL preview loaded, so the CSS media can hide
   const [glReady, setGlReady] = useState(false);
   const rowsRef = useOpenRows(activeIndex, items.length);
+  const listRef = useBodyHeight();
 
   const details = (item: Project) =>
     [
-      ['Role', item.role],
       ['Company', item.company],
     ].filter(([, value]) => value);
 
@@ -125,6 +161,7 @@ export function WorkSection({ items }: WorkSectionProps) {
       {/* Preview canvas sits beside the list, not inside the <ul> */}
       <div className={styles.listWrap} data-gl={glReady || undefined}>
         <ul
+          ref={listRef}
           className={styles.list}
           style={{ '--count': items.length } as CSSProperties}>
           {items.map((item, index) => {

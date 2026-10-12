@@ -1,8 +1,9 @@
-/* Extra height is the locked scroll distance, desktop only as mobile section can outgrow the screen */
+/* Extra height is the locked scroll distance, desktop only as mobile section
+   can outgrow the screen. Reduced motion skips the lock, rows are all shown */
 .pin {
   position: relative;
 
-  @media (min-width: 1024px) {
+  @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
     height: calc(100vh + var(--pin-scroll));
   }
 }
@@ -13,10 +14,12 @@
   align-items: center;
   min-height: 100svh;
 
-  @media (min-width: 1024px) {
+  @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
     position: sticky;
     top: 0;
+  }
 
+  @media (min-width: 1024px) {
     /* Tighter than default so content fits short screens, centring handles the rest */
     padding-block: 80px;
   }
@@ -31,7 +34,7 @@
   grid-template-areas:
     'copy'
     'stats';
-  gap: 24px;
+  gap: 48px;
 
   @media (min-width: 1024px) {
     grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);

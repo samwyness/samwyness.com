@@ -1,7 +1,5 @@
 .header {
   display: none;
-  opacity: 0;
-  animation: headerReveal 1s 1s var(--curve-primary) forwards;
 
   @media (min-width: 768px) {
     display: flex;
@@ -9,7 +7,13 @@
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 40px;
+  }
+
+  /* Reduced motion starts revealed */
+  @media (prefers-reduced-motion: no-preference) {
+    opacity: 0;
     transform: translate(0, -20%);
+    animation: headerReveal 1s 1s var(--curve-primary) forwards;
   }
 }
 

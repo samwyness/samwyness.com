@@ -1,14 +1,10 @@
 'use client';
 
-import {
-  LazyMotion,
-  domAnimation,
-  m as motion,
-  useReducedMotion,
-} from 'framer-motion';
+import { LazyMotion, domAnimation, m as motion } from 'framer-motion';
 import styles from './AboutSection.module.css';
 import { STAT_HIDE_SECONDS } from './StatCount';
 import { InkLayer, STAT_INK } from './statInk';
+import { useReducedMotion } from '../../../hooks/useReducedMotion';
 
 const LAYER_CLASS: Record<InkLayer, string> = {
   ink: styles.ink,
@@ -36,7 +32,10 @@ export function StatVisual({ visual, play, delay }: StatVisualProps) {
 
   return (
     <LazyMotion features={domAnimation}>
+      {/* Keyed so reduced motion remounts shown, see useReducedMotion */}
       <motion.svg
+        key={+reduceMotion}
+        data-motion-start
         viewBox="0 0 100 100"
         initial={reduceMotion ? false : hidden}
         animate={

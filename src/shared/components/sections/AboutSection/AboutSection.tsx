@@ -6,7 +6,6 @@ import {
   m as motion,
   useInView,
   useMotionValueEvent,
-  useReducedMotion,
   useScroll,
 } from 'framer-motion';
 import {
@@ -22,6 +21,7 @@ import { Section } from '../../layout/Section';
 import styles from './AboutSection.module.css';
 import { STAT_HIDE_SECONDS, StatCount } from './StatCount';
 import { StatVisual } from './StatVisual';
+import { useReducedMotion } from '../../../hooks/useReducedMotion';
 
 // Desktop pins, 0 as section locks, 1 as it unlocks
 const PIN_OFFSET: ScrollOffset = ['start start', 'end end'];
@@ -144,13 +144,16 @@ export function AboutSection({ copy }: AboutSectionProps) {
           <LazyMotion features={domAnimation}>
             <dl ref={statsRef} className={styles.stats}>
               {copy.stats.map((stat, i) => {
-                const play = i < playedRows;
+                // Reduced motion: no lock, so every row shows from the start
+                const play = reduceMotion || i < playedRows;
                 // Desktop rows are already spaced by scroll
                 const countDelay = isDesktop ? 0 : i * COUNT_STAGGER_SECONDS;
                 return (
                   <motion.div
-                    key={stat.visual}
+                    // Reduced motion remounts shown, see useReducedMotion
+                    key={`${stat.visual}${+reduceMotion}`}
                     className={styles.stat}
+                    data-motion-start
                     initial={reduceMotion ? false : { opacity: 0 }}
                     animate={
                       play

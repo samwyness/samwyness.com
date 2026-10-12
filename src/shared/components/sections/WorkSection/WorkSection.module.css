@@ -9,8 +9,9 @@
     --gap: 24px;
     --media-width: clamp(320px, 30vw, 500px);
     --media-height: calc(var(--media-width) * 0.56);
-    /* Room for the details where the image is short */
-    --panel-height: max(var(--media-height), 230px);
+    /* Room for the tallest body where the image is short, measured in
+       useBodyHeight */
+    --panel-height: max(var(--media-height), var(--body-height, 230px));
     /* padding 56 + title and subtitle 64 */
     --line-height: 120px;
 
@@ -170,9 +171,9 @@
   @media (min-width: 1024px) {
     grid-column: 1;
     justify-content: space-between;
-    min-height: 0;
-    /* Details may run past the column; the panel clips it while opening */
-    overflow: visible;
+    /* Full height while opening, the panel clips it. Shrinking with the
+       panel would slide the details down as the row settles */
+    height: var(--panel-height);
     opacity: var(--open);
   }
 }
@@ -222,17 +223,10 @@
   }
 }
 
-/* Desktop: one line each, free to run past the title column */
 .details {
   display: flex;
   flex-wrap: wrap;
   gap: 16px 48px;
-
-  @media (min-width: 1024px) {
-    flex-wrap: nowrap;
-    width: max-content;
-    white-space: nowrap;
-  }
 
   & > div {
     display: flex;

@@ -5,7 +5,6 @@ import {
   domAnimation,
   m as motion,
   useInView,
-  useReducedMotion,
   useScroll,
   useTransform,
 } from 'framer-motion';
@@ -20,18 +19,36 @@ import { Row } from '../Row';
 import { Section } from '../Section';
 import { SOCIAL_LINKS } from 'src/shared/constants';
 import styles from './Footer.module.css';
+import { useReducedMotion } from '../../../hooks/useReducedMotion';
+import { useSettleAtPageEnd } from '../../../hooks/useSettleAtPageEnd';
 
-export function Footer() {
+const subscribeNever = () => () => {};
+
+type FooterProps = {
+  /** Year the static HTML was built, from the server */
+  buildYear: number;
+};
+
+export function Footer({ buildYear }: FooterProps) {
   const reduceMotion = useReducedMotion();
+  // Build year while hydrating so it matches the HTML, then the real one, as
+  // a build from last year would otherwise mismatch
+  const year = React.useSyncExternalStore(
+    subscribeNever,
+    () => new Date().getFullYear(),
+    () => buildYear,
+  );
   const ref = React.useRef<ComponentRef<'div'>>(null);
   const stickerRef = React.useRef<ComponentRef<'div'>>(null);
   // Flamingo only pecks while on screen, restarting each time it comes back
   const stickerInView = useInView(stickerRef, { amount: 0.5 });
 
-  const { scrollYProgress } = useScroll({
+  const { scrollYProgress: footerProgress } = useScroll({
     target: ref,
     offset: ['start end', '25vh end'],
   });
+  // Short footer on a tall screen can't scroll 25vh in
+  const scrollYProgress = useSettleAtPageEnd(footerProgress);
 
   const y = useTransform(scrollYProgress, [0, 1], ['-20%', '0%']);
   const opacity = useTransform(scrollYProgress, [0.25, 1], [0, 1]);
@@ -52,7 +69,14 @@ export function Footer() {
           <motion.div
             ref={ref}
             className={styles.content}
-            style={reduceMotion ? undefined : { translateY: y, opacity }}>
+            data-motion-start
+            // Resting values, not undefined, which would leave the hydrated
+            // start state behind once reduced motion kicks in
+            style={
+              reduceMotion
+                ? { translateY: 0, opacity: 1 }
+                : { translateY: y, opacity }
+            }>
             <Row className={styles.rowHire}>
               <Brand className={styles.brand} />
               <AvailableForHire />
@@ -75,7 +99,7 @@ export function Footer() {
             </Row>
 
             <Row className={styles.rowMeta}>
-              <span>© {new Date().getFullYear()} Sam Wyness</span>
+              <span>© {year} Sam Wyness</span>
 
               <nav aria-label="Social">
                 <ul className={styles.socialLinks}>

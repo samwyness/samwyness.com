@@ -4,12 +4,13 @@ import {
   LazyMotion,
   domAnimation,
   m as motion,
-  useReducedMotion,
   useScroll,
   useTransform,
 } from 'framer-motion';
 import { ReactNode, useRef } from 'react';
 import styles from './HistorySection.module.css';
+import { useReducedMotion } from '../../../hooks/useReducedMotion';
+import { useSettleAtPageEnd } from '../../../hooks/useSettleAtPageEnd';
 
 export type History = {
   role: string;
@@ -34,11 +35,13 @@ export function FocusItem({
 }: FocusItemProps) {
   const ref = useRef<HTMLSpanElement>(null);
   const reduceMotion = useReducedMotion();
-  const { scrollYProgress } = useScroll({
+  const { scrollYProgress: entryProgress } = useScroll({
     target: ref,
     // 0 entering bottom of viewport, 1 (fully sharp) once top reaches 60%
     offset: ['start 0.8', 'start 0.5'],
   });
+  // Last entries can't reach 60% on tall screens
+  const scrollYProgress = useSettleAtPageEnd(entryProgress);
 
   // Pulls into focus like a camera, then stays sharp. Holds until 40%,
   // blur lags opacity slightly so it sharpens last
@@ -51,14 +54,18 @@ export function FocusItem({
   );
 
   const Item = as === 'div' ? motion.div : motion.li;
+  // Resting values, not undefined, which would leave the hydrated start
+  // state behind once reduced motion kicks in
+  const motionStyle = reduceMotion
+    ? { filter: 'none', scale: 1, opacity: 1 }
+    : { filter, scale, opacity };
 
   return (
     <LazyMotion features={domAnimation}>
       <Item
         className={className}
-        style={
-          animated && !reduceMotion ? { filter, scale, opacity } : undefined
-        }>
+        data-motion-start
+        style={animated ? motionStyle : undefined}>
         {/* Scroll target, offset in CSS to stagger columns */}
         <span ref={ref} className={styles.focusTarget} aria-hidden />
         {children}

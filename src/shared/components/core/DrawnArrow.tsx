@@ -1,11 +1,7 @@
 'use client';
 
-import {
-  LazyMotion,
-  domAnimation,
-  m as motion,
-  useReducedMotion,
-} from 'framer-motion';
+import { LazyMotion, domAnimation, m as motion } from 'framer-motion';
+import { useReducedMotion } from '../../hooks/useReducedMotion';
 
 type DrawnArrowProps = {
   className?: string;
@@ -56,8 +52,19 @@ export function DrawnArrow({
         strokeLinecap="round"
         strokeLinejoin="round"
         aria-hidden>
-        <motion.path d={SHAFT} {...draw(0.4, 0.6)} />
-        <motion.path d={HEAD} {...draw(1, 0.25)} />
+        {/* Keyed so reduced motion remounts drawn, see useReducedMotion */}
+        <motion.path
+          key={`shaft${+reduceMotion}`}
+          data-motion-start
+          d={SHAFT}
+          {...draw(0.4, 0.6)}
+        />
+        <motion.path
+          key={`head${+reduceMotion}`}
+          data-motion-start
+          d={HEAD}
+          {...draw(1, 0.25)}
+        />
       </svg>
     </LazyMotion>
   );

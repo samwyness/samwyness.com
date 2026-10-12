@@ -133,12 +133,11 @@
 
 .title > span:first-child {
   padding-left: 0.88em;
-  clip-path: inset(0% 100% 0% 0%);
-  animation: reveal 0.75s 1s var(--curve-primary) forwards;
 
   /* Starts flush with "Wyness", then slides right to make room just before
      the sticker (delay 2s in HeroSection.tsx) slaps on */
   @media (prefers-reduced-motion: no-preference) {
+    clip-path: inset(0% 100% 0% 0%);
     translate: -0.88em 0;
     animation:
       reveal 0.75s 1s var(--curve-primary) forwards,
@@ -153,11 +152,14 @@
 }
 
 .title > span:last-child {
-  clip-path: inset(0% 0% 0% 100%);
-  animation: reveal 1s 1s var(--curve-primary) forwards;
+  @media (prefers-reduced-motion: no-preference) {
+    clip-path: inset(0% 0% 0% 100%);
+    animation: reveal 1s 1s var(--curve-primary) forwards;
+  }
 }
 
-/* End state only, each element sets its own starting clip */
+/* End state only, each element sets its own starting clip. Reduced motion
+   skips the intro, so everything starts revealed */
 @keyframes reveal {
   100% {
     clip-path: inset(0 0 0 0);
@@ -187,8 +189,11 @@
   font-size: clamp(20px, 3vw, 32px);
   /* Tight, as it wraps to two lines on phones */
   line-height: 1.3;
-  clip-path: inset(0% 0% 0% 100%);
-  animation: reveal 0.75s 1s var(--curve-primary) forwards;
+
+  @media (prefers-reduced-motion: no-preference) {
+    clip-path: inset(0% 0% 0% 100%);
+    animation: reveal 0.75s 1s var(--curve-primary) forwards;
+  }
 
   @media (min-width: 1024px) and (orientation: landscape), (min-width: 1440px) {
     order: 0;
@@ -203,8 +208,11 @@
 
 .hire {
   order: 2;
-  opacity: 0;
-  animation: fadeIn 0.75s 1.25s var(--curve-primary) forwards;
+
+  @media (prefers-reduced-motion: no-preference) {
+    opacity: 0;
+    animation: fadeIn 0.75s 1.25s var(--curve-primary) forwards;
+  }
 
   @media (min-width: 768px) {
     display: none;

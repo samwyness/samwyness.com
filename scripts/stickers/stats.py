@@ -6,8 +6,8 @@ Writes src/shared/components/sections/AboutSection/statInk.ts. No die-cut ring,
 they sit inline on the page. Layers are themed in CSS: ink = text colour,
 carve = page colour, accent = brand red. Shapes are seeded, output is stable.
 """
-import math, os, random, json
-from ink import catmull, wobble, taper, ellipse, dense
+import math, os, random, json, re
+from ink import catmull, wobble, taper, ellipse, dense, _join, _num, _tenths
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 OUT = os.path.join(ROOT, 'src', 'shared', 'components', 'sections', 'AboutSection', 'statInk.ts')
@@ -74,13 +74,32 @@ for m in (False, True):
     d.brush(T(THUMB_GAP), 2, 'carve', amp=0.12)
 # Same heart as the heart drawing (minus its love lines), scaled to sit between the hands
 def place(path, k, tx, ty):
-    nums=iter(path.replace('M','M ').replace('C','C ').split())
-    out=[]
-    for t in nums:
-        if t in ('M','C','Z'): out.append(t); continue
-        x=float(t); y=float(next(nums))
-        out.append(f'{x*k+tx:.1f} {y*k+ty:.1f}'.replace('.0 ',' ').removesuffix('.0'))
-    return ' '.join(out).replace('M ','M').replace('C ','C')
+    """scale + shift a catmull() path; re-encodes from absolute so rounding can't drift"""
+    out=''; cur=(0,0); orig=(0,0); cmd=None; nums=[]
+    def flush():
+        nonlocal out, cur, orig
+        if cmd=='M':
+            orig=(nums[0],nums[1]); cur=(_tenths(orig[0]*k+tx), _tenths(orig[1]*k+ty))
+            out+='M'+_join([_num(cur[0]), _num(cur[1])])
+        elif cmd in 'cs':
+            rel=[]
+            # pairs are relative to the segment start; segment ends every 3 (c) or 2 (s) pairs
+            step=6 if cmd=='c' else 4
+            for s in range(0, len(nums), step):
+                seg=nums[s:s+step]; base=orig; seg_cur=cur
+                for i in range(0, step, 2):
+                    p=(_tenths((base[0]+seg[i])*k+tx), _tenths((base[1]+seg[i+1])*k+ty))
+                    rel+=[_num(p[0]-seg_cur[0]), _num(p[1]-seg_cur[1])]
+                orig=(base[0]+seg[-2], base[1]+seg[-1]); cur=p
+            out+=cmd+_join(rel)
+        elif cmd=='z': out+='z'
+    for t in re.findall(r'[MmCcSsZz]|-?(?:\d+\.?\d*|\.\d+)', path):
+        if t.isalpha():
+            if cmd: flush()
+            cmd=t; nums=[]
+        else: nums.append(float(t))
+    flush()
+    return out
 HEART_K=0.62
 for layer,path in out['heart'].layers:
     if layer!='ink': d.layers.append((layer, place(path, HEART_K, 50-46*HEART_K, 14-22*HEART_K)))

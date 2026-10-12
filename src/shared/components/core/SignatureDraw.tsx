@@ -1,11 +1,7 @@
 'use client';
 
-import {
-  LazyMotion,
-  domAnimation,
-  m as motion,
-  useReducedMotion,
-} from 'framer-motion';
+import { LazyMotion, domAnimation, m as motion } from 'framer-motion';
+import { useReducedMotion } from '../../hooks/useReducedMotion';
 
 // Centreline of handwritten signature (least-squares Bézier fit in pen order), 600x300 space
 const SIGNATURE_PATH =
@@ -35,7 +31,10 @@ export function SignatureDraw({ className, delay = 0 }: SignatureDrawProps) {
         strokeWidth={7}
         strokeLinecap="round"
         strokeLinejoin="round">
+        {/* Keyed so reduced motion remounts signed, see useReducedMotion */}
         <motion.path
+          key={+reduceMotion}
+          data-motion-start
           d={SIGNATURE_PATH}
           {...(reduceMotion
             ? {}
