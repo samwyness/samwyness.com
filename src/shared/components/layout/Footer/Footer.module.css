@@ -75,71 +75,6 @@
   }
 }
 
-/* Mobile: coffee link stacks under the time */
-.locationGroup {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-
-  @media (min-width: 768px) {
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 24px;
-  }
-}
-
-/* Text stays aligned with the motto; sticker sits a little loose */
-.coffee {
-  display: flex;
-  align-items: flex-start;
-}
-
-/* Mobile gets .edgeSticker and a bare text link instead */
-.coffee .sticker,
-.coffee .arrow {
-  @media (max-width: 767px) {
-    display: none;
-  }
-}
-
-.sticker {
-  --sticker-size: 76px;
-  flex: none;
-  /* Overhangs below so it doesn't stretch the gap to the motto */
-  margin: -10px 0 -20px;
-}
-
-/* Tucked against the sticker, tip at its mid-height; flipped so it
-   swoops down from the label */
-.arrow {
-  flex: none;
-  width: 64px;
-  margin: 0 0 -16px -6px;
-  scale: 1 -1;
-}
-
-.coffeeLabel {
-  font-family: var(--font-family-hand), cursive;
-  font-size: 28px;
-  line-height: 1;
-  white-space: nowrap;
-  rotate: -3deg;
-  text-decoration: underline;
-  text-decoration-color: transparent;
-  text-underline-offset: 4px;
-  transition: text-decoration-color 0.2s;
-
-  /* Starts just over the arrow's tail, so it reads label → arrow → mug */
-  @media (min-width: 768px) {
-    margin: -32px 0 0 -16px;
-  }
-}
-
-.coffee:hover .coffeeLabel,
-.coffee:focus-visible .coffeeLabel {
-  text-decoration-color: currentColor;
-}
-
 .motto {
   display: flex;
   flex-direction: column;
@@ -197,15 +132,68 @@
   position: relative;
 }
 
-/* Mobile only: half over the section above, half on the footer */
+/* Half over the section above, half on the footer */
 .edgeSticker {
   --sticker-size: 88px;
   position: absolute;
   z-index: 1;
   top: -44px;
   right: 20px;
+  /* Pivots on its leg so the head dips to peck */
+  transform-origin: 50% 90%;
 
-  @media (min-width: 768px) {
-    display: none;
+  &[data-in-view='true'] {
+    /* Lets it sit a beat before the first peck */
+    animation: flamingoPeck 10s 2s ease-in-out infinite;
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    --sticker-size: 120px;
+    top: -60px;
+    right: 80px;
+  }
+}
+
+/* Rocks back, double-pecks forward (head is on the left), then
+   settles into a slow sway */
+@keyframes flamingoPeck {
+  0%,
+  100% {
+    rotate: 0deg;
+  }
+  4% {
+    rotate: 4deg;
+    animation-timing-function: ease-in;
+  }
+  6.5% {
+    rotate: -24deg;
+    animation-timing-function: ease-out;
+  }
+  8.5% {
+    rotate: -14deg;
+    animation-timing-function: ease-in;
+  }
+  10.5% {
+    rotate: -24deg;
+    animation-timing-function: ease-out;
+  }
+  15% {
+    rotate: 4deg;
+  }
+  18% {
+    rotate: -1deg;
+  }
+  21% {
+    rotate: 0deg;
+  }
+  60% {
+    rotate: 2deg;
+  }
+  80% {
+    rotate: -2deg;
   }
 }

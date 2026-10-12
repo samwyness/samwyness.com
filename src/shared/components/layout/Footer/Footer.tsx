@@ -4,15 +4,14 @@ import {
   LazyMotion,
   domAnimation,
   m as motion,
+  useInView,
   useReducedMotion,
   useScroll,
   useTransform,
 } from 'framer-motion';
-import { track } from '@vercel/analytics';
 import React, { ComponentRef } from 'react';
 import { AvailableForHire } from '../../core/AvailableForHire';
 import { Brand } from '../../core/Brand';
-import { DrawnArrow } from '../../core/DrawnArrow';
 import { ExternalLink } from '../../core/ExternalLink';
 import { LocalTime } from '../../core/LocalTime';
 import { Sticker } from '../../core/Sticker';
@@ -25,6 +24,9 @@ import styles from './Footer.module.css';
 export function Footer() {
   const reduceMotion = useReducedMotion();
   const ref = React.useRef<ComponentRef<'div'>>(null);
+  const stickerRef = React.useRef<ComponentRef<'div'>>(null);
+  // Flamingo only pecks while on screen, restarting each time it comes back
+  const stickerInView = useInView(stickerRef, { amount: 0.5 });
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -36,10 +38,13 @@ export function Footer() {
 
   return (
     <LazyMotion features={domAnimation}>
-      {/* Wrapper so the mobile sticker can straddle the top edge; the
-          footer itself clips its scroll reveal */}
+      {/* Wrapper so the sticker can straddle the top edge; the footer
+          itself clips its scroll reveal */}
       <div className={styles.footerWrap}>
-        <div className={styles.edgeSticker}>
+        <div
+          ref={stickerRef}
+          className={styles.edgeSticker}
+          data-in-view={stickerInView}>
           <Sticker name="flamingo" rotate={-10} />
         </div>
 
@@ -54,24 +59,10 @@ export function Footer() {
             </Row>
 
             <Row className={styles.rowInfo}>
-              <div className={styles.locationGroup}>
-                <address className={styles.location}>
-                  Sunshine Coast, Australia
-                  <LocalTime />
-                </address>
-                <ExternalLink
-                  className={styles.coffee}
-                  href="https://buymeacoffee.com/samwyness"
-                  onClick={() => track('Buy me a coffee')}>
-                  <Sticker
-                    name="coffee"
-                    rotate={-8}
-                    className={styles.sticker}
-                  />
-                  <DrawnArrow className={styles.arrow} />
-                  <span className={styles.coffeeLabel}>buy me a coffee?</span>
-                </ExternalLink>
-              </div>
+              <address className={styles.location}>
+                Sunshine Coast, Australia
+                <LocalTime />
+              </address>
 
               <div className={styles.motto}>
                 <p>
