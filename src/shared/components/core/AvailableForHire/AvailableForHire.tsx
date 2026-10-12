@@ -1,3 +1,4 @@
+import { ExternalLink } from '../ExternalLink';
 import styles from './AvailableForHire.module.css';
 
 export function AvailableForHire() {
@@ -7,13 +8,11 @@ export function AvailableForHire() {
 
       <span className={styles.text}>Available for hire</span>
 
-      <a
+      <ExternalLink
         className="button"
-        href="https://calendly.com/samwyness/30min"
-        target="_blank"
-        referrerPolicy="no-referrer">
+        href="https://calendly.com/samwyness/30min">
         Book a call
-      </a>
+      </ExternalLink>
     </div>
   );
 }

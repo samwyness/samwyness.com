@@ -1,11 +1,11 @@
 'use client';
 
 import classNames from 'classnames';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import React from 'react';
+import { HeroFx } from './HeroFx';
 import styles from './HeroPhoto.module.css';
-import { NotebookPage } from './NotebookPage';
-import { StampBookPage } from './StampBookPage';
 
 // Deterministic "random" so server and client render the same flakes;
 // rounded as Math.sin's last digits differ between Node and browsers
@@ -34,18 +34,28 @@ const PHOTO = {
     '(max-width: 1023px) 100vw, (max-width: 1439px) and (orientation: portrait) 100vw, 40vw',
 };
 
+// Effect lab, with every variant and a picker: on in dev, or with
+// NEXT_PUBLIC_HERO_FX_LAB=true. Otherwise it's left out of the build, and
+// only the riso reveal ships
+const HeroFxLab =
+  process.env.NODE_ENV === 'development' ||
+  process.env.NEXT_PUBLIC_HERO_FX_LAB === 'true'
+    ? dynamic(() => import('./HeroFxLab').then(m => m.HeroFxLab), {
+        ssr: false,
+      })
+    : null;
+
 type HeroPhotoProps = {
-  /** Which page is on the reverse of the print */
-  back?: 'notebook' | 'stampBook';
   className?: string;
 };
 
 /**
- * A glossy print: drifts against the cursor under a glare with a chromatic
- * fringe and falling snow, flips over on click, and rounds off on scroll
+ * A glossy print: drifts against the cursor under a glare and falling snow,
+ * and shrinks away on scroll
  */
-export function HeroPhoto({ back = 'notebook', className }: HeroPhotoProps) {
-  const [flipped, setFlipped] = React.useState(false);
+export function HeroPhoto({ className }: HeroPhotoProps) {
+  // Effect shown, set by the lab; data-fx hides the CSS glare and snow
+  const [fx, setFx] = React.useState('riso-reveal');
 
   // Cursor position as 0–1 CSS vars, so moves don't re-render
   const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
@@ -62,21 +72,10 @@ export function HeroPhoto({ back = 'notebook', className }: HeroPhotoProps) {
     e.currentTarget.style.removeProperty('--y');
   };
 
-  const toggleFlip = () => setFlipped(f => !f);
-
   return (
     <div
-      className={classNames(styles.frame, flipped && styles.flipped, className)}
-      role="button"
-      tabIndex={0}
-      aria-pressed={flipped}
-      aria-label="Flip photo"
-      onClick={toggleFlip}
-      onKeyDown={e => {
-        if (e.key !== 'Enter' && e.key !== ' ') return;
-        e.preventDefault();
-        toggleFlip();
-      }}
+      className={classNames(styles.frame, className)}
+      data-fx={fx}
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}>
       <div className={styles.card}>
@@ -84,18 +83,19 @@ export function HeroPhoto({ back = 'notebook', className }: HeroPhotoProps) {
           <div className={styles.drift}>
             <Image
               {...PHOTO}
-              alt="Sam Wyness profile image"
+              alt="Sam Wyness"
               className={styles.photo}
               preload
               fill
             />
-            <Image
-              {...PHOTO}
-              alt=""
-              aria-hidden
-              className={classNames(styles.photo, styles.chromaLayer)}
-              fill
-            />
+            {HeroFxLab ? (
+              <HeroFxLab
+                className={classNames(styles.photo, styles.fx)}
+                onFx={setFx}
+              />
+            ) : (
+              <HeroFx className={classNames(styles.photo, styles.fx)} />
+            )}
           </div>
           <span className={styles.glare} />
           <div className={styles.snow} aria-hidden>
@@ -104,31 +104,7 @@ export function HeroPhoto({ back = 'notebook', className }: HeroPhotoProps) {
             ))}
           </div>
         </div>
-
-        {/* Back of the print */}
-        <div className={styles.back}>
-          {back === 'notebook' ? <NotebookPage /> : <StampBookPage />}
-        </div>
       </div>
-
-      <svg className={styles.filterDefs} aria-hidden>
-        {/* Red shifted left, cyan right, screened back together */}
-        <filter id="hero-chroma">
-          <feColorMatrix
-            in="SourceGraphic"
-            values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0"
-            result="red"
-          />
-          <feOffset in="red" dx="-6" result="redShift" />
-          <feColorMatrix
-            in="SourceGraphic"
-            values="0 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0"
-            result="cyan"
-          />
-          <feOffset in="cyan" dx="6" result="cyanShift" />
-          <feBlend in="redShift" in2="cyanShift" mode="screen" />
-        </filter>
-      </svg>
     </div>
   );
 }

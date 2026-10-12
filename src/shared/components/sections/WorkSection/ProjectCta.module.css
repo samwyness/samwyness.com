@@ -1,0 +1,10 @@
+.disabled {
+  border-color: var(--color-on-surface-opaque);
+  color: var(--color-on-surface-opaque);
+  pointer-events: none;
+
+  /* Stacked layout: the year already says coming soon */
+  @media (max-width: 1023px) {
+    display: none;
+  }
+}

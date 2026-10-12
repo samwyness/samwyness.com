@@ -1,7 +1,6 @@
-import { AnimateScrollProgressProps } from '../../core/AnimateScrollProgress';
+import { ScrollProgressOptions } from '../../core/AnimateScrollProgress';
 import { AvailableForHire } from '../../core/AvailableForHire';
 import { CyclingSticker } from '../../core/CyclingSticker';
-import { DrawnArrow } from '../../core/DrawnArrow';
 import { TextAnimateMask } from '../../core/TextAnimateMask';
 import { TextAnimateWeight } from '../../core/TextAnimateWeight';
 import { Header } from '../../layout/Header';
@@ -14,7 +13,7 @@ import styles from './HeroSection.module.css';
 const TITLE_SCROLL = {
   useTarget: false,
   offset: ['start start', '75vh start'],
-} satisfies AnimateScrollProgressProps;
+} satisfies ScrollProgressOptions;
 
 type HeroSectionProps = {
   role: string;
@@ -22,7 +21,8 @@ type HeroSectionProps = {
 
 export function HeroSection({ role }: HeroSectionProps) {
   return (
-    <section className={styles.sectionHero}>
+    // Page banner, before <main>
+    <header className={styles.sectionHero}>
       <div className={styles.container}>
         <Row className={styles.row}>
           <div className={styles.columnLeft}>
@@ -42,7 +42,7 @@ export function HeroSection({ role }: HeroSectionProps) {
                       outputRange={[`'wght' 700`, `'wght' 300`]}>
                       Sam
                     </TextAnimateWeight>
-                  </TextAnimateMask>
+                  </TextAnimateMask>{' '}
                   <TextAnimateMask {...TITLE_SCROLL} inputRange={[0, 0.65]}>
                     <TextAnimateWeight
                       {...TITLE_SCROLL}
@@ -67,21 +67,10 @@ export function HeroSection({ role }: HeroSectionProps) {
           </div>
 
           <div className={styles.columnRight}>
-            {/* Points at the photo: just above it below desktop, off to its
-                left on desktop */}
-            <span className={styles.aside} aria-hidden>
-              psst, turn me over
-              {/* Draws in once the scrawl has faded in */}
-              <DrawnArrow
-                className={styles.asideArrow}
-                color="var(--color-brand)"
-                delay={2.8}
-              />
-            </span>
             <HeroPhoto className={styles.imageContainer} />
           </div>
         </Row>
       </div>
-    </section>
+    </header>
   );
 }

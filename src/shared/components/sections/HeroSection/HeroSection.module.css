@@ -87,8 +87,6 @@
 
 .columnRight {
   @media (min-width: 1024px) and (orientation: landscape), (min-width: 1440px) {
-    /* Holds the hint */
-    position: relative;
     /* Always full viewport height; 450:638 width, capped so title keeps room
        (cover crops if capped) */
     flex: none;
@@ -136,14 +134,14 @@
 .title > span:first-child {
   padding-left: 0.88em;
   clip-path: inset(0% 100% 0% 0%);
-  animation: titleReveal 0.75s 1s var(--curve-primary) forwards;
+  animation: reveal 0.75s 1s var(--curve-primary) forwards;
 
   /* Starts flush with "Wyness", then slides right to make room just before
-     the sticker (delay 2.1s in HeroSection.tsx) slaps on */
+     the sticker (delay 2s in HeroSection.tsx) slaps on */
   @media (prefers-reduced-motion: no-preference) {
     translate: -0.88em 0;
     animation:
-      titleReveal 0.75s 1s var(--curve-primary) forwards,
+      reveal 0.75s 1s var(--curve-primary) forwards,
       stickerPush 0.6s 1.75s var(--curve-primary) forwards;
   }
 }
@@ -156,16 +154,11 @@
 
 .title > span:last-child {
   clip-path: inset(0% 0% 0% 100%);
-  animation: title2Reveal 1s 1s var(--curve-primary) forwards;
+  animation: reveal 1s 1s var(--curve-primary) forwards;
 }
 
-@keyframes titleReveal {
-  100% {
-    clip-path: inset(0 0 0 0);
-  }
-}
-
-@keyframes title2Reveal {
+/* End state only, each element sets its own starting clip */
+@keyframes reveal {
   100% {
     clip-path: inset(0 0 0 0);
   }
@@ -193,7 +186,7 @@
      a 1024px-wide portrait iPad */
   font-size: clamp(20px, 3vw, 32px);
   clip-path: inset(0% 0% 0% 100%);
-  animation: textReveal 0.75s 1s var(--curve-primary) forwards;
+  animation: reveal 0.75s 1s var(--curve-primary) forwards;
 
   @media (min-width: 1024px) and (orientation: landscape), (min-width: 1440px) {
     order: 0;
@@ -235,86 +228,5 @@
     flex: none;
     height: 100%;
     min-height: 0;
-  }
-}
-
-/* Hint that the photo turns over. Below desktop it sits just above the
-   photo, pointing down; on desktop it's placed off the photo's left edge,
-   pointing across. The arrow hangs off the text, so it moves with it */
-.aside {
-  position: relative;
-  top: -12px;
-  /* Over the photo where the arrow overlaps it */
-  z-index: 1;
-  align-self: flex-end;
-  /* Tucked into the row gaps either side; right leaves room for the arrow */
-  margin: -12px 66px -36px 0;
-  color: var(--color-brand);
-  font-family: var(--font-family-hand), cursive;
-  font-size: 28px;
-  line-height: 1;
-  white-space: nowrap;
-  rotate: -4deg;
-  pointer-events: none;
-  transition: opacity 0.4s ease;
-  /* After the photo and title sticker; backwards fill only, so the flipped
-     fade still applies after */
-  animation: asideIn 0.8s 2.8s ease backwards;
-
-  /* Position it here: top/bottom from the photo's top/bottom, right from
-     the photo's left edge */
-  @media (min-width: 1024px) and (orientation: landscape), (min-width: 1440px) {
-    position: absolute;
-    right: calc(100% + 64px);
-    bottom: 48px;
-    margin: 0;
-    font-size: 34px;
-  }
-
-  /* Narrower columns leave the role no room beside it: up just under the
-     header's "Book a call" instead */
-  @media (min-width: 1024px) and (max-width: 1899px) and (orientation: landscape),
-    (min-width: 1440px) and (max-width: 1899px) {
-    top: 100px;
-    bottom: auto;
-  }
-}
-
-@keyframes asideIn {
-  from {
-    opacity: 0;
-  }
-}
-
-/* Job done once it's turned over */
-.sectionHero:has([aria-pressed='true']) .aside {
-  opacity: 0;
-}
-
-/* The arrow points left: mirrored to point right, then turned down at the
-   photo when the scrawl sits above it */
-.asideArrow {
-  position: absolute;
-  left: calc(100% + 6px);
-  bottom: -14px;
-  width: 48px;
-  scale: -1 1;
-  rotate: 90deg;
-
-  /* Turned right round: tail tucked under the end of "over", curving down
-     and across to the photo */
-  @media (min-width: 1024px) and (orientation: landscape), (min-width: 1440px) {
-    top: 100%;
-    bottom: auto;
-    left: calc(100% - 12px);
-    width: 56px;
-    scale: -1 -1;
-    rotate: none;
-  }
-}
-
-@keyframes textReveal {
-  100% {
-    clip-path: inset(0 0 0 0);
   }
 }

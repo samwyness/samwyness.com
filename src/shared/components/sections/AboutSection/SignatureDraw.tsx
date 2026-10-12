@@ -5,29 +5,21 @@ import {
   domAnimation,
   m as motion,
   useReducedMotion,
-  useScroll,
-  useTransform,
 } from 'framer-motion';
-import { RefObject } from 'react';
 import { SIGNATURE_PATH } from '../../icons/SignatureIcon';
 import styles from './AboutSection.module.css';
 
-export type TextOffset = NonNullable<Parameters<typeof useScroll>[0]>['offset'];
+const SIGN_SECONDS = 0.9;
 
 type SignatureDrawProps = {
-  target: RefObject<HTMLElement | null>;
-  offset: TextOffset;
-  /** Scroll progress range to sign over */
-  range: [number, number];
+  /** Starts signing, once true */
+  play: boolean;
+  /** Seconds to wait after play */
+  delay?: number;
 };
 
-export function SignatureDraw({ target, offset, range }: SignatureDrawProps) {
+export function SignatureDraw({ play, delay = 0 }: SignatureDrawProps) {
   const reduceMotion = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target, offset });
-
-  const pathLength = useTransform(scrollYProgress, range, [0, 1]);
-  // Hide round cap that shows at zero length
-  const strokeOpacity = useTransform(pathLength, value => (value > 0 ? 1 : 0));
 
   return (
     <LazyMotion features={domAnimation}>
@@ -39,9 +31,13 @@ export function SignatureDraw({ target, offset, range }: SignatureDrawProps) {
         <motion.path
           className={styles.signatureStroke}
           d={SIGNATURE_PATH}
-          style={
-            reduceMotion ? undefined : { pathLength, opacity: strokeOpacity }
-          }
+          // Hidden at zero length so round cap doesn't show before signing
+          initial={reduceMotion ? false : { pathLength: 0, opacity: 0 }}
+          animate={play ? { pathLength: 1, opacity: 1 } : undefined}
+          transition={{
+            pathLength: { duration: SIGN_SECONDS, delay, ease: 'easeInOut' },
+            opacity: { duration: 0, delay },
+          }}
         />
       </svg>
     </LazyMotion>

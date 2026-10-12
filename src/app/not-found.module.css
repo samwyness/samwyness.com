@@ -12,10 +12,6 @@
   }
 }
 
-.main + footer {
-  display: none;
-}
-
 .container {
   align-items: flex-start;
   gap: 40px;
@@ -23,7 +19,6 @@
 
 .title {
   line-height: 0.85;
-  font-size: 280px;
   font-size: clamp(80px, 13.5vw, 100px);
   font-variation-settings: 'wght' 600;
   text-transform: uppercase;
@@ -33,15 +28,11 @@
   }
 }
 
-.title > span {
-  font-size: 0.5em;
-  font-variation-settings: 'wght' 600;
-}
-
-.sticker {
-  --sticker-size: 120px;
-
-  @media (min-width: 1024px) {
-    --sticker-size: 180px;
-  }
+/* Sits after "Found" like a superscript */
+.titleSticker {
+  --sticker-size: 0.6em;
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 0.12em;
+  margin-left: 0.1em;
 }

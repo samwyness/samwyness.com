@@ -8,7 +8,7 @@ import {
   useScroll,
   useTransform,
 } from 'framer-motion';
-import { useRef } from 'react';
+import { ReactNode, useRef } from 'react';
 import styles from './HistorySection.module.css';
 
 export type History = {
@@ -17,16 +17,21 @@ export type History = {
   period: string;
 };
 
-type HistoryEntryProps = History & {
+type FocusItemProps = {
+  /** li in the list, div outside it */
+  as?: 'li' | 'div';
+  className?: string;
   animated?: boolean;
+  children: ReactNode;
 };
 
-export function HistoryEntry({
-  role,
-  company,
-  period,
+/** Grid cell that pulls into focus as it scrolls into view */
+export function FocusItem({
+  as = 'li',
+  className = styles.entry,
   animated = true,
-}: HistoryEntryProps) {
+  children,
+}: FocusItemProps) {
   const ref = useRef<HTMLSpanElement>(null);
   const reduceMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({
@@ -40,21 +45,43 @@ export function HistoryEntry({
   const opacity = useTransform(scrollYProgress, [0.4, 0.7], [0.25, 1]);
   const scale = useTransform(scrollYProgress, [0.4, 0.7], [0.98, 1]);
   const blur = useTransform(scrollYProgress, [0.6, 1], [10, 0]);
-  const filter = useTransform(blur, value => `blur(${value}px)`);
+  // Filter dropped once sharp, so settled cards don't keep a filter layer
+  const filter = useTransform(blur, value =>
+    value > 0 ? `blur(${value}px)` : 'none',
+  );
+
+  const Item = as === 'div' ? motion.div : motion.li;
 
   return (
     <LazyMotion features={domAnimation}>
-      <motion.li
-        className={styles.entry}
+      <Item
+        className={className}
         style={
           animated && !reduceMotion ? { filter, scale, opacity } : undefined
         }>
         {/* Scroll target, offset in CSS to stagger columns */}
         <span ref={ref} className={styles.focusTarget} aria-hidden />
-        <p className={styles.period}>{period}</p>
-        <h3 className={styles.role}>{role}</h3>
-        <p className={styles.company}>{company}</p>
-      </motion.li>
+        {children}
+      </Item>
     </LazyMotion>
+  );
+}
+
+type HistoryEntryProps = History & {
+  animated?: boolean;
+};
+
+export function HistoryEntry({
+  role,
+  company,
+  period,
+  animated,
+}: HistoryEntryProps) {
+  return (
+    <FocusItem animated={animated}>
+      <p className={styles.period}>{period}</p>
+      <h3 className={styles.role}>{role}</h3>
+      <p className={styles.company}>{company}</p>
+    </FocusItem>
   );
 }

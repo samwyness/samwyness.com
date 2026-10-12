@@ -1,5 +1,7 @@
+import classNames from 'classnames';
+import { ExternalLink } from '../../core/ExternalLink';
 import { Section } from '../../layout/Section';
-import { History, HistoryEntry } from './HistoryEntry';
+import { FocusItem, History, HistoryEntry } from './HistoryEntry';
 import styles from './HistorySection.module.css';
 
 type HistorySectionProps = {
@@ -19,6 +21,16 @@ export function HistorySection({ items }: HistorySectionProps) {
           />
         ))}
       </ol>
+
+      {/* Outside the list so it isn't counted as a role, sized as a cell */}
+      <FocusItem as="div" className={classNames(styles.entry, styles.cta)}>
+        <p className={styles.hand}>Looking to hire?</p>
+        <ExternalLink
+          className={classNames('button', styles.cvButton)}
+          href="/sam-wyness-cv.pdf">
+          Download CV
+        </ExternalLink>
+      </FocusItem>
     </Section>
   );
 }

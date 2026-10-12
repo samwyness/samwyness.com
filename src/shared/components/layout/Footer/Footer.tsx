@@ -4,22 +4,26 @@ import {
   LazyMotion,
   domAnimation,
   m as motion,
+  useReducedMotion,
   useScroll,
   useTransform,
 } from 'framer-motion';
 import { track } from '@vercel/analytics';
-import Link from 'next/link';
 import React, { ComponentRef } from 'react';
 import { AvailableForHire } from '../../core/AvailableForHire';
+import { Brand } from '../../core/Brand';
 import { DrawnArrow } from '../../core/DrawnArrow';
+import { ExternalLink } from '../../core/ExternalLink';
 import { LocalTime } from '../../core/LocalTime';
 import { Sticker } from '../../core/Sticker';
 import { SignatureIcon } from '../../icons/SignatureIcon';
 import { Row } from '../Row';
 import { Section } from '../Section';
+import { SOCIAL_LINKS } from 'src/shared/constants';
 import styles from './Footer.module.css';
 
 export function Footer() {
+  const reduceMotion = useReducedMotion();
   const ref = React.useRef<ComponentRef<'div'>>(null);
 
   const { scrollYProgress } = useScroll({
@@ -43,25 +47,21 @@ export function Footer() {
           <motion.div
             ref={ref}
             className={styles.content}
-            style={{ translateY: y, opacity }}>
+            style={reduceMotion ? undefined : { translateY: y, opacity }}>
             <Row className={styles.rowHire}>
-              <Link href="/" className={styles.brand}>
-                SW.
-              </Link>
+              <Brand className={styles.brand} />
               <AvailableForHire />
             </Row>
 
             <Row className={styles.rowInfo}>
               <div className={styles.locationGroup}>
-                <p className={styles.location}>
+                <address className={styles.location}>
                   Sunshine Coast, Australia
                   <LocalTime />
-                </p>
-                <a
+                </address>
+                <ExternalLink
                   className={styles.coffee}
                   href="https://buymeacoffee.com/samwyness"
-                  target="_blank"
-                  referrerPolicy="no-referrer"
                   onClick={() => track('Buy me a coffee')}>
                   <Sticker
                     name="coffee"
@@ -70,7 +70,7 @@ export function Footer() {
                   />
                   <DrawnArrow className={styles.arrow} />
                   <span className={styles.coffeeLabel}>buy me a coffee?</span>
-                </a>
+                </ExternalLink>
               </div>
 
               <div className={styles.motto}>
@@ -86,24 +86,20 @@ export function Footer() {
             <Row className={styles.rowMeta}>
               <span>© {new Date().getFullYear()} Sam Wyness</span>
 
-              <ul className={styles.socialLinks}>
-                <li>
-                  <a
-                    href="https://linkedin.com/in/samwyness22"
-                    target="_blank"
-                    referrerPolicy="no-referrer">
-                    LinkedIn
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://github.com/samwyness"
-                    target="_blank"
-                    referrerPolicy="no-referrer">
-                    GitHub
-                  </a>
-                </li>
-              </ul>
+              <nav aria-label="Social">
+                <ul className={styles.socialLinks}>
+                  <li>
+                    <ExternalLink href={SOCIAL_LINKS.linkedin}>
+                      LinkedIn
+                    </ExternalLink>
+                  </li>
+                  <li>
+                    <ExternalLink href={SOCIAL_LINKS.github}>
+                      GitHub
+                    </ExternalLink>
+                  </li>
+                </ul>
+              </nav>
             </Row>
           </motion.div>
         </Section>

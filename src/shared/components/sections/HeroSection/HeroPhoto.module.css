@@ -2,11 +2,19 @@
   /* Cursor position 0–1, set on pointer move in HeroPhoto.tsx */
   --x: 0.5;
   --y: 0.5;
-  /* Radius of the glare and chroma ring around the cursor */
+  /* Radius of the glare around the cursor */
   --hover-size: 1200px;
   position: relative;
-  perspective: 1600px;
-  cursor: pointer;
+}
+
+/* Touch drags the lens in the split layout, see HeroFx.tsx, rather than
+   scrolling or long-pressing the image */
+@media (min-width: 1024px) and (orientation: landscape), (min-width: 1440px) {
+  .frame {
+    touch-action: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
 }
 
 /* Clips the drift and overlays */
@@ -35,19 +43,12 @@
   }
 }
 
-/* Hover-only extras stay out of the way on touch */
-.glare,
-.chromaLayer {
+/* Hover-only glare stays out of the way on touch */
+.glare {
   display: none;
 }
 
-.filterDefs {
-  position: absolute;
-  width: 0;
-  height: 0;
-}
-
-@media (hover: hover) and (pointer: fine) {
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
   .drift {
     transform: translate(
         calc((0.5 - var(--x)) * 16px),
@@ -56,7 +57,9 @@
       scale(1.04);
     transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
   }
+}
 
+@media (hover: hover) and (pointer: fine) {
   .glare {
     display: block;
     position: absolute;
@@ -75,55 +78,27 @@
   .frame:hover .glare {
     opacity: 1;
   }
-
-  /* Red/cyan split, only in a ring around the glare's edge */
-  .chromaLayer {
-    display: block;
-    filter: url(#hero-chroma);
-    mask-image: radial-gradient(
-      circle var(--hover-size) at calc(var(--x) * 100%) calc(var(--y) * 100%),
-      transparent 25%,
-      #000 50%,
-      #000 70%,
-      transparent
-    );
-    opacity: 0;
-    transition: opacity 0.6s ease;
-  }
-
-  .frame:hover .chromaLayer {
-    opacity: 1;
-  }
 }
 
-/* Shrinks and rounds off as the hero scrolls away, while the photo zooms */
+/* Shrinks as the hero scrolls away, while the photo zooms */
 @supports (animation-timeline: scroll()) {
-  .card {
-    animation: scrollShrink linear both;
-  }
+  @media (prefers-reduced-motion: no-preference) {
+    .card {
+      animation: scrollShrink linear both;
+      /* After the shorthand, which resets these */
+      animation-timeline: scroll(root);
+      animation-range: 0 80vh;
+    }
 
-  /* Faces round, not the card: clipping it would flatten the flip */
-  .clip,
-  .back {
-    animation: scrollRound linear both;
-  }
-
-  /* After the shorthands, which reset these */
-  .card,
-  .clip,
-  .back {
-    animation-timeline: scroll(root);
-    animation-range: 0 80vh;
-  }
-
-  .photo {
-    animation:
-      imageReveal 1.25s 0.25s var(--curve-primary) forwards,
-      scrollZoom linear both;
-    animation-timeline: auto, scroll(root);
-    animation-range:
-      normal,
-      0 80vh;
+    .photo {
+      animation:
+        imageReveal 1.25s 0.25s var(--curve-primary) forwards,
+        scrollZoom linear both;
+      animation-timeline: auto, scroll(root);
+      animation-range:
+        normal,
+        0 80vh;
+    }
   }
 }
 
@@ -133,41 +108,10 @@
   }
 }
 
-@keyframes scrollRound {
-  to {
-    border-radius: 40px;
-  }
-}
-
 @keyframes scrollZoom {
   to {
     scale: 1.15;
   }
-}
-
-/* Click turns the print over to a handwritten back */
-.card {
-  transform-style: preserve-3d;
-  transition: transform 0.9s var(--curve-primary);
-}
-
-.flipped .card {
-  transform: rotateY(180deg);
-}
-
-.clip,
-.back {
-  backface-visibility: hidden;
-}
-
-/* The print's reverse, turned to face out once flipped */
-.back {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  transform: rotateY(180deg);
-  /* Pages size off the card, page and its contents alike */
-  container-type: size;
 }
 
 /* Blurry flakes drift down over the photo while hovering */
@@ -175,7 +119,7 @@
   display: none;
 }
 
-@media (hover: hover) and (pointer: fine) {
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
   .snow {
     display: block;
     position: absolute;
@@ -216,4 +160,20 @@
   to {
     translate: var(--sway) calc(100cqh + 16px);
   }
+}
+
+/* WebGL variants replace the CSS glare and snow */
+.frame:not([data-fx='none']) :is(.glare, .snow) {
+  display: none;
+}
+
+/* WebGL effect layer over the photo, see HeroFx.tsx */
+.fx {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: none;
+  pointer-events: none;
+  /* Shares the photo's reveal, synced to it in HeroFx.tsx */
 }

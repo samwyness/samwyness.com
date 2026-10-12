@@ -60,3 +60,22 @@
     font-size: 20px;
   }
 }
+
+/* CV slot, below the list in its left column */
+.cta {
+  @media (min-width: 768px) {
+    width: calc(50% - 20px);
+  }
+}
+
+.hand {
+  margin-bottom: 16px;
+  color: var(--color-primary);
+  font-family: var(--font-family-hand), cursive;
+  font-size: clamp(32px, 3vw, 40px);
+  line-height: 1;
+}
+
+.cvButton {
+  align-self: flex-start;
+}

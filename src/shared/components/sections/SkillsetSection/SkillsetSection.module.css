@@ -58,14 +58,41 @@
   font-variation-settings: 'wght' 500;
 }
 
-.description {
+.body {
   grid-column: 2;
+
+  @media (min-width: 1024px) {
+    grid-column: auto;
+  }
+}
+
+.description {
   font-size: 18px;
   line-height: 1.25;
   font-variation-settings: 'wght' 400;
 
   @media (min-width: 1024px) {
-    grid-column: auto;
     font-size: 20px;
+  }
+}
+
+.tools {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 12px;
+  list-style: none;
+  opacity: 0.6;
+
+  /* Override global li type */
+  & li {
+    font-size: 16px;
+    line-height: 1.4;
+  }
+
+  /* Separator is decorative so screen readers just get the list */
+  & li:not(:last-child)::after {
+    content: '·';
+    content: '·' / '';
+    margin: 0 0.3em;
   }
 }

@@ -1,9 +1,10 @@
 import { MetadataRoute } from 'next';
+import { SITE_URL } from 'src/shared/constants';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: 'https://samwyness.com',
+      url: SITE_URL,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 1,

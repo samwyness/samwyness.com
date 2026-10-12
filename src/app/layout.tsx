@@ -2,11 +2,9 @@ import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata } from 'next';
 import { Funnel_Display, Reenie_Beanie } from 'next/font/google';
-import { Footer } from 'src/shared/components/layout/Footer/Footer';
-
-import { Cursor } from 'src/shared/components/layout/Cursor';
 import './globals.css';
 import classNames from 'classnames';
+import { SITE_URL } from 'src/shared/constants';
 
 const fontFamilyBase = Funnel_Display({
   variable: '--font-family-base',
@@ -22,7 +20,7 @@ const fontFamilyHand = Reenie_Beanie({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://samwyness.com'),
+  metadataBase: new URL(SITE_URL),
   title: 'Sam Wyness',
   description: 'Software Engineer & Product Designer',
 };
@@ -33,15 +31,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en-AU">
       <body
         className={classNames(
           fontFamilyBase.variable,
           fontFamilyHand.variable,
         )}>
         {children}
-        <Footer />
-        {/* <Cursor /> */}
         <Analytics />
         <SpeedInsights />
       </body>

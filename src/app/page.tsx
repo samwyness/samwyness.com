@@ -1,24 +1,47 @@
 import type { Metadata } from 'next';
+import { Footer } from 'src/shared/components/layout/Footer/Footer';
 import { AboutSection } from 'src/shared/components/sections/AboutSection';
-import { BrandExpertiseSection } from 'src/shared/components/sections/BrandExpertiseSection';
 import { HeroSection } from 'src/shared/components/sections/HeroSection';
 import { HistorySection } from 'src/shared/components/sections/HistorySection';
 import { SkillsetSection } from 'src/shared/components/sections/SkillsetSection';
 import { WorkSection } from 'src/shared/components/sections/WorkSection';
+import { SITE_URL, SOCIAL_LINKS } from 'src/shared/constants';
 import pageData from './page-data.json';
 
+const ROLE = 'Software Engineer & Product Designer';
+const TITLE = `Sam Wyness ~ ${ROLE}`;
+// Under ~155 chars so results don't cut it, and adds to the title rather
+// than repeating it
+const DESCRIPTION =
+  'Designing and building web and mobile apps with Expo, React Native and TypeScript. Based on the Sunshine Coast, Australia. Available for hire.';
+
+// Structured data for name searches
+const PERSON = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Sam Wyness',
+  url: SITE_URL,
+  image: `${SITE_URL}/images/sam-wyness-profile-image.webp`,
+  jobTitle: ROLE,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Sunshine Coast',
+    addressRegion: 'QLD',
+    addressCountry: 'AU',
+  },
+  sameAs: Object.values(SOCIAL_LINKS),
+};
+
 export const metadata: Metadata = {
-  title: 'Sam Wyness ~ Software Engineer & Product Designer',
-  description:
-    "I'm Sam Wyness, a Software Engineer & Product Designer from Sunshine Coast, Australia. I build high-quality web and mobile applications with Expo, React Native, TypeScript, Reanimated, and Figma.",
-  keywords:
-    'Sam Wyness, Software Engineer, Product Designer, Expo, React Native, TypeScript, Figma, Sunshine Coast, Australia',
+  title: TITLE,
+  description: DESCRIPTION,
+  alternates: { canonical: '/' },
   openGraph: {
     type: 'website',
-    url: 'https://samwyness.com',
-    title: 'Sam Wyness ~ Software Engineer & Product Designer',
-    description:
-      "I'm Sam Wyness, a Software Engineer & Product Designer from Sunshine Coast, Australia. I build high-quality web and mobile applications with Expo, React Native, TypeScript, Reanimated, and Figma.",
+    locale: 'en_AU',
+    url: '/',
+    title: TITLE,
+    description: DESCRIPTION,
     siteName: 'Sam Wyness',
   },
   twitter: {
@@ -28,16 +51,22 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <main>
+    <>
+      <script
+        type="application/ld+json"
+        // Escaped so the JSON can't close the script tag
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(PERSON).replace(/</g, '\\u003c'),
+        }}
+      />
       <HeroSection role={pageData.role} />
-      <AboutSection paragraphs={pageData.about} />
-      <WorkSection items={pageData.work} />
-      <SkillsetSection items={pageData.skills} />
-      {/* <BrandExpertiseSection
-        brands={pageData.brands}
-        expertise={pageData.expertise}
-      /> */}
-      <HistorySection items={pageData.experience} />
-    </main>
+      <main>
+        <AboutSection copy={pageData.about} />
+        <WorkSection items={pageData.work} />
+        <SkillsetSection items={pageData.skills} />
+        <HistorySection items={pageData.experience} />
+      </main>
+      <Footer />
+    </>
   );
 }

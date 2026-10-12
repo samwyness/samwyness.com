@@ -11,20 +11,19 @@ import {
 } from 'framer-motion';
 import classNames from 'classnames';
 import { useRef } from 'react';
+import { ScrollOffset } from '../../core/AnimateScrollProgress';
 import styles from './SkillsetSection.module.css';
 
 export type Skill = {
   title: string;
   description: string;
+  tools: string[];
 };
 
 const EASE = cubicBezier(0.33, 1, 0.68, 1);
 
 // 0 as element enters bottom of viewport, 1 once it reaches 55%
-const OFFSET: NonNullable<Parameters<typeof useScroll>[0]>['offset'] = [
-  'start end',
-  'start 0.55',
-];
+const OFFSET: ScrollOffset = ['start end', 'start 0.55'];
 
 type DividerProps = {
   className?: string;
@@ -53,7 +52,13 @@ type SkillRowProps = Skill & {
   isLast: boolean;
 };
 
-function SkillRow({ title, description, number, isLast }: SkillRowProps) {
+function SkillRow({
+  title,
+  description,
+  tools,
+  number,
+  isLast,
+}: SkillRowProps) {
   const ref = useRef<HTMLLIElement>(null);
   const reduceMotion = useReducedMotion();
 
@@ -77,7 +82,14 @@ function SkillRow({ title, description, number, isLast }: SkillRowProps) {
           {String(number).padStart(2, '0')}
         </span>
         <h3 className={styles.title}>{title}</h3>
-        <p className={styles.description}>{description}</p>
+        <div className={styles.body}>
+          <p className={styles.description}>{description}</p>
+          <ul className={styles.tools}>
+            {tools.map(tool => (
+              <li key={tool}>{tool}</li>
+            ))}
+          </ul>
+        </div>
       </motion.div>
     </li>
   );

@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import Image from 'next/image';
 import styles from './Sticker.module.css';
 
@@ -50,10 +51,10 @@ export const STICKER_NAMES = [
   'wine',
 ] as const;
 
-export type StickerName = (typeof STICKER_NAMES)[number];
+type StickerName = (typeof STICKER_NAMES)[number];
 
 /** Offsets from the parent's edges, e.g. { top: '8%', left: '-6%' } */
-export type StickerPosition = Pick<
+type StickerPosition = Pick<
   React.CSSProperties,
   'top' | 'right' | 'bottom' | 'left'
 >;
@@ -89,9 +90,7 @@ export function Sticker({
 }: StickerProps) {
   return (
     <span
-      className={[styles.sticker, still && styles.still, className]
-        .filter(Boolean)
-        .join(' ')}
+      className={classNames(styles.sticker, still && styles.still, className)}
       style={
         {
           '--sticker-rotate': `${rotate}deg`,

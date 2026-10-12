@@ -26,28 +26,27 @@ export function CyclingSticker({
   React.useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    // Warm the cache so each swap doesn't flash empty
-    STICKER_NAMES.forEach(name => {
-      new window.Image().src = `/images/stickers/${name}.svg`;
-    });
-
     // Wait for the 0.5s slap-on to land before flicking through
     let timer: ReturnType<typeof setInterval>;
-    const start = setTimeout(
-      () => {
-        timer = setInterval(
-          () => !paused.current && setTick(t => t + 1),
-          interval * 1000,
-        );
-      },
-      (delay) * 1000,
-    );
+    const start = setTimeout(() => {
+      timer = setInterval(
+        () => !paused.current && setTick(t => t + 1),
+        interval * 1000,
+      );
+    }, delay * 1000);
 
     return () => {
       clearTimeout(start);
       clearInterval(timer);
     };
   }, [delay, interval]);
+
+  // Warm only the next one, so its swap doesn't flash empty
+  React.useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const next = STICKER_NAMES[(tick + 1) % STICKER_NAMES.length];
+    new window.Image().src = `/images/stickers/${next}.svg`;
+  }, [tick]);
 
   const name = STICKER_NAMES[tick % STICKER_NAMES.length];
 

@@ -1,47 +1,72 @@
 {
   "role": "Software Engineer / Product Designer",
-  "about": [
-    "Hi, Sam here. I’m a software engineer based on the Sunshine Coast.",
-    "I build everything from web and mobile apps to design systems and developer tools. The fun part is making the complicated feel simple and the ordinary feel a little more interesting.",
-    "Good engineering makes things work, and good design makes them a pleasure to use. I don't see why you should have to choose."
-  ],
+  "about": {
+    "statement": "10 years building digital products.",
+    "experience": "Lately that's fundraising apps, location-based games, and mapping software. Some I've built on my own, others leading a small team of designers and developers.",
+    "closing": "If ten years has taught me anything, it's that design and engineering were never meant to be a trade-off.",
+    "stats": [
+      {
+        "visual": "hands",
+        "value": "$25M+",
+        "label": "Raised for charity through fundraising apps I've helped build."
+      },
+      {
+        "visual": "orbit",
+        "value": "12B+",
+        "label": "Steps tracked in a single month. That's over 200 laps of the Earth."
+      },
+      {
+        "visual": "hex",
+        "value": "87",
+        "label": "Countries with players claiming turf, all within a year of launch."
+      }
+    ]
+  },
   "work": [
     {
       "title": "MapTag",
       "subtitle": "Mapping Software",
       "role": "Product Design ~ App Development",
-      "timeline": "2026",
       "company": "Mapped Outdoors",
       "image": "/images/work-maptag.webp",
       "link": "",
-      "comingSoon": true
+      "comingSoon": true,
+      "year": "2026",
+      "summary": "Offline maps for measuring boundaries and drawing waypoints.",
+      "tags": ["iOS & Android", "Expo", "Mapbox"]
     },
     {
       "title": "District",
       "subtitle": "The Running Game",
       "role": "Product Design ~ App Development",
-      "timeline": "2025 - 2026",
       "company": "District Technologies",
       "image": "/images/work-district.webp",
-      "link": "https://exploredistrict.com"
+      "link": "https://exploredistrict.com",
+      "year": "2026",
+      "summary": "Run to claim your city in a global turf game.",
+      "tags": ["iOS & Android", "Expo", "Convex", "Mapbox", "H3"]
     },
     {
       "title": "Steptember",
       "subtitle": "Steps for Charity",
       "role": "Product Design ~ App Development",
-      "timeline": "2023 - 2026",
       "company": "Cerebral Palsy Alliance",
       "image": "/images/work-steptember.webp",
-      "link": "https://www.steptember.org.au/app"
+      "link": "https://www.steptember.org.au/app",
+      "year": "2023-2026",
+      "summary": "The fundraising app behind 12B+ steps tracked in a single month.",
+      "tags": ["iOS & Android", "HealthKit", "Health Connect"]
     },
     {
       "title": "Matt Bradley Designs",
       "subtitle": "Building Design & Drafting Studio",
-      "role": "Product Design ~ Website Development",
-      "timeline": "2024",
+      "role": "Product Design ~ Web Development",
       "company": "Matt Bradley Designs",
       "image": "/images/work-matt-bradley-designs.webp",
-      "link": "https://www.mattbradleydesigns.com.au/"
+      "link": "https://www.mattbradleydesigns.com.au/",
+      "year": "2024",
+      "summary": "A quiet, image-led site for a building design and drafting studio.",
+      "tags": ["Web", "Contentful", "Gatsby"]
     }
   ],
   "workArchive": [
@@ -83,20 +108,36 @@
   ],
   "skills": [
     {
-      "title": "Web & App Development",
-      "description": "Turning bold ideas into seamless apps, built to launch, made to scale."
+      "title": "Mobile Apps",
+      "description": "Apps people open every day. I take them from first commit to the App Store, then keep them running.",
+      "tools": [
+        "React Native",
+        "Expo",
+        "Reanimated",
+        "TypeScript",
+        "HealthKit",
+        "Health Connect"
+      ]
     },
     {
-      "title": "Product Design",
-      "description": "Digital products designed with intuitive flow, structure, and usability in mind."
+      "title": "Web Apps & Sites",
+      "description": "I build web apps, dashboards and sites that load fast, read well and actually turn up in search.",
+      "tools": ["Next.js", "React", "TypeScript", "HTML", "CSS"]
     },
     {
-      "title": "Brand & Art Direction",
-      "description": "Identities with a point of view, built to be recognized, remembered and used."
+      "title": "Product & UX Design",
+      "description": "I design knowing what it'll take to build, so what ships matches the mockup.",
+      "tools": ["Figma", "Rive", "Lottie", "Blender"]
     },
     {
-      "title": "UX/UI",
-      "description": "Clear interfaces for real behavior, weird edge cases and every screen in between."
+      "title": "Design Systems",
+      "description": "I set up the components and rules design and code share, so the product stays consistent as it grows.",
+      "tools": ["Figma", "Storybook", "Design Tokens"]
+    },
+    {
+      "title": "Backend & Infrastructure",
+      "description": "I look after the APIs, databases and pipelines behind the app. Unglamorous, but it's why nothing falls over.",
+      "tools": ["Node.js", ".NET", "PostgreSQL", "Convex", "Supabase", "AWS"]
     }
   ],
   "brands": [
@@ -117,35 +158,32 @@
     {
       "role": "Lead Software Engineer",
       "company": "District Technologies (remote)",
-      "period": "Aug 2021 - present"
+      "period": "Apr 2025 - present"
     },
     {
-      "role": "Software Engineer",
+      "role": "Senior Mobile Engineer",
+      "company": "Medenterprises (remote)",
+      "period": "Mar 2024 - May 2025"
+    },
+    {
+      "role": "Senior Software Engineer",
+      "company": "District Technologies (remote)",
+      "period": "Aug 2021 - Apr 2025"
+    },
+    {
+      "role": "Senior Frontend Developer",
       "company": "Youi (remote)",
       "period": "Apr 2020 - Aug 2021"
     },
     {
-      "role": "Frontend Engineer",
+      "role": "Frontend Developer (contract)",
       "company": "RACQ (Brisbane, Australia)",
       "period": "Jun 2019 - Dec 2019"
     },
     {
-      "role": "Frontend Engineer",
-      "company": "miiFile (Sunshine Coast, Australia)",
+      "role": "Frontend Developer",
+      "company": "miiFile & iCompLii (Sunshine Coast, Australia)",
       "period": "May 2016 - Jun 2019"
-    },
-    {
-      "role": "Freelance Creative Developer",
-      "company": "Self-employed",
-      "period": "May 2016 - present"
     }
-  ],
-  "expertise": [
-    "Mobile App Development",
-    "Web Application Development",
-    "Custom Websites + SEO",
-    "Digital Product Design (UI/UX)",
-    "Design Systems",
-    "Cloud Infrastructure"
   ]
 }
