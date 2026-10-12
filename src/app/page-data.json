@@ -1,8 +1,8 @@
 {
-  "role": "Software Engineer / Product Designer",
+  "role": "Software Engineer & Product Designer",
   "about": {
     "statement": "10 years building digital products.",
-    "experience": "Lately that's fundraising apps, location-based games, and mapping software. Some I've built on my own, others leading a small team of designers and developers.",
+    "experience": "Lately that's fundraising apps, location-based games and mapping software. Some I've built on my own, others leading a small team of designers and developers.",
     "closing": "If ten years has taught me anything, it's that design and engineering were never meant to be a trade-off.",
     "stats": [
       {
@@ -69,43 +69,6 @@
       "tags": ["Web", "Contentful", "Gatsby"]
     }
   ],
-  "workArchive": [
-    {
-      "title": "Sands - Walk 100k",
-      "image": "/images/work-sands.png",
-      "link": "https://fundraising.sands.org.uk/event/walk-100k-march-26/app",
-      "completed": "2026",
-      "tags": ["Product Design", "App Development"]
-    },
-    {
-      "title": "Super Swim",
-      "image": "/images/work-super-swim.png",
-      "link": "https://superswim.org.au/app",
-      "completed": "2024, 2025",
-      "tags": ["Product Design", "App Development"]
-    },
-    {
-      "title": "Medworld",
-      "image": "/images/work-medenterprises.png",
-      "link": "https://apps.apple.com/au/app/medworld/id6480072311",
-      "completed": "2024, 2025",
-      "tags": ["App Development"]
-    },
-    {
-      "title": "Tour de Kids",
-      "image": "/images/work-tour-de-kids.png",
-      "link": "https://tourdekids.org.au/app",
-      "completed": "2023",
-      "tags": ["Product Design", "App Development"]
-    },
-    {
-      "title": "Red Bull Takeover",
-      "image": "/images/work-red-bull-takeover.png",
-      "link": "https://www.youtube.com/watch?v=BvBrfXUJbrE",
-      "completed": "2022",
-      "tags": ["App Development"]
-    }
-  ],
   "skills": [
     {
       "title": "Mobile Apps",
@@ -131,7 +94,7 @@
     },
     {
       "title": "Design Systems",
-      "description": "I set up the components and rules design and code share, so the product stays consistent as it grows.",
+      "description": "I set up shared components and rules that keep design and code in step, so the product stays consistent as it grows.",
       "tools": ["Figma", "Storybook", "Design Tokens"]
     },
     {
@@ -139,20 +102,6 @@
       "description": "I look after the APIs, databases and pipelines behind the app. Unglamorous, but it's why nothing falls over.",
       "tools": ["Node.js", ".NET", "PostgreSQL", "Convex", "Supabase", "AWS"]
     }
-  ],
-  "brands": [
-    "District Technologies",
-    "Bearmore",
-    "OliveX",
-    "Medenterprises",
-    "DEFY",
-    "Matt Bradley Designs",
-    "Sands",
-    "Cerebral Palsy Alliance",
-    "Starlight Children's Foundation",
-    "Red Bull",
-    "Yama-Nui Studio",
-    "The Dawn Light"
   ],
   "experience": [
     {
