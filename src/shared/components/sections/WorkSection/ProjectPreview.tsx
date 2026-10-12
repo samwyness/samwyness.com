@@ -4,6 +4,7 @@ import { Mesh, Plane, Program } from 'ogl';
 import React from 'react';
 import {
   createRenderer,
+  ease,
   imageTexture,
   loopWhileVisible,
 } from 'src/shared/utils/gl';
@@ -15,8 +16,8 @@ const OVERHANG = 200;
 const FOLLOW_SCALE = 0.8;
 // Open slot's height to width, --media-height in WorkSection.module.css
 const MEDIA_RATIO = 0.56;
-// How quickly the preview catches its target, per frame
-const EASE = 0.12;
+// How quickly the preview catches its target, per 60fps frame
+const EASE = 0.15;
 // Lag behind the cursor in px, capped so fast flicks don't fold the sheet
 const MAX_LAG = 100;
 const FADE_MS = 300;
@@ -197,7 +198,7 @@ export function ProjectPreview({ activeIndex, onReady }: ProjectPreviewProps) {
       overLink.click();
     };
 
-    const tick = (now: number) => {
+    const tick = (now: number, dt: number) => {
       // New project: fade from whatever is mostly showing now
       if (activeRef.current !== to) {
         from = program.uniforms.uProgress.value > 0.5 ? to : from;
@@ -245,7 +246,8 @@ export function ProjectPreview({ activeIndex, onReady }: ProjectPreviewProps) {
           ]
         : slot;
       // Starts home rather than flying in from the corner
-      rect = rect ? rect.map((v, i) => v + (target[i] - v) * EASE) : target;
+      const k = ease(EASE, dt);
+      rect = rect ? rect.map((v, i) => v + (target[i] - v) * k) : target;
       // Snaps home once within a fraction of a px
       const settled = rect.every((v, i) => Math.abs(target[i] - v) < 0.1);
       if (settled) rect = target;

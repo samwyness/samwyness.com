@@ -5,6 +5,7 @@ import React from 'react';
 import { COLORS } from 'src/shared/constants';
 import {
   createRenderer,
+  ease,
   imageTexture,
   loopWhileVisible,
 } from 'src/shared/utils/gl';
@@ -14,7 +15,7 @@ import { base, RISO_REVEAL, vertex } from './heroFxShaders';
 const WANDER = { x: 0.79, y: 0.6, rx: 0.015, ry: 0.012 };
 // Pause after the photo's reveal before the autopilot opens, ms
 const AUTO_DELAY = 300;
-// Lens catching the cursor per frame
+// Lens catching the cursor, per 60fps frame
 const FOLLOW = 0.2;
 // Glide between the cursor and the autopilot, ms
 const GLIDE_MS = 400;
@@ -168,7 +169,7 @@ export function HeroFx({
       if (e.pointerType !== 'mouse') handleLeave();
     };
 
-    const tick = (now: number) => {
+    const tick = (now: number, dt: number) => {
       if (!loaded) return;
 
       const t = (now - t0) / 1000;
@@ -197,16 +198,16 @@ export function HeroFx({
         mouse.x = glide.x + (aim.x - glide.x) * e;
         mouse.y = glide.y + (aim.y - glide.y) * e;
       } else {
-        mouse.x += (aim.x - mouse.x) * FOLLOW;
-        mouse.y += (aim.y - mouse.y) * FOLLOW;
+        mouse.x += (aim.x - mouse.x) * ease(FOLLOW, dt);
+        mouse.y += (aim.y - mouse.y) * ease(FOLLOW, dt);
       }
-      slip.x += ((active ? aim.x : 0.5) - slip.x) * 0.06;
-      slip.y += ((active ? aim.y : 0.5) - slip.y) * 0.06;
+      slip.x += ((active ? aim.x : 0.5) - slip.x) * ease(0.06, dt);
+      slip.y += ((active ? aim.y : 0.5) - slip.y) * ease(0.06, dt);
 
       // Smaller while following the cursor, full size on the face
       const open = pointer.inside ? FOLLOW_SIZE : auto ? 1 : 0;
-      hover += (open - hover) * 0.08;
-      fadeIn += (1 - fadeIn) * 0.06;
+      hover += (open - hover) * ease(0.08, dt);
+      fadeIn += (1 - fadeIn) * ease(0.06, dt);
       program.uniforms.uTime.value = t;
       program.uniforms.uHover.value = hover;
       program.uniforms.uIn.value = fadeIn;
@@ -242,7 +243,10 @@ export function HeroFx({
           a =>
             a instanceof CSSAnimation && a.animationName === anim.animationName,
         );
-      if (match) anim.startTime = match.startTime;
+      // Not while the photo's is still pending: a null start time freezes the
+      // canvas at its first frame, clipped out of sight. Both then start
+      // together anyway, as on first load
+      if (match?.startTime != null) anim.startTime = match.startTime;
     }
     Promise.all(
       canvas

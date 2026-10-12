@@ -43,15 +43,33 @@ export function imageTexture(
   return texture;
 }
 
-/** Calls tick every frame while el is on screen. Returns a stop function */
-export function loopWhileVisible(el: Element, tick: (now: number) => void) {
+/**
+ * Fraction to move towards a target this frame: k per 60fps frame, scaled by
+ * dt so easing feels the same at 30fps (battery saver) or 120Hz
+ */
+export const ease = (k: number, dt: number) => 1 - (1 - k) ** dt;
+
+/**
+ * Calls tick every frame while el is on screen, with the frame's length in
+ * 60fps frames for ease(). Returns a stop function
+ */
+export function loopWhileVisible(
+  el: Element,
+  tick: (now: number, dt: number) => void,
+) {
   let frame = 0;
+  let last = 0;
   const loop = (now: number) => {
     frame = requestAnimationFrame(loop);
-    tick(now);
+    // Capped, as a background tab pauses frames without leaving the viewport
+    const dt = last ? Math.min(now - last, 50) / (1000 / 60) : 1;
+    last = now;
+    tick(now, dt);
   };
   const visibility = new IntersectionObserver(([entry]) => {
     cancelAnimationFrame(frame);
+    // Resumes with a normal frame rather than catching up on the gap
+    last = 0;
     if (entry.isIntersecting) frame = requestAnimationFrame(loop);
   });
   visibility.observe(el);
