@@ -23,7 +23,7 @@ export function ProjectCta({ link, comingSoon, className }: ProjectCtaProps) {
 
   return (
     <ExternalLink className={classNames('button', className)} href={link}>
-      View project →
+      View project <span aria-hidden>→</span>
     </ExternalLink>
   );
 }
