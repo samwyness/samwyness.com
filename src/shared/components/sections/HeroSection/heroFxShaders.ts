@@ -138,9 +138,9 @@ export const fragment = /* glsl */ `
     vec2 p = vUv * uResolution;
     // Eased towards the cursor in the loop, back to rest on leave
     vec2 slip = (uSlip - 0.5) * 18.0 + vec2(2.0, -1.5);
-    float inkTone = smoothstep(0.5, 0.05, luma(photo(vUv)));
+    float inkTone = 1.0 - smoothstep(0.05, 0.5, luma(photo(vUv)));
     float spotTone =
-      smoothstep(0.95, 0.3, luma(photo(vUv - slip / uResolution))) * 0.9;
+      (1.0 - smoothstep(0.3, 0.95, luma(photo(vUv - slip / uResolution)))) * 0.9;
     float inkDot = halftone(p, 0.785, 4.5, inkTone);
     float spotDot = halftone(p - slip, 0.262, 4.5, spotTone);
 

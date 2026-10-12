@@ -127,13 +127,14 @@ function ProjectMedia({ item }: { item: Project }) {
     return <div className={styles.media}>{image}</div>;
   }
   return (
-    // Out of the tab order, the "View project" button is the same link
+    // Pointer only, the "View project" button is the same link
     <a
       className={styles.media}
       href={item.link}
       target="_blank"
       rel="noopener noreferrer"
-      tabIndex={-1}>
+      tabIndex={-1}
+      aria-hidden="true">
       {image}
     </a>
   );
@@ -152,9 +153,7 @@ export function WorkSection({ items }: WorkSectionProps) {
   const listRef = useBodyHeight();
 
   const details = (item: Project) =>
-    [
-      ['Company', item.company],
-    ].filter(([, value]) => value);
+    [['Company', item.company]].filter(([, value]) => value);
 
   return (
     <Section title="Selected Work" count={items.length}>
