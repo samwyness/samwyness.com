@@ -1,42 +1,36 @@
-import { TextAnimateMask } from '../../core/TextAnimateMask';
-import { Row } from '../../layout/Row';
+import classNames from 'classnames';
+import { ExternalLink } from '../../core/ExternalLink';
 import { Section } from '../../layout/Section';
+import { FocusItem, History, HistoryEntry } from './HistoryEntry';
 import styles from './HistorySection.module.css';
 
 type HistorySectionProps = {
-  items: {
-    role: string;
-    company: string;
-    period: string;
-  }[][];
+  items: History[];
 };
 
 export function HistorySection({ items }: HistorySectionProps) {
   return (
-    <Section title="History">
-      <Row wrap>
+    <Section title="History" count={items.length}>
+      <ol className={styles.list}>
         {items.map((item, index) => (
-          <div key={`experience_${index}`} className={styles.column}>
-            {item.map((data, dataIndex) => (
-              <p key={`role_${data.role}_${dataIndex}`}>
-                <TextAnimateMask>
-                  <strong>{data.role}</strong>
-                  <br />
-                </TextAnimateMask>
-                {data.company && (
-                  <TextAnimateMask>
-                    {data.company}
-                    <br />
-                  </TextAnimateMask>
-                )}
-                <TextAnimateMask>
-                  <span className="text-muted">{data.period}</span>
-                </TextAnimateMask>
-              </p>
-            ))}
-          </div>
+          // Latest role always sharp
+          <HistoryEntry
+            key={`${item.role}_${item.period}`}
+            {...item}
+            animated={index > 0}
+          />
         ))}
-      </Row>
+      </ol>
+
+      {/* Outside the list so it isn't counted as a role, sized as a cell */}
+      <FocusItem as="div" className={classNames(styles.entry, styles.cta)}>
+        <p className={styles.hand}>Looking to hire?</p>
+        <ExternalLink
+          className={classNames('button', styles.cvButton)}
+          href="/sam-wyness-cv.pdf">
+          Download CV
+        </ExternalLink>
+      </FocusItem>
     </Section>
   );
 }

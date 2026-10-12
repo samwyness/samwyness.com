@@ -1,102 +1,199 @@
 .footer {
-  padding-top: 40px;
-  padding-bottom: 40px;
+  /* Footer theme from globals; children follow via surface vars */
+  --color-surface: var(--color-footer-surface);
+  --color-on-surface: var(--color-on-footer-surface);
+
   background: var(--color-surface);
   color: var(--color-on-surface);
-  font-size: 20px;
-  overflow: hidden;
-
-  @media (min-width: 768px) {
-    padding-top: 100px;
-    padding-bottom: 100px;
-  }
-
+  /* clip (not hidden) so it isn't a scroll container for the scroll-driven reveal */
+  overflow: clip;
   border-top: 1px solid currentColor;
-}
 
-.footerContainer {
-  gap: 200px;
-}
-
-.footerGrid {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 20px;
+  @media (max-width: 767px) {
+    padding-bottom: 40px;
+  }
 
   @media (min-width: 1024px) {
-    grid-template-columns: repeat(3, 1fr);
+    padding-top: 80px;
+    padding-bottom: 80px;
   }
 }
 
-.column {
+.content {
   display: flex;
   flex-direction: column;
-}
+  /* Same rhythm as .rowInfo so every mobile block is evenly spaced */
+  gap: 56px;
 
-.columnOffset {
   @media (min-width: 1024px) {
-    grid-column-start: 3;
+    gap: 80px;
   }
 }
 
-.title {
-  display: inline-flex;
-  align-items: center;
-  gap: 20px;
-  font-size: 60px;
-  font-weight: normal;
+.rowHire,
+.rowInfo {
+  flex-direction: column;
+  gap: 56px;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    justify-content: space-between;
+  }
 }
 
-.globeIcon {
-  position: relative;
-  display: inline-flex;
-  width: 48px;
-  height: 48px;
+.rowHire {
+  /* Brand's own padding adds the rest */
+  gap: 20px;
+
+  @media (min-width: 768px) {
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 40px;
+  }
+}
+
+.brand {
+  padding: 10px 0;
+}
+
+.location,
+.motto p {
+  font-size: clamp(18px, 1.6vw, 22px);
+  line-height: 1.2;
+  font-variation-settings: 'wght' 400;
 }
 
 .location {
   display: flex;
+  font-style: normal;
   flex-direction: column;
-  gap: 12px;
+  /* Mobile: match the motto's tight line pair */
+  gap: 2px;
+
+  @media (min-width: 768px) {
+    gap: 8px;
+  }
 }
 
-.footer nav {
-  gap: 40px;
-  margin-top: 20px;
-}
-
-.footer nav p {
-  max-width: 420px;
-}
-
-.navTitle {
-  text-transform: uppercase;
-}
-
-.footer nav ul {
-  list-style: none;
+.motto {
   display: flex;
   flex-direction: column;
-  gap: 40px;
-}
+  align-items: flex-start;
+  gap: 20px;
 
-.footerMeta {
   @media (min-width: 768px) {
-    grid-column-start: 2;
+    align-items: flex-end;
+    text-align: right;
   }
 }
 
-.footerMeta .columnOffset {
-  grid-row-start: 1;
+.signature {
+  display: block;
+  width: 150px;
+  height: 75px;
+  color: var(--color-brand);
 
-  @media (min-width: 1024px) {
-    grid-row-start: initial;
+  /* Pull the ink (not the viewBox padding) flush with the text */
+  @media (max-width: 767px) {
+    margin: -12px 0 -14px -14px;
   }
+}
+
+.rowMeta {
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px 28px;
+
+  /* Mobile: 80px from the content above (56px gap + 24px) */
+  @media (max-width: 767px) {
+    margin-top: 24px;
+  }
+
+  @media (min-width: 768px) {
+    align-items: flex-start;
+  }
+}
+
+.rowMeta,
+.socialLinks li {
+  font-size: 16px;
+  line-height: 1.2;
 }
 
 .socialLinks {
   list-style: none;
   display: flex;
-  flex-direction: row;
-  gap: 40px;
+  gap: 20px;
+  text-transform: uppercase;
+}
+
+.footerWrap {
+  position: relative;
+}
+
+/* Half over the section above, half on the footer */
+.edgeSticker {
+  --sticker-size: 88px;
+  position: absolute;
+  z-index: 1;
+  top: -44px;
+  right: 20px;
+  /* Pivots on its leg so the head dips to peck */
+  transform-origin: 50% 90%;
+
+  &[data-in-view='true'] {
+    /* Lets it sit a beat before the first peck */
+    animation: flamingoPeck 10s 2s ease-in-out infinite;
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    --sticker-size: 120px;
+    top: -60px;
+    right: 80px;
+  }
+}
+
+/* Rocks back, double-pecks forward (head is on the left), then
+   settles into a slow sway */
+@keyframes flamingoPeck {
+  0%,
+  100% {
+    rotate: 0deg;
+  }
+  4% {
+    rotate: 4deg;
+    animation-timing-function: ease-in;
+  }
+  6.5% {
+    rotate: -24deg;
+    animation-timing-function: ease-out;
+  }
+  8.5% {
+    rotate: -14deg;
+    animation-timing-function: ease-in;
+  }
+  10.5% {
+    rotate: -24deg;
+    animation-timing-function: ease-out;
+  }
+  15% {
+    rotate: 4deg;
+  }
+  18% {
+    rotate: -1deg;
+  }
+  21% {
+    rotate: 0deg;
+  }
+  60% {
+    rotate: 2deg;
+  }
+  80% {
+    rotate: -2deg;
+  }
 }

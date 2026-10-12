@@ -1,40 +1,72 @@
 import type { Metadata } from 'next';
-import { BrandExpertiseSection } from 'src/shared/components/sections/BrandExpertiseSection';
-import { FeatureWorkSection } from 'src/shared/components/sections/FeatureWorkSection';
+import { Footer } from 'src/shared/components/layout/Footer/Footer';
+import { AboutSection } from 'src/shared/components/sections/AboutSection';
 import { HeroSection } from 'src/shared/components/sections/HeroSection';
 import { HistorySection } from 'src/shared/components/sections/HistorySection';
+import { SkillsetSection } from 'src/shared/components/sections/SkillsetSection';
+import { WorkSection } from 'src/shared/components/sections/WorkSection';
+import { SITE_URL, SOCIAL_LINKS } from 'src/shared/constants';
 import pageData from './page-data.json';
 
+const ROLE = 'Software Engineer & Product Designer';
+const TITLE = `Sam Wyness ~ ${ROLE}`;
+// Under ~155 chars so results don't cut it, and adds to the title rather
+// than repeating it
+const DESCRIPTION =
+  'Designing and building web and mobile apps with Expo, React Native and TypeScript. Based on the Sunshine Coast, Australia. Available for hire.';
+
+// Structured data for name searches
+const PERSON = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Sam Wyness',
+  url: SITE_URL,
+  image: `${SITE_URL}/images/sam-wyness-profile-image.webp`,
+  jobTitle: ROLE,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Sunshine Coast',
+    addressRegion: 'QLD',
+    addressCountry: 'AU',
+  },
+  sameAs: Object.values(SOCIAL_LINKS),
+};
+
 export const metadata: Metadata = {
-  metadataBase: new URL('https://samwyness.com'),
-  title: 'Sam Wyness ~ Software Engineer & Creative Developer',
-  description: "I'm Sam Wyness, a Software Engineer & Creative Developer from Sunshine Coast, Australia. I design and build high-quality applications with Expo, React Native, TypeScript, Reanimated, and Figma, help brands take their digital ideas from concept to final execution.",
-  keywords: 'Sam Wyness, Software Engineer, Creative Developer, Expo, React Native, TypeScript, Figma, Sunshine Coast, Australia',
+  title: TITLE,
+  description: DESCRIPTION,
+  alternates: { canonical: '/' },
   openGraph: {
     type: 'website',
-    url: 'https://samwyness.com',
-    title: 'Sam Wyness ~ Software Engineer & Creative Developer',
-    description:
-      "I'm Sam Wyness, a Software Engineer & Creative Developer from Sunshine Coast, Australia. I design and build high-quality applications with Expo, React Native, TypeScript, Reanimated, and Figma, help brands take their digital ideas from concept to final execution.",
+    locale: 'en_AU',
+    url: '/',
+    title: TITLE,
+    description: DESCRIPTION,
     siteName: 'Sam Wyness',
-    images: [
-      {
-        url: 'https://samwyness.com/images/og_image.png',
-      },
-    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
   },
 };
 
 export default function Home() {
   return (
-    <main>
-      <HeroSection intro={pageData.intro} />
-      <FeatureWorkSection items={pageData.work} />
-      <BrandExpertiseSection
-        brands={pageData.brands}
-        expertise={pageData.expertise}
+    <>
+      <script
+        type="application/ld+json"
+        // Escaped so the JSON can't close the script tag
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(PERSON).replace(/</g, '\\u003c'),
+        }}
       />
-      <HistorySection items={pageData.experience} />
-    </main>
+      <HeroSection role={pageData.role} />
+      <main>
+        <AboutSection copy={pageData.about} />
+        <WorkSection items={pageData.work} />
+        <SkillsetSection items={pageData.skills} />
+        <HistorySection items={pageData.experience} />
+      </main>
+      <Footer buildYear={new Date().getFullYear()} />
+    </>
   );
 }

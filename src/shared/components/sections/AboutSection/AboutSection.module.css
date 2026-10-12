@@ -1,0 +1,150 @@
+/* Extra height is the locked scroll distance, desktop only as mobile section
+   can outgrow the screen. Reduced motion skips the lock, rows are all shown */
+.pin {
+  position: relative;
+
+  @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+    height: calc(100vh + var(--pin-scroll));
+  }
+}
+
+/* Full screen, content centred, locked until wrapper scrolls past on desktop */
+.section {
+  display: flex;
+  align-items: center;
+  min-height: 100svh;
+
+  @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+    position: sticky;
+    top: 0;
+  }
+
+  @media (min-width: 1024px) {
+    /* Tighter than default so content fits short screens, centring handles the rest */
+    padding-block: 80px;
+  }
+}
+
+.container {
+  gap: 24px;
+}
+
+.layout {
+  display: grid;
+  grid-template-areas:
+    'copy'
+    'stats';
+  gap: 48px;
+
+  @media (min-width: 1024px) {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    grid-template-areas: 'copy stats';
+    gap: 24px 80px;
+    padding-inline: 40px;
+  }
+
+  @media (min-width: 1440px) {
+    column-gap: 120px;
+  }
+}
+
+.copy {
+  grid-area: copy;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Dominant, first thing to land */
+.statement {
+  margin-bottom: 16px;
+  font-size: clamp(32px, 4.4vw, 64px);
+  line-height: 1.1;
+  letter-spacing: 0;
+  text-wrap: balance;
+  font-variation-settings: 'wght' 500;
+}
+
+.body {
+  max-width: 34em;
+  font-size: clamp(18px, 1.6vw, 24px);
+  line-height: 1.4;
+  letter-spacing: 0;
+  font-variation-settings: 'wght' 400;
+}
+
+/* Hairline list, same on every screen */
+.stats {
+  grid-area: stats;
+  align-self: center;
+}
+
+/* Drawing right of the whole row */
+.stat {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    'value visual'
+    'label visual';
+  align-items: center;
+  gap: 4px 16px;
+  padding-block: 12px;
+  border-top: 1px solid var(--color-on-surface-opaque);
+
+  /* Dividers between only */
+  &:first-child {
+    padding-top: 0;
+    border-top: none;
+  }
+
+  @media (min-width: 1024px) {
+    gap: 6px 24px;
+    padding-block: 20px;
+  }
+}
+
+.statValue {
+  grid-area: value;
+  font-variant-numeric: tabular-nums;
+  font-size: clamp(28px, 3.6vw, 56px);
+  line-height: 1;
+  letter-spacing: 0;
+  font-variation-settings: 'wght' 500;
+}
+
+.statLabel {
+  grid-area: label;
+  align-self: start;
+  font-size: clamp(13px, 1.1vw, 16px);
+  line-height: 1.3;
+  letter-spacing: 0;
+}
+
+.statVisual {
+  grid-area: visual;
+  display: flex;
+  width: 64px;
+
+  @media (min-width: 1024px) {
+    width: clamp(52px, 4.4vw, 72px);
+  }
+
+  svg {
+    width: 100%;
+    height: auto;
+  }
+}
+
+/* Linocut layers, themed so they work in light and dark */
+.ink {
+  fill: var(--color-on-surface);
+}
+
+.carve {
+  fill: var(--color-surface);
+}
+
+.accent {
+  fill: var(--color-brand);
+}

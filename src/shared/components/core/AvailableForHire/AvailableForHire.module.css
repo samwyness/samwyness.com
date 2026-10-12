@@ -1,40 +1,44 @@
 .availableForHire {
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
-  gap: 16px;
-  font-size: 20px;
+  gap: 12px;
+  font-size: 18px;
 }
 
 .blinker {
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
+  /* Dot flush left; pulse ring spills into the gutter */
+  margin: 10px 4px 10px 0;
   background-color: var(--color-blinker);
   border-radius: 50%;
-  box-shadow: 0 0 0 0 var(--color-blinker);
-  transform: scale(1);
-  animation-name: pulse-green;
-  animation-duration: 1.6s;
-  animation-iteration-count: infinite;
+  animation: pulse 1.6s infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
 }
 
 .text {
-  margin-right: 16px;
+  margin-right: 20px;
+  font-variation-settings: 'wght' 500;
 }
 
-@keyframes pulse-green {
+@keyframes pulse {
   0% {
     transform: scale(0.9);
-    box-shadow: 0 0 0 0 rgba(var(--color-blinker-rgb), 0.7);
+    box-shadow: 0 0 0 0
+      color-mix(in srgb, var(--color-blinker) 70%, transparent);
   }
 
   70% {
     transform: scale(1);
-    box-shadow: 0 0 0 16px rgba(var(--color-blinker-rgb), 0);
+    box-shadow: 0 0 0 13px transparent;
   }
+
   100% {
     transform: scale(0.9);
-    box-shadow: 0 0 0 0 rgba(var(--color-blinker-rgb), 0);
+    box-shadow: 0 0 0 0 transparent;
   }
 }

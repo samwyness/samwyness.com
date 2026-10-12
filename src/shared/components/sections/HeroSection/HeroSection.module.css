@@ -1,93 +1,166 @@
+/* Side by side from 1024px, but portrait screens keep the stacked layout
+   until 1440px: "desktop" in comments below means that query */
 .sectionHero {
+  /* One padding all round, top/bottom matching the side gutters */
+  --hero-pad: 20px;
   position: relative;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  overflow: hidden;
-  padding-top: 40px;
-  padding-bottom: 40px;
+  width: 100%;
+  /* A touch under full height below desktop, so the next section peeks */
+  min-height: 96vh;
+  min-height: 96svh;
+  padding: var(--hero-pad);
+  /* Clip here, not on container, so the photo tilt has room */
+  overflow: clip;
+  font-size: 20px;
   pointer-events: all;
 
   @media (min-width: 768px) {
-    min-height: calc(100vh - 130px);
-    justify-content: flex-end;
-    padding-top: 0;
-    padding-bottom: 60px;
+    --hero-pad: 40px;
   }
 
   @media (min-width: 1440px) {
-    min-height: calc(100vh - 190px);
-    padding-bottom: 100px;
+    --hero-pad: 60px;
+  }
+
+  @media (min-width: 1024px) and (orientation: landscape), (min-width: 1440px) {
+    min-height: 100vh;
+    min-height: 100svh;
   }
 }
 
+/* Own layout, not the shared Container (gutters come from the section) */
 .container {
-  gap: 40px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
 }
 
 .row {
+  flex: 1;
   flex-direction: column;
-  align-items: flex-end;
-  justify-content: space-between;
+  align-items: stretch;
   gap: 40px;
 
-  @media (min-width: 1280px) {
+  @media (min-width: 1024px) and (orientation: landscape), (min-width: 1440px) {
     flex-direction: row;
   }
 }
 
 .columnLeft,
-.columnRight {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 100%;
-  gap: 40px;
+.columnRight,
+.intro {
+  /* Flatten below desktop so role can sit below image */
+  display: contents;
+
+  @media (min-width: 1024px) and (orientation: landscape), (min-width: 1440px) {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.columnLeft {
+  @media (min-width: 1024px) and (orientation: landscape), (min-width: 1440px) {
+    flex: 1;
+    min-width: 0;
+    justify-content: space-between;
+    gap: 40px;
+    /* Title scales to whatever width the full-height photo leaves */
+    container-type: inline-size;
+  }
+}
+
+/* Below desktop, header stays at top and the rest drops to the bottom */
+.header {
+  @media (max-width: 1023px), (max-width: 1439px) and (orientation: portrait) {
+    margin-bottom: auto;
+  }
+}
+
+.intro {
+  @media (min-width: 1024px) and (orientation: landscape), (min-width: 1440px) {
+    gap: 66px;
+  }
 }
 
 .columnRight {
-  @media (min-width: 1280px) {
-    max-width: 320px;
+  @media (min-width: 1024px) and (orientation: landscape), (min-width: 1440px) {
+    /* Always full viewport height; 450:638 width, capped so title keeps room
+       (cover crops if capped) */
+    flex: none;
+    height: calc(100svh - var(--hero-pad) * 2);
+    width: min(calc((100svh - var(--hero-pad) * 2) * 450 / 638), 45vw);
   }
+}
 
-  @media (min-width: 1440px) {
-    max-width: 420px;
-  }
+/* Title size lives here so the sticker can size and place itself in em */
+.titleWrap {
+  position: relative;
+  font-size: clamp(70px, 13.5vw, 100px);
 
-  @media (min-width: 2500px) {
-    max-width: 520px;
+  @media (min-width: 1024px) and (orientation: landscape), (min-width: 1440px) {
+    /* 180px in a 710px column at 1440 (design) */
+    font-size: clamp(64px, 25.4cqi, 180px);
   }
 }
 
 .title {
+  /* Override browser h1 2em; size comes from .titleWrap */
+  font-size: 1em;
   line-height: 0.85;
-  font-size: 280px;
-  font-size: clamp(70px, 13.5vw, 100px);
-  font-variation-settings: 'wght' 600;
-  text-transform: uppercase;
+  font-variation-settings: 'wght' 700;
+  /* Wyness (~4em bold) fits, Sam + Wyness (~6.4em) never does: always 2 lines */
+  max-width: 5em;
 
-  @media (min-width: 1024px) {
-    font-size: clamp(140px, 12.5vw, 420px);
+  @media (min-width: 1024px) and (orientation: landscape), (min-width: 1440px) {
+    line-height: 0.88;
+  }
+}
+
+/* Slapped on in front of "Sam", which is indented to make room */
+.sticker {
+  --sticker-size: 0.75em;
+  position: absolute;
+  top: 0.04em;
+  left: 0;
+
+  @media (min-width: 1024px) and (orientation: landscape), (min-width: 1440px) {
+    top: 0em;
   }
 }
 
 .title > span:first-child {
-  clip-path: inset(0% 100% 0% 0%);
-  animation: titleReveal 0.75s 1s var(--curve-primary) forwards;
-}
+  padding-left: 0.88em;
 
-.title > span:last-child {
-  clip-path: inset(0% 0% 0% 100%);
-  animation: title2Reveal 1s 1s var(--curve-primary) forwards;
-}
-
-@keyframes titleReveal {
-  100% {
-    clip-path: inset(0 0 0 0);
+  /* Starts flush with "Wyness", then slides right to make room just before
+     the sticker (delay 2s in HeroSection.tsx) slaps on */
+  @media (prefers-reduced-motion: no-preference) {
+    clip-path: inset(0% 100% 0% 0%);
+    translate: -0.88em 0;
+    animation:
+      reveal 0.75s 1s var(--curve-primary) forwards,
+      stickerPush 0.6s 1.75s var(--curve-primary) forwards;
   }
 }
 
-@keyframes title2Reveal {
+@keyframes stickerPush {
+  100% {
+    translate: 0 0;
+  }
+}
+
+.title > span:last-child {
+  @media (prefers-reduced-motion: no-preference) {
+    clip-path: inset(0% 0% 0% 100%);
+    animation: reveal 1s 1s var(--curve-primary) forwards;
+  }
+}
+
+/* End state only, each element sets its own starting clip. Reduced motion
+   skips the intro, so everything starts revealed */
+@keyframes reveal {
   100% {
     clip-path: inset(0 0 0 0);
   }
@@ -95,62 +168,75 @@
 
 .title > span {
   display: inline-block;
+  /* Room for descenders inside clip-path/mask box, without shifting layout */
+  padding-bottom: 0.2em;
+  margin-bottom: -0.2em;
 
-  @media (max-width: 1279px) {
+  /* Scroll mask only on desktop layout */
+  @media (max-width: 1023px), (max-width: 1439px) and (orientation: portrait) {
     --scroll-progress: 100% !important;
   }
 }
 
 .title > span:nth-child(2) {
-  font-variation-settings: 'wght' 300;
+  font-variation-settings: 'wght' 400;
 }
 
-.title i {
-  margin-right: 12px;
+.role {
+  order: 1;
+  /* Grows with big tablets in the stacked layout: 20px on phones, ~31px on
+     a 1024px-wide portrait iPad */
+  font-size: clamp(20px, 3vw, 32px);
+  /* Tight, as it wraps to two lines on phones */
+  line-height: 1.3;
+
+  @media (prefers-reduced-motion: no-preference) {
+    clip-path: inset(0% 0% 0% 100%);
+    animation: reveal 0.75s 1s var(--curve-primary) forwards;
+  }
+
+  @media (min-width: 1024px) and (orientation: landscape), (min-width: 1440px) {
+    order: 0;
+    padding: 0 4px;
+    /* Off the column, not the viewport, so it stays on one line however
+       much room the photo leaves (the role is ~18.2em wide) */
+    font-size: clamp(16px, 5.2cqi, 32px);
+    line-height: normal;
+    font-variation-settings: 'wght' 400;
+  }
 }
 
-.title > span > span > span {
-  font-size: 0.5em;
-  font-variation-settings: 'wght' 600;
+.hire {
+  order: 2;
+
+  @media (prefers-reduced-motion: no-preference) {
+    opacity: 0;
+    animation: fadeIn 0.75s 1.25s var(--curve-primary) forwards;
+  }
+
+  @media (min-width: 768px) {
+    display: none;
+  }
+}
+
+@keyframes fadeIn {
+  100% {
+    opacity: 1;
+  }
 }
 
 .imageContainer {
   display: block;
   position: relative;
   width: 100%;
-  height: 55vh;
-  max-height: 380px;
-  transform: perspective(1000px) rotateX(var(--rotateX)) rotateY(var(--rotateY))
-    translateZ(var(--translateZ));
+  /* Below desktop, takes whatever height the hero has left over; the floor
+     keeps it a photo on short screens, which then scroll */
+  flex: 1 0 auto;
+  min-height: 300px;
 
-  @media (min-width: 1440px) {
-    max-height: 720px;
-  }
-}
-
-.imageContainer img {
-  filter: saturate(var(--scroll-progress));
-  object-fit: cover;
-  object-position: center 80%;
-  background-color: var(--color-surface-container);
-  clip-path: inset(100% 10% 20% 10%);
-  animation: imageReveal 1.25s 0.25s var(--curve-primary) forwards;
-}
-
-@keyframes imageReveal {
-  100% {
-    clip-path: inset(0 0 0 0);
-  }
-}
-
-.description {
-  text-align: justify;
-  clip-path: inset(0% 0% 0% 100%);
-  animation: textReveal 0.75s 1s var(--curve-primary) forwards;
-}
-
-@keyframes textReveal {
-  100% {
-    clip-path: inset(0 0 0 0);
+  @media (min-width: 1024px) and (orientation: landscape), (min-width: 1440px) {
+    flex: none;
+    height: 100%;
+    min-height: 0;
   }
 }

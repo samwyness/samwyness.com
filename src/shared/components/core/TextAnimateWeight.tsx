@@ -4,22 +4,30 @@ import {
   LazyMotion,
   domAnimation,
   m as motion,
-  useScroll,
   useTransform,
 } from 'framer-motion';
 import React from 'react';
-import { AnimateScrollProgressProps } from './AnimateScrollProgress';
+import {
+  ScrollProgressOptions,
+  useScrollProgress,
+} from './AnimateScrollProgress';
+import { useReducedMotion } from '../../hooks/useReducedMotion';
+
+type TextAnimateWeightProps = ScrollProgressOptions & {
+  inputRange?: number[];
+  /** font-variation-settings values */
+  outputRange?: string[];
+  children: React.ReactNode;
+};
 
 export function TextAnimateWeight({
   inputRange = [0, 0.25],
   outputRange = [`'wght' 600`, `'wght' 300`],
   children,
-}: AnimateScrollProgressProps) {
-  const ref = React.useRef<HTMLSpanElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['end end', 'start start'],
-  });
+  ...scroll
+}: TextAnimateWeightProps) {
+  const reduceMotion = useReducedMotion();
+  const { ref, scrollYProgress } = useScrollProgress<HTMLSpanElement>(scroll);
 
   const fontVariationSettings = useTransform(
     scrollYProgress,
@@ -29,7 +37,16 @@ export function TextAnimateWeight({
 
   return (
     <LazyMotion features={domAnimation}>
-      <motion.span ref={ref} style={{ fontVariationSettings }}>
+      {/* Reduced motion keeps the CSS weight. Inherit rather than undefined,
+          which would leave the hydrated start weight behind */}
+      <motion.span
+        ref={ref}
+        data-motion-start="weight"
+        style={{
+          fontVariationSettings: reduceMotion
+            ? 'inherit'
+            : fontVariationSettings,
+        }}>
         {children}
       </motion.span>
     </LazyMotion>

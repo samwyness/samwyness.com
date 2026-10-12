@@ -1,118 +1,134 @@
 {
-  "intro": "I help brands take their digital ideas from concept to final execution. Over the years I've worn many hats, and worked on a wide range of products across multiple platforms.",
+  "role": "Software Engineer & Product Designer",
+  "about": {
+    "statement": "10 years building digital products.",
+    "experience": "Lately that's fundraising apps, location-based games and mapping software. I've worked on both sides of the product, from shaping how it looks and feels to engineering how it works. Sometimes independently, sometimes leading a small team.",
+    "closing": "If ten years has taught me anything, it's that design and engineering were never meant to be a trade-off.",
+    "stats": [
+      {
+        "visual": "hands",
+        "value": "$25M+",
+        "label": "Raised for charity through fundraising apps I've engineered and shipped."
+      },
+      {
+        "visual": "orbit",
+        "value": "12B+",
+        "label": "Steps tracked in a single month through an app I built. That's over 200 laps of the Earth."
+      },
+      {
+        "visual": "hex",
+        "value": "87",
+        "label": "Countries with players claiming turf in a game I designed, within its first year."
+      }
+    ]
+  },
   "work": [
     {
-      "title": "District",
-      "image": "/images/work-district.png",
-      "link": "https://exploredistrict.com",
-      "completed": "2026",
-      "tags": ["Product Design", "App Development"]
+      "title": "MapTag",
+      "subtitle": "Mapping Software",
+      "company": "Mapped Outdoors",
+      "image": "/images/work-maptag.webp",
+      "link": "",
+      "comingSoon": true,
+      "year": "2026",
+      "summary": "Building an offline-first mapping tool for measuring land, mapping boundaries, and tagging locations.",
+      "tags": ["iOS & Android", "Expo", "Mapbox"]
     },
     {
-      "title": "Sands - Walk 100k",
-      "image": "/images/work-sands.png",
-      "link": "https://fundraising.sands.org.uk/event/walk-100k-march-26/app",
-      "completed": "2026",
-      "tags": ["Product Design", "App Development"]
+      "title": "District",
+      "subtitle": "The Running Game",
+      "company": "District Technologies",
+      "image": "/images/work-district.webp",
+      "link": "https://exploredistrict.com",
+      "year": "2026",
+      "summary": "Led the design and engineering of a location-based movement game, now played across 87 countries.",
+      "tags": ["iOS & Android", "Expo", "Convex", "Mapbox", "H3"]
     },
     {
       "title": "Steptember",
-      "image": "/images/work-steptember.png",
+      "subtitle": "Steps for Charity",
+      "company": "Cerebral Palsy Alliance",
+      "image": "/images/work-steptember.webp",
       "link": "https://www.steptember.org.au/app",
-      "completed": "2023, 2024, 2025",
-      "tags": ["Product Design", "App Development"]
-    },
-    {
-      "title": "Super Swim",
-      "image": "/images/work-super-swim.png",
-      "link": "https://superswim.org.au/app",
-      "completed": "2024, 2025",
-      "tags": ["Product Design", "App Development"]
-    },
-    {
-      "title": "Medworld",
-      "image": "/images/work-medenterprises.png",
-      "link": "https://apps.apple.com/au/app/medworld/id6480072311",
-      "completed": "2024, 2025",
-      "tags": ["App Development"]
+      "year": "2023-2026",
+      "summary": "Built and shipped a charity fundraising app that tracked over 12 billion steps in a single month.",
+      "tags": ["iOS & Android", "HealthKit", "Health Connect"]
     },
     {
       "title": "Matt Bradley Designs",
-      "image": "/images/work-matt-bradley-designs.png",
+      "subtitle": "Building Design & Drafting Studio",
+      "company": "Matt Bradley Designs",
+      "image": "/images/work-matt-bradley-designs.webp",
       "link": "https://www.mattbradleydesigns.com.au/",
-      "completed": "2024",
-      "tags": ["Product Design", "Website Development"]
-    },
-    {
-      "title": "Tour de Kids",
-      "image": "/images/work-tour-de-kids.png",
-      "link": "https://tourdekids.org.au/app",
-      "completed": "2023",
-      "tags": ["Product Design", "App Development"]
-    },
-    {
-      "title": "Red Bull Takeover",
-      "image": "/images/work-red-bull-takeover.png",
-      "link": "https://www.youtube.com/watch?v=BvBrfXUJbrE",
-      "completed": "2022",
-      "tags": ["App Development"]
+      "year": "2024",
+      "summary": "Designed and developed an image-led website that lets the studio's architectural work speak for itself.",
+      "tags": ["Web", "Contentful", "Gatsby"]
     }
   ],
-  "brands": [
-    "District Technologies",
-    "Bearmore",
-    "OliveX",
-    "Medenterprises",
-    "DEFY",
-    "Matt Bradley Designs",
-    "Cerebral Palsy Alliance",
-    "Starlight Children's Foundation",
-    "Red Bull",
-    "Yama-Nui Studio",
-    "The Dawn Light"
+  "skills": [
+    {
+      "title": "Mobile Apps",
+      "description": "Apps people open every day. I take them from first commit to the App Store, then keep them running.",
+      "tools": [
+        "React Native",
+        "Expo",
+        "Reanimated",
+        "TypeScript",
+        "HealthKit",
+        "Health Connect"
+      ]
+    },
+    {
+      "title": "Web Apps & Sites",
+      "description": "I build web apps, dashboards and sites that load fast, read well and actually turn up in search.",
+      "tools": ["Next.js", "React", "TypeScript", "HTML", "CSS"]
+    },
+    {
+      "title": "Product & UX Design",
+      "description": "I design knowing what it'll take to build, so what ships matches the mockup.",
+      "tools": ["Figma", "Rive", "Lottie", "Blender"]
+    },
+    {
+      "title": "Design Systems",
+      "description": "Shared components, design tokens and patterns that keep design and development in sync as products grow.",
+      "tools": ["Figma", "Storybook", "Design Tokens"]
+    },
+    {
+      "title": "Backend & Infrastructure",
+      "description": "I architect and build the systems behind the scenes. APIs, databases and cloud infrastructure. The stuff that keeps everything running.",
+      "tools": ["Node.js", ".NET", "PostgreSQL", "Convex", "Supabase", "AWS"]
+    }
   ],
   "experience": [
-    [
-      {
-        "role": "Lead Software Engineer",
-        "company": "at District Technologies (remote)",
-        "period": "Aug 2021 - present"
-      },
-      {
-        "role": "Senior Software Engineer",
-        "company": "at Medenterprises (remote)",
-        "period": "Mar 2024 - Apr 2025"
-      },
-      {
-        "role": "Senior Software Engineer",
-        "company": "at Youi (remote)",
-        "period": "Apr 2020 - Aug 2021"
-      }
-    ],
-    [
-      {
-        "role": "Frontend Engineer",
-        "company": "at RACQ (Brisbane, Australia)",
-        "period": "Jun 2019 - Dec 2019"
-      },
-      {
-        "role": "Frontend Engineer",
-        "company": "at miiFile (Sunshine Coast, Australia)",
-        "period": "May 2016 - Jun 2019"
-      },
-      {
-        "role": "Freelance Creative Developer",
-        "company": "",
-        "period": "May 2016 - present"
-      }
-    ]
-  ],
-  "expertise": [
-    "Mobile App Development",
-    "Web Application Development",
-    "Custom Websites + SEO",
-    "Digital Product Design (UI/UX)",
-    "Design Systems",
-    "Cloud Infrastructure"
+    {
+      "role": "Lead Software Engineer",
+      "company": "District Technologies (remote)",
+      "period": "Apr 2025 - present"
+    },
+    {
+      "role": "Senior Mobile Engineer",
+      "company": "Medenterprises (remote)",
+      "period": "Mar 2024 - May 2025"
+    },
+    {
+      "role": "Senior Software Engineer",
+      "company": "District Technologies (remote)",
+      "period": "Aug 2021 - Apr 2025"
+    },
+    {
+      "role": "Senior Frontend Developer",
+      "company": "Youi (remote)",
+      "period": "Apr 2020 - Aug 2021"
+    },
+    {
+      "role": "Frontend Developer (contract)",
+      "company": "RACQ (Brisbane, Australia)",
+      "period": "Jun 2019 - Dec 2019"
+    },
+    {
+      "role": "Frontend Developer",
+      "company": "miiFile & iCompLii (Sunshine Coast, Australia)",
+      "period": "May 2016 - Jun 2019"
+    }
   ]
 }

@@ -1,0 +1,102 @@
+.frame {
+  /* Cursor position 0–1, set on pointer move in HeroPhoto.tsx */
+  --x: 0.5;
+  --y: 0.5;
+  position: relative;
+  /* Dragging over the photo steers the lens, rather than selecting it */
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* Touch drags the lens in the split layout, see HeroFx.tsx, rather than
+   scrolling */
+@media (min-width: 1024px) and (orientation: landscape), (min-width: 1440px) {
+  .frame {
+    touch-action: none;
+  }
+}
+
+/* Clips the drift */
+.card,
+.clip,
+.drift {
+  position: absolute;
+  inset: 0;
+}
+
+.clip {
+  overflow: hidden;
+}
+
+.photo {
+  object-fit: cover;
+  object-position: center right;
+  background-color: var(--color-surface-container);
+
+  @media (prefers-reduced-motion: no-preference) {
+    clip-path: inset(100% 10% 20% 10%);
+    animation: imageReveal 1.25s 0.25s var(--curve-primary) forwards;
+  }
+}
+
+@keyframes imageReveal {
+  100% {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .drift {
+    transform: translate(
+        calc((0.5 - var(--x)) * 16px),
+        calc((0.5 - var(--y)) * 16px)
+      )
+      scale(1.04);
+    transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+/* Shrinks as the hero scrolls away, while the photo zooms */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .card {
+      animation: scrollShrink linear both;
+      /* After the shorthand, which resets these */
+      animation-timeline: scroll(root);
+      animation-range: 0 80vh;
+    }
+
+    .photo {
+      animation:
+        imageReveal 1.25s 0.25s var(--curve-primary) forwards,
+        scrollZoom linear both;
+      animation-timeline: auto, scroll(root);
+      animation-range:
+        normal,
+        0 80vh;
+    }
+  }
+}
+
+@keyframes scrollShrink {
+  to {
+    scale: 0.92;
+  }
+}
+
+@keyframes scrollZoom {
+  to {
+    scale: 1.15;
+  }
+}
+
+/* WebGL effect layer over the photo, see HeroFx.tsx */
+.fx {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: none;
+  pointer-events: none;
+  /* Shares the photo's reveal via .photo */
+}

@@ -11,5 +11,10 @@
     );
     background-size: var(--scroll-progress) 100%;
     -webkit-text-fill-color: var(--color-on-surface-opaque);
+
+    /* Full text, no scroll reveal */
+    @media (prefers-reduced-motion: reduce) {
+      -webkit-text-fill-color: var(--color-on-surface);
+    }
   }
 }

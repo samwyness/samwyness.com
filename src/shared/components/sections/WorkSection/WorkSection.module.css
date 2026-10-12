@@ -1,0 +1,311 @@
+.list {
+  border-top: 1px solid var(--color-outline);
+
+  @media (min-width: 1024px) {
+    /* Year column fits "Coming soon", button column the button. Fixed, as
+       the panel shares these columns without a button in it */
+    --cols: minmax(0, 1fr) minmax(0, 1fr) calc(110px + var(--gap) / 2)
+      170px;
+    --gap: 24px;
+    --media-width: clamp(320px, 30vw, 500px);
+    --media-height: calc(var(--media-width) * 0.56);
+    /* Room for the tallest body where the image is short, measured in
+       useBodyHeight */
+    --panel-height: max(var(--media-height), var(--body-height, 230px));
+    /* padding 56 + title and subtitle 64 */
+    --line-height: 120px;
+
+    /* Fixed height, so rows swapping never shift the page or resize the
+       preview canvas. + borders and panel padding */
+    display: flex;
+    flex-direction: column;
+    height: calc(
+      var(--count) * (var(--line-height) + 1px) + var(--panel-height) + 33px
+    );
+  }
+
+  /* Touch: no hover to open rows, so all stay open */
+  @media (min-width: 1024px) and (pointer: coarse) {
+    height: auto;
+  }
+
+  @media (min-width: 1280px) {
+    --gap: 32px;
+    /* padding 56 + button 50, the tallest in the line */
+    --line-height: 106px;
+  }
+}
+
+.row {
+  border-bottom: 1px solid var(--color-outline);
+
+  @media (min-width: 1024px) {
+    flex: none;
+  }
+}
+
+/* Mobile: title row, subtitle and button beneath */
+.line {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    'title year'
+    'subtitle subtitle'
+    'cta cta';
+  align-items: baseline;
+  gap: 8px 16px;
+  padding: 28px 0;
+
+  @media (min-width: 1024px) {
+    grid-template-columns: var(--cols);
+    grid-template-areas:
+      'title . year cta'
+      'subtitle . year cta';
+    align-content: center;
+    align-items: center;
+    gap: 4px var(--gap);
+    height: var(--line-height);
+  }
+
+  @media (min-width: 1280px) {
+    grid-template-areas: 'title subtitle year cta';
+    gap: var(--gap);
+  }
+}
+
+.title {
+  grid-area: title;
+  font-size: clamp(28px, 2.6vw, 40px);
+  line-height: 1.25;
+  font-variation-settings: 'wght' 500;
+
+  @media (min-width: 1024px) {
+    /* May run a few px into the gap near 1024, the next column is clear */
+    white-space: nowrap;
+  }
+}
+
+.subtitle {
+  grid-area: subtitle;
+  font-size: 18px;
+  opacity: 0.6;
+
+  @media (min-width: 1024px) {
+    /* Like the title, may run into the clear column near 1024 */
+    white-space: nowrap;
+  }
+
+  @media (min-width: 1280px) {
+    font-size: 20px;
+  }
+}
+
+.year {
+  grid-area: year;
+  font-size: 16px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  opacity: 0.6;
+
+  @media (min-width: 1024px) {
+    justify-self: end;
+    /* 1.5x gap before the button */
+    margin-right: calc(var(--gap) / 2);
+  }
+}
+
+.cta {
+  grid-area: cta;
+  justify-self: start;
+  margin-top: 12px;
+
+  @media (min-width: 1024px) {
+    justify-self: end;
+    margin-top: 0;
+  }
+}
+
+/* Subtitle to year, plus half a gap each side, clear of the details and
+   buttons. Only its width is used */
+.zone {
+  display: none;
+
+  @media (min-width: 1024px) {
+    display: block;
+    grid-row: 1 / -1;
+    /* Second and year columns */
+    grid-column: 2 / 4;
+    margin: 0 calc(var(--gap) / -2);
+    pointer-events: none;
+  }
+}
+
+/* Mobile: always open, image first */
+.panel {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 24px;
+  padding-bottom: 32px;
+
+  @media (min-width: 1024px) {
+    display: grid;
+    /* Line's columns: details kept under the title, clear of the preview's
+       zone, image pinned right at its original size */
+    grid-template-columns: var(--cols);
+    /* Media fills the animating height so it opens with the row */
+    grid-template-rows: minmax(0, 1fr);
+    gap: var(--gap);
+    /* --open eases in JS, see useOpenRows */
+    height: calc(var(--open) * (var(--panel-height) + 32px));
+    padding-bottom: calc(var(--open) * 32px);
+    overflow: hidden;
+  }
+}
+
+/* Summary and chips up top, details level with the image's bottom edge */
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  @media (min-width: 1024px) {
+    grid-column: 1;
+    justify-content: space-between;
+    /* Full height while opening, the panel clips it. Shrinking with the
+       panel would slide the details down as the row settles */
+    height: var(--panel-height);
+    opacity: var(--open);
+  }
+}
+
+/* Hidden in the stacked layout, the line and details are enough there */
+.intro {
+  display: none;
+  flex-direction: column;
+  gap: 20px;
+
+  @media (min-width: 1024px) {
+    display: flex;
+  }
+}
+
+.summary {
+  max-width: 32ch;
+  font-size: 20px;
+  line-height: 1.4;
+
+  @media (min-width: 768px) {
+    font-size: 18px;
+  }
+
+  @media (min-width: 1024px) {
+    /* The column keeps it to a readable measure */
+    max-width: none;
+  }
+
+  @media (min-width: 1280px) {
+    font-size: 22px;
+  }
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+
+  & li {
+    padding: 4px 12px;
+    border: 1px solid var(--color-outline);
+    border-radius: 99px;
+    font-size: 14px;
+    line-height: 1.25;
+  }
+}
+
+.details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 48px;
+
+  & > div {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  & dt {
+    font-size: 14px;
+    text-transform: uppercase;
+    font-variation-settings: 'wght' 700;
+  }
+
+  & dd {
+    font-size: 16px;
+  }
+}
+
+.media {
+  position: relative;
+  display: block;
+  width: 100%;
+  /* Phone width, so tablets don't get a giant image */
+  max-width: 560px;
+  aspect-ratio: 500 / 280;
+  overflow: hidden;
+  background-color: var(--color-surface-container);
+
+  @media (min-width: 1024px) {
+    grid-column: 2 / -1;
+    justify-self: end;
+    /* Fills the panel's height. Where the details set that height, widened
+       to keep the image's ratio */
+    width: max(var(--media-width), calc(var(--panel-height) / 0.56));
+    max-width: none;
+    aspect-ratio: auto;
+    min-height: 0;
+  }
+}
+
+.media img {
+  object-fit: cover;
+}
+
+/* Before JS takes over */
+.row {
+  --open: 0;
+}
+
+.active {
+  --open: 1;
+}
+
+/* Over the inline --open from useOpenRows */
+@media (min-width: 1024px) and (pointer: coarse) {
+  .row {
+    --open: 1 !important;
+  }
+}
+
+/* WebGL preview over the list (in .listWrap), see ProjectPreview.tsx */
+.preview {
+  display: none;
+
+  @media (min-width: 1024px) and (pointer: fine) {
+    display: block;
+    position: absolute;
+    z-index: 1;
+    pointer-events: none;
+  }
+}
+
+@media (min-width: 1024px) and (pointer: fine) {
+  .listWrap {
+    position: relative;
+  }
+
+  /* Slot stays as the GL preview's home, GL draws the image */
+  .listWrap[data-gl] .media {
+    visibility: hidden;
+  }
+}
