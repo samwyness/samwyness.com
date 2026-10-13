@@ -54,7 +54,7 @@ export function HeroSection({ role }: HeroSectionProps) {
                 </h1>
                 <CyclingSticker
                   rotate={10}
-                  delay={2}
+                  delay={1.75}
                   className={styles.sticker}
                 />
               </div>

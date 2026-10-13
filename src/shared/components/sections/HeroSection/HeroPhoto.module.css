@@ -34,6 +34,13 @@
   background-color: var(--color-surface-container);
 }
 
+/* Reveal progress, registered so it animates */
+@property --reveal {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 1;
+}
+
 /* Reveals the photo by opening a hole in a page-coloured cover, rather than
    clipping the photo, so the photo paints at full size from the start and
    counts as the LCP then */
@@ -41,13 +48,21 @@
   display: none;
 
   @media (prefers-reduced-motion: no-preference) {
+    /* Hole edges as the old inset(100% 10% 20% 10%) reveal had them: a
+       closed line at 83.33% (where the browser clamps the overlapping top
+       and bottom) until the insets stop overlapping, then opening */
+    --top: min(83.333%, 100% * (1 - var(--reveal)));
+    --bottom: max(83.333%, 80% + 20% * var(--reveal));
+    --left: calc(10% * (1 - var(--reveal)));
+    --right: calc(100% - 10% * (1 - var(--reveal)));
+    --reveal: 0;
     display: block;
     position: absolute;
     /* Past the edges, so no sliver of photo shows at a fractional width */
     inset: -1px;
     background-color: var(--color-surface);
     pointer-events: none;
-    /* Page outline, then a hole as a line 10% in from each side */
+    /* Outline, then the hole */
     clip-path: polygon(
       evenodd,
       0 0,
@@ -55,32 +70,19 @@
       100% 100%,
       0 100%,
       0 0,
-      10% 83.33%,
-      90% 83.33%,
-      90% 83.33%,
-      10% 83.33%,
-      10% 83.33%
+      var(--left) var(--top),
+      var(--right) var(--top),
+      var(--right) var(--bottom),
+      var(--left) var(--bottom),
+      var(--left) var(--top)
     );
-    animation: imageReveal 1.25s 0.25s var(--curve-primary) forwards;
+    animation: imageReveal 1.25s var(--curve-primary) forwards;
   }
 }
 
 @keyframes imageReveal {
-  /* Hole grown to the full outline */
   100% {
-    clip-path: polygon(
-      evenodd,
-      0 0,
-      100% 0,
-      100% 100%,
-      0 100%,
-      0 0,
-      0 0,
-      100% 0,
-      100% 100%,
-      0 100%,
-      0 0
-    );
+    --reveal: 1;
     /* Drops any edge left by antialiasing */
     visibility: hidden;
   }
