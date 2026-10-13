@@ -51,7 +51,7 @@ export const STICKER_NAMES = [
   'wine',
 ] as const;
 
-type StickerName = (typeof STICKER_NAMES)[number];
+export type StickerName = (typeof STICKER_NAMES)[number];
 
 /** Offsets from the parent's edges, e.g. { top: '8%', left: '-6%' } */
 type StickerPosition = Pick<
@@ -69,6 +69,11 @@ type StickerProps = {
   delay?: number;
   /** Skip the "slap on" entrance */
   still?: boolean;
+  /**
+   * The sticker's own SVG markup, drawn inline instead of an <img>, which
+   * keeps it out of LCP. Empty until loaded
+   */
+  svg?: string;
   /** Absolutely positions the sticker within its (positioned) parent */
   position?: StickerPosition;
   className?: string;
@@ -84,6 +89,7 @@ export function Sticker({
   rotate = 0,
   delay = 0,
   still,
+  svg,
   position,
   className,
   ...handlers
@@ -99,14 +105,24 @@ export function Sticker({
         } as React.CSSProperties
       }
       {...handlers}>
-      <Image
-        src={`/images/stickers/${name}.svg`}
-        alt={label ?? ''}
-        aria-hidden={label ? undefined : true}
-        draggable={false}
-        unoptimized
-        fill
-      />
+      {svg !== undefined ? (
+        <span
+          className={styles.inline}
+          role={label ? 'img' : undefined}
+          aria-label={label}
+          aria-hidden={label ? undefined : true}
+          dangerouslySetInnerHTML={{ __html: svg }}
+        />
+      ) : (
+        <Image
+          src={`/images/stickers/${name}.svg`}
+          alt={label ?? ''}
+          aria-hidden={label ? undefined : true}
+          draggable={false}
+          unoptimized
+          fill
+        />
+      )}
     </span>
   );
 }

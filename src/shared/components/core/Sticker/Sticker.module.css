@@ -19,6 +19,14 @@
   animation: none;
 }
 
+/* Inline SVG, sized like <Image fill> */
+.inline,
+.inline svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 @keyframes slapOn {
   0% {
     opacity: 0;

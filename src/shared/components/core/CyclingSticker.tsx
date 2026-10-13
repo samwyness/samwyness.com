@@ -1,7 +1,22 @@
 'use client';
 
 import React from 'react';
-import { STICKER_NAMES, Sticker } from './Sticker';
+import { STICKER_NAMES, Sticker, StickerName } from './Sticker';
+
+// Markup per sticker, fetched once and shared by every instance
+const markup = new Map<StickerName, Promise<string>>();
+const loadSvg = (name: StickerName) => {
+  let svg = markup.get(name);
+  if (!svg) {
+    svg = fetch(`/images/stickers/${name}.svg`).then(res =>
+      res.ok ? res.text() : Promise.reject(),
+    );
+    // Dropped on failure, so a later swap can try again
+    svg.catch(() => markup.delete(name));
+    markup.set(name, svg);
+  }
+  return svg;
+};
 
 type CyclingStickerProps = {
   /** Seconds before the first sticker slaps on; cycling starts after it lands */
@@ -12,7 +27,11 @@ type CyclingStickerProps = {
   className?: string;
 };
 
-/** Slaps on the first sticker, then flicks through the rest, looping; hover pauses */
+/**
+ * Slaps on the first sticker, then flicks through the rest, looping; hover
+ * pauses. Drawn as inline SVG: as <img>s, these late arrivals outrank the
+ * hero photo (first painted mid-reveal, so measured small) as the LCP
+ */
 export function CyclingSticker({
   delay = 0,
   interval = 0.5,
@@ -22,6 +41,9 @@ export function CyclingSticker({
   const [tick, setTick] = React.useState(0);
   // Ref so hovering doesn't restart the timers
   const paused = React.useRef(false);
+  // Inline ids are page-wide, so namespaced per instance
+  const idPrefix = React.useId().replace(/[^\w-]/g, '');
+  const [svg, setSvg] = React.useState('');
 
   React.useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -41,14 +63,31 @@ export function CyclingSticker({
     };
   }, [delay, interval]);
 
-  // Warm only the next one, so its swap doesn't flash empty
+  const name = STICKER_NAMES[tick % STICKER_NAMES.length];
+
+  // Kept on the last one until the next loads, so a swap never flashes empty
+  React.useEffect(() => {
+    let current = true;
+    loadSvg(name)
+      .then(text => {
+        if (!current) return;
+        setSvg(
+          text
+            .replaceAll('id="', `id="${idPrefix}`)
+            .replaceAll('href="#', `href="#${idPrefix}`),
+        );
+      })
+      .catch(() => {});
+    return () => {
+      current = false;
+    };
+  }, [name, idPrefix]);
+
+  // Warm only the next one
   React.useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const next = STICKER_NAMES[(tick + 1) % STICKER_NAMES.length];
-    new window.Image().src = `/images/stickers/${next}.svg`;
+    loadSvg(STICKER_NAMES[(tick + 1) % STICKER_NAMES.length]).catch(() => {});
   }, [tick]);
-
-  const name = STICKER_NAMES[tick % STICKER_NAMES.length];
 
   // Only the first sticker slaps on; swaps are instant
   return (
@@ -57,6 +96,7 @@ export function CyclingSticker({
       rotate={rotate}
       delay={delay}
       still={tick > 0}
+      svg={svg}
       className={className}
       onMouseEnter={() => (paused.current = true)}
       onMouseLeave={() => (paused.current = false)}

@@ -53,6 +53,7 @@ export function HeroPhoto({ className }: HeroPhotoProps) {
               className={styles.photo}
               draggable={false}
               preload
+              fetchPriority="high"
               fill
             />
             <HeroFx

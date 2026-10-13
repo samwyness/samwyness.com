@@ -1,6 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
+  experimental: {
+    // CSS is small and the site's one page, so no render-blocking request
+    inlineCss: true,
+  },
   // Baseline hardening. Vercel already sends HSTS
   async headers() {
     return [

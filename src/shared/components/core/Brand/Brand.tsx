@@ -11,7 +11,8 @@ export function Brand({ className }: BrandProps) {
   return (
     <Link
       href="/"
-      aria-label="Sam Wyness, home"
+      // Starts with the visible text, so voice control can say it
+      aria-label="SW. Sam Wyness, home"
       className={classNames(styles.brand, className)}>
       SW.
     </Link>

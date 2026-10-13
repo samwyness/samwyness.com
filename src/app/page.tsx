@@ -15,27 +15,50 @@ const TITLE = `Sam Wyness ~ ${ROLE}`;
 const DESCRIPTION =
   'Designing and building web and mobile apps with Expo, React Native and TypeScript. Based on the Sunshine Coast, Australia. Available for hire.';
 
-// Structured data for name searches
-const PERSON = {
+const HERO_PHOTO = {
+  '@type': 'ImageObject',
+  url: `${SITE_URL}/images/sam-wyness-profile-image.webp`,
+  width: 1541,
+  height: 2048,
+};
+
+// Structured data for name searches. primaryImageOfPage hints Google to use
+// the hero photo as the result thumbnail
+const STRUCTURED_DATA = {
   '@context': 'https://schema.org',
-  '@type': 'Person',
-  name: 'Sam Wyness',
-  url: SITE_URL,
-  image: `${SITE_URL}/images/sam-wyness-profile-image.webp`,
-  jobTitle: ROLE,
-  address: {
-    '@type': 'PostalAddress',
-    addressLocality: 'Sunshine Coast',
-    addressRegion: 'QLD',
-    addressCountry: 'AU',
-  },
-  sameAs: Object.values(SOCIAL_LINKS),
+  '@graph': [
+    {
+      '@type': 'WebPage',
+      '@id': `${SITE_URL}/#webpage`,
+      url: SITE_URL,
+      name: TITLE,
+      description: DESCRIPTION,
+      primaryImageOfPage: HERO_PHOTO,
+      mainEntity: { '@id': `${SITE_URL}/#person` },
+    },
+    {
+      '@type': 'Person',
+      '@id': `${SITE_URL}/#person`,
+      name: 'Sam Wyness',
+      url: SITE_URL,
+      image: HERO_PHOTO,
+      jobTitle: ROLE,
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Sunshine Coast',
+        addressRegion: 'QLD',
+        addressCountry: 'AU',
+      },
+      sameAs: Object.values(SOCIAL_LINKS),
+    },
+  ],
 };
 
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
   alternates: { canonical: '/' },
+  robots: { 'max-image-preview': 'large' },
   openGraph: {
     type: 'website',
     locale: 'en_AU',
@@ -56,7 +79,7 @@ export default function Home() {
         type="application/ld+json"
         // Escaped so the JSON can't close the script tag
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(PERSON).replace(/</g, '\\u003c'),
+          __html: JSON.stringify(STRUCTURED_DATA).replace(/</g, '\\u003c'),
         }}
       />
       <HeroSection role={pageData.role} />

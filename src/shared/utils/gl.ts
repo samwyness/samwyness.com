@@ -1,6 +1,6 @@
 import { OGLRenderingContext, Renderer, Texture } from 'ogl';
 
-/** Transparent renderer at up to 2x DPR, or null without WebGL */
+/** Transparent renderer at up to 1.5x DPR, or null without WebGL */
 export function createRenderer(canvas: HTMLCanvasElement) {
   // Probed first, as OGL console.errors (a Next dev issue) before throwing.
   // Same attributes as OGL's, since the canvas hands it this same context
@@ -18,7 +18,8 @@ export function createRenderer(canvas: HTMLCanvasElement) {
     const renderer = new Renderer({
       canvas,
       ...attributes,
-      dpr: Math.min(window.devicePixelRatio, 2),
+      // Not 2x: a third fewer pixels to shade each frame, the grain hides it
+      dpr: Math.min(window.devicePixelRatio, 1.5),
     });
     renderer.gl.clearColor(0, 0, 0, 0);
     return renderer;
