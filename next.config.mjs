@@ -1,6 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
+  images: {
+    // AVIF first, roughly half the WebP size for the hero photo (the LCP).
+    // WebP for browsers without it
+    formats: ['image/avif', 'image/webp'],
+  },
   experimental: {
     // CSS is small and the site's one page, so no render-blocking request
     inlineCss: true,
