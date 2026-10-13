@@ -113,9 +113,42 @@ function useBodyHeight() {
   return listRef;
 }
 
+/**
+ * Whether the page has loaded and the list is within a screen or so of view.
+ * Gates the project images: Chrome's own lazy loading starts anything within
+ * ~3000px, which on mobile is all of them, competing with the hero photo
+ */
+function useNearView() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [near, setNear] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setNear(true);
+        observer.disconnect();
+      },
+      { rootMargin: '1000px 0px' },
+    );
+    // After load, so the hero photo has the network to itself
+    const observe = () => observer.observe(el);
+    if (document.readyState === 'complete') observe();
+    else window.addEventListener('load', observe, { once: true });
+    return () => {
+      window.removeEventListener('load', observe);
+      observer.disconnect();
+    };
+  }, []);
+
+  return [ref, near] as const;
+}
+
 /** Project image, linking to the project once it's live */
-function ProjectMedia({ item }: { item: Project }) {
-  const image = (
+function ProjectMedia({ item, show }: { item: Project; show: boolean }) {
+  const image = show && (
     <Image
       src={item.image}
       alt={item.title}
@@ -151,6 +184,7 @@ export function WorkSection({ items }: WorkSectionProps) {
   const [glReady, setGlReady] = useState(false);
   const rowsRef = useOpenRows(activeIndex, items.length);
   const listRef = useBodyHeight();
+  const [wrapRef, near] = useNearView();
 
   const details = (item: Project) =>
     [['Company', item.company]].filter(([, value]) => value);
@@ -158,7 +192,10 @@ export function WorkSection({ items }: WorkSectionProps) {
   return (
     <Section title="Selected Work" count={items.length}>
       {/* Preview canvas sits beside the list, not inside the <ul> */}
-      <div className={styles.listWrap} data-gl={glReady || undefined}>
+      <div
+        ref={wrapRef}
+        className={styles.listWrap}
+        data-gl={glReady || undefined}>
         <ul
           ref={listRef}
           className={styles.list}
@@ -210,14 +247,18 @@ export function WorkSection({ items }: WorkSectionProps) {
                       ))}
                     </dl>
                   </div>
-                  <ProjectMedia item={item} />
+                  <ProjectMedia item={item} show={near} />
                 </div>
               </li>
             );
           })}
         </ul>
 
-        <ProjectPreview activeIndex={activeIndex} onReady={setGlReady} />
+        <ProjectPreview
+          activeIndex={activeIndex}
+          mediaShown={near}
+          onReady={setGlReady}
+        />
       </div>
     </Section>
   );

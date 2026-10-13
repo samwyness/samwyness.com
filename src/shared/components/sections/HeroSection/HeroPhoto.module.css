@@ -32,16 +32,59 @@
   object-fit: cover;
   object-position: center right;
   background-color: var(--color-surface-container);
+}
+
+/* Reveal progress, registered so it animates */
+@property --reveal {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 1;
+}
+
+/* Reveals the photo by opening a hole in a page-coloured cover, rather than
+   clipping the photo, so the photo paints at full size from the start and
+   counts as the LCP then */
+.cover {
+  display: none;
 
   @media (prefers-reduced-motion: no-preference) {
-    clip-path: inset(100% 10% 20% 10%);
-    animation: imageReveal 1.25s 0.25s var(--curve-primary) forwards;
+    /* Hole edges as the old inset(100% 10% 20% 10%) reveal had them: a
+       closed line at 83.33% (where the browser clamps the overlapping top
+       and bottom) until the insets stop overlapping, then opening */
+    --top: min(83.333%, 100% * (1 - var(--reveal)));
+    --bottom: max(83.333%, 80% + 20% * var(--reveal));
+    --left: calc(10% * (1 - var(--reveal)));
+    --right: calc(100% - 10% * (1 - var(--reveal)));
+    --reveal: 0;
+    display: block;
+    position: absolute;
+    /* Past the edges, so no sliver of photo shows at a fractional width */
+    inset: -1px;
+    background-color: var(--color-surface);
+    pointer-events: none;
+    /* Outline, then the hole */
+    clip-path: polygon(
+      evenodd,
+      0 0,
+      100% 0,
+      100% 100%,
+      0 100%,
+      0 0,
+      var(--left) var(--top),
+      var(--right) var(--top),
+      var(--right) var(--bottom),
+      var(--left) var(--bottom),
+      var(--left) var(--top)
+    );
+    animation: imageReveal 1.25s var(--curve-primary) forwards;
   }
 }
 
 @keyframes imageReveal {
   100% {
-    clip-path: inset(0 0 0 0);
+    --reveal: 1;
+    /* Drops any edge left by antialiasing */
+    visibility: hidden;
   }
 }
 
@@ -67,13 +110,9 @@
     }
 
     .photo {
-      animation:
-        imageReveal 1.25s 0.25s var(--curve-primary) forwards,
-        scrollZoom linear both;
-      animation-timeline: auto, scroll(root);
-      animation-range:
-        normal,
-        0 80vh;
+      animation: scrollZoom linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 80vh;
     }
   }
 }
@@ -98,5 +137,4 @@
   height: 100%;
   background: none;
   pointer-events: none;
-  /* Shares the photo's reveal via .photo */
 }

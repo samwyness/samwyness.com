@@ -8,8 +8,7 @@
   flex-direction: column;
   width: 100%;
   /* A touch under full height below desktop, so the next section peeks */
-  min-height: 96vh;
-  min-height: 96svh;
+  min-height: calc(var(--screen-h) * 0.96);
   padding: var(--hero-pad);
   /* Clip here, not on container, so the photo tilt has room */
   overflow: clip;
@@ -25,8 +24,7 @@
   }
 
   @media (min-width: 1024px) and (orientation: landscape), (min-width: 1440px) {
-    min-height: 100vh;
-    min-height: 100svh;
+    min-height: var(--screen-h);
   }
 }
 
@@ -90,8 +88,8 @@
     /* Always full viewport height; 450:638 width, capped so title keeps room
        (cover crops if capped) */
     flex: none;
-    height: calc(100svh - var(--hero-pad) * 2);
-    width: min(calc((100svh - var(--hero-pad) * 2) * 450 / 638), 45vw);
+    height: calc(var(--screen-h) - var(--hero-pad) * 2);
+    width: min(calc((var(--screen-h) - var(--hero-pad) * 2) * 450 / 638), 45vw);
   }
 }
 
@@ -135,13 +133,13 @@
   padding-left: 0.88em;
 
   /* Starts flush with "Wyness", then slides right to make room just before
-     the sticker (delay 2s in HeroSection.tsx) slaps on */
+     the sticker (delay 1.75s in HeroSection.tsx) slaps on */
   @media (prefers-reduced-motion: no-preference) {
     clip-path: inset(0% 100% 0% 0%);
     translate: -0.88em 0;
     animation:
-      reveal 0.75s 1s var(--curve-primary) forwards,
-      stickerPush 0.6s 1.75s var(--curve-primary) forwards;
+      reveal 0.75s 0.75s var(--curve-primary) forwards,
+      stickerPush 0.6s 1.5s var(--curve-primary) forwards;
   }
 }
 
@@ -154,7 +152,7 @@
 .title > span:last-child {
   @media (prefers-reduced-motion: no-preference) {
     clip-path: inset(0% 0% 0% 100%);
-    animation: reveal 1s 1s var(--curve-primary) forwards;
+    animation: reveal 1s 0.75s var(--curve-primary) forwards;
   }
 }
 
@@ -192,7 +190,7 @@
 
   @media (prefers-reduced-motion: no-preference) {
     clip-path: inset(0% 0% 0% 100%);
-    animation: reveal 0.75s 1s var(--curve-primary) forwards;
+    animation: reveal 0.75s 0.75s var(--curve-primary) forwards;
   }
 
   @media (min-width: 1024px) and (orientation: landscape), (min-width: 1440px) {
@@ -211,7 +209,7 @@
 
   @media (prefers-reduced-motion: no-preference) {
     opacity: 0;
-    animation: fadeIn 0.75s 1.25s var(--curve-primary) forwards;
+    animation: fadeIn 0.75s 1s var(--curve-primary) forwards;
   }
 
   @media (min-width: 768px) {

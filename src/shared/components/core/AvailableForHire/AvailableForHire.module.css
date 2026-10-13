@@ -11,12 +11,32 @@
   height: 10px;
   /* Dot flush left; pulse ring spills into the gutter */
   margin: 10px 4px 10px 0;
+  position: relative;
   background-color: var(--color-blinker);
   border-radius: 50%;
   animation: pulse 1.6s infinite;
 
+  /* Pulse ring, scaled and faded rather than a box-shadow, so it runs on the
+     compositor instead of repainting every frame. Over the dot it's the same
+     colour, so it only shows outside it */
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: color-mix(in srgb, var(--color-blinker) 70%, transparent);
+    border-radius: 50%;
+    animation: ring 1.6s infinite;
+  }
+
   @media (prefers-reduced-motion: reduce) {
-    animation: none;
+    &,
+    &::after {
+      animation: none;
+    }
+
+    &::after {
+      opacity: 0;
+    }
   }
 }
 
@@ -26,19 +46,26 @@
 }
 
 @keyframes pulse {
-  0% {
+  0%,
+  100% {
     transform: scale(0.9);
-    box-shadow: 0 0 0 0
-      color-mix(in srgb, var(--color-blinker) 70%, transparent);
   }
 
   70% {
     transform: scale(1);
-    box-shadow: 0 0 0 13px transparent;
+  }
+}
+
+/* Out to 13px past the 10px dot, as the box-shadow spread was */
+@keyframes ring {
+  0% {
+    transform: scale(1);
+    opacity: 1;
   }
 
+  70%,
   100% {
-    transform: scale(0.9);
-    box-shadow: 0 0 0 0 transparent;
+    transform: scale(3.6);
+    opacity: 0;
   }
 }

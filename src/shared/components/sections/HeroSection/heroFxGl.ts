@@ -210,10 +210,10 @@ export function startHeroFx({ canvas, parent, frame, photo }: HeroFxElements) {
     // Only loop while the photo is on screen
     const stopLoop = loopWhileVisible(parent, tick);
 
-    // The canvas shares the photo's reveal, rendered with it so in step
+    // The cover over the photo and canvas, see HeroPhoto.module.css
+    const reveal = frame.querySelector('[data-reveal]');
     Promise.all(
-      canvas
-        .getAnimations()
+      (reveal?.getAnimations() ?? [])
         .filter(anim => anim.timeline === document.timeline)
         .map(anim => anim.finished),
     )

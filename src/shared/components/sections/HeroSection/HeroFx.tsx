@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { hasCapableGpu } from 'src/shared/utils/glSupport';
+import { startHeroFx } from './heroFxGl';
 
 type HeroFxProps = {
   /** Element whose pointer moves steer the lens */
@@ -14,8 +15,8 @@ type HeroFxProps = {
  * out that follows the cursor, or sits on the face when there isn't one.
  * Transparent where it has nothing to add, so the real <Image> shows through.
  * Textured from that same <Image>, so the photo only downloads once.
- * The canvas renders straight away so it shares the photo's reveal, while
- * the GL code (heroFxGl.ts) only loads on devices that can run it
+ * Bundled rather than loaded on demand, so a first visit's riso arrives with
+ * the photo's reveal instead of after an extra fetch
  */
 export function HeroFx({ frameRef, className }: HeroFxProps) {
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
@@ -31,18 +32,7 @@ export function HeroFx({ frameRef, className }: HeroFxProps) {
     // Software GL or low memory: plain photo
     if (!hasCapableGpu()) return;
 
-    let stop: (() => void) | undefined;
-    let unmounted = false;
-    import('./heroFxGl')
-      .then(({ startHeroFx }) => {
-        if (!unmounted) stop = startHeroFx({ canvas, parent, frame, photo });
-      })
-      .catch(() => {}); // Failed to load: plain photo
-
-    return () => {
-      unmounted = true;
-      stop?.();
-    };
+    return startHeroFx({ canvas, parent, frame, photo });
   }, [frameRef]);
 
   return <canvas ref={canvasRef} className={className} aria-hidden />;

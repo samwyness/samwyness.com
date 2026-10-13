@@ -61,6 +61,8 @@ export function HeroPhoto({ className }: HeroPhotoProps) {
               className={classNames(styles.photo, styles.fx)}
             />
           </div>
+          {/* Outside the drift, so the reveal holds still */}
+          <div className={styles.cover} data-reveal aria-hidden />
         </div>
       </div>
     </div>
