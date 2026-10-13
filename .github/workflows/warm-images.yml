@@ -1,0 +1,25 @@
+name: Warm image cache
+
+# Vercel converts each image size on its first request (~1.3s for AVIF), so the
+# hero would reveal onto its grey card for whoever asks first. Requests every
+# next/image URL in the page once per format after each deploy, so that's us
+on: deployment_status
+
+jobs:
+  warm:
+    if: github.event.deployment_status.state == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Request each image as AVIF and WebP
+        env:
+          URL: ${{ github.event.deployment_status.environment_url }}
+        run: |
+          # From the srcsets, so widths and quality stay in step with the page
+          paths=$(curl -sf "$URL" | grep -o '/_next/image?[^" ]*' | sed 's/&amp;/\&/g' | sort -u)
+          if [ -z "$paths" ]; then echo "No images found at $URL"; exit 1; fi
+          for format in avif webp; do
+            for img in $paths; do
+              curl -s -o /dev/null -H "Accept: image/$format" \
+                -w "$format %{http_code} %{time_total}s %header{x-vercel-cache} $img\n" "$URL$img"
+            done
+          done
