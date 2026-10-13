@@ -99,22 +99,6 @@ a {
   white-space: nowrap;
 }
 
-/* Server HTML carries framer's start state inline, and reduced motion is only
-   known once hydrated (see useReducedMotion), so rest them before JS. Beats
-   inline styles via !important */
-@media (prefers-reduced-motion: reduce) {
-  [data-motion-start] {
-    opacity: 1 !important;
-    transform: none !important;
-    filter: none !important;
-    stroke-dasharray: none !important;
-  }
-
-  [data-motion-start='weight'] {
-    font-variation-settings: inherit !important;
-  }
-}
-
 strong {
   font-variation-settings: 'wght' 600;
 }

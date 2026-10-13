@@ -1,3 +1,11 @@
+/* Registered so it animates. Rests full, the look without scroll-driven
+   animation support or with reduced motion */
+@property --scroll-progress {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 100%;
+}
+
 .TextAnimateMask {
   position: relative;
   display: inline;
@@ -11,10 +19,40 @@
     );
     background-size: var(--scroll-progress) 100%;
     -webkit-text-fill-color: var(--color-on-surface-opaque);
+  }
+}
 
-    /* Full text, no scroll reveal */
-    @media (prefers-reduced-motion: reduce) {
-      -webkit-text-fill-color: var(--color-on-surface);
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* Fills in as its top crosses 90% to 60% down the screen. Callers can
+       swap the timeline and range */
+    .TextAnimateMask {
+      animation: maskIn cubic-bezier(0.49, 0, 0.6, 0.99) both;
+      animation-timeline: view();
+      animation-range: cover 10vh cover 40vh;
     }
+
+    /* Empties instead */
+    .out {
+      animation-name: maskOut;
+    }
+  }
+}
+
+@keyframes maskIn {
+  from {
+    --scroll-progress: 0%;
+  }
+  to {
+    --scroll-progress: 100%;
+  }
+}
+
+@keyframes maskOut {
+  from {
+    --scroll-progress: 100%;
+  }
+  to {
+    --scroll-progress: 0%;
   }
 }

@@ -25,12 +25,11 @@ export const metadata: Metadata = {
   description: 'Software Engineer & Product Designer',
 };
 
-// Without JS, framer's inline start states never animate out. Same reset as
-// reduced motion in globals.css
+// Without JS, what plays once in view (About's stats, the signature) never
+// leaves its start state. Scroll-driven effects run without it
 const NO_SCRIPT_REST = `[data-motion-start] {
   opacity: 1 !important;
   transform: none !important;
-  filter: none !important;
   stroke-dasharray: none !important;
 }`;
 

@@ -1,19 +1,10 @@
-import { ScrollProgressOptions } from '../../core/AnimateScrollProgress';
 import { AvailableForHire } from '../../core/AvailableForHire';
 import { CyclingSticker } from '../../core/CyclingSticker';
 import { TextAnimateMask } from '../../core/TextAnimateMask';
-import { TextAnimateWeight } from '../../core/TextAnimateWeight';
 import { Header } from '../../layout/Header';
 import { Row } from '../../layout/Row';
 import { HeroPhoto } from './HeroPhoto';
 import styles from './HeroSection.module.css';
-
-// Progress = page scroll / viewport height, so title starts at 0 on load
-// regardless of where it sits vertically
-const TITLE_SCROLL = {
-  useTarget: false,
-  offset: ['start start', '75vh start'],
-} satisfies ScrollProgressOptions;
 
 type HeroSectionProps = {
   role: string;
@@ -31,26 +22,18 @@ export function HeroSection({ role }: HeroSectionProps) {
             <div className={styles.intro}>
               {/* Sticker sits outside h1 so the title's reveal clip can't cut it */}
               <div className={styles.titleWrap}>
+                {/* Words reveal on load, then swap weight and fill on scroll */}
                 <h1 className={styles.title}>
-                  <TextAnimateMask
-                    {...TITLE_SCROLL}
-                    inputRange={[0, 0.65]}
-                    outputRange={['100%', '0%']}>
-                    <TextAnimateWeight
-                      {...TITLE_SCROLL}
-                      inputRange={[0, 0.6]}
-                      outputRange={[`'wght' 700`, `'wght' 300`]}>
-                      Sam
-                    </TextAnimateWeight>
-                  </TextAnimateMask>{' '}
-                  <TextAnimateMask {...TITLE_SCROLL} inputRange={[0, 0.65]}>
-                    <TextAnimateWeight
-                      {...TITLE_SCROLL}
-                      inputRange={[0, 0.6]}
-                      outputRange={[`'wght' 400`, `'wght' 700`]}>
-                      Wyness
-                    </TextAnimateWeight>
-                  </TextAnimateMask>
+                  <span>
+                    <TextAnimateMask out className={styles.titleMask}>
+                      <span className={styles.titleWeight}>Sam</span>
+                    </TextAnimateMask>
+                  </span>{' '}
+                  <span>
+                    <TextAnimateMask className={styles.titleMask}>
+                      <span className={styles.titleWeight}>Wyness</span>
+                    </TextAnimateMask>
+                  </span>
                 </h1>
                 <CyclingSticker
                   rotate={10}

@@ -25,18 +25,71 @@
   }
 }
 
-/* Right column tracks a point lower down so rows focus in timeline order */
-.focusTarget {
-  position: absolute;
-  inset: 0;
-  visibility: hidden;
-  pointer-events: none;
+/* Pulls into focus like a camera, then stays sharp. Progress is 0 as its
+   top enters the bottom 20% of the screen, 1 at halfway. Holds until 0.4,
+   fades and grows in by 0.7, blur lagging to 1 so it sharpens last */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .focus {
+      /* Right column tracks a point lower down so rows focus in timeline order */
+      --focus-shift: 0px;
+      /* Whichever's further, so the last rows still finish on tall screens
+         that can't scroll them that far */
+      --focus-progress: max(var(--focus-scroll), var(--page-end));
+      --focus-in: clamp(0, (var(--focus-progress) - 0.4) / 0.3, 1);
+      --focus-sharp: clamp(0, (var(--focus-progress) - 0.6) / 0.4, 1);
+      opacity: calc(0.25 + 0.75 * var(--focus-in));
+      scale: calc(0.98 + 0.02 * var(--focus-in));
+      filter: blur(calc(10px * (1 - var(--focus-sharp))));
+      /* Longhands, as the build can expand the shorthand with 0s durations */
+      animation-name: focusScroll, pageEnd;
+      animation-duration: auto;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: view(), scroll(root);
+      animation-range:
+        cover calc(20vh + var(--focus-shift)) cover
+          calc(50vh + var(--focus-shift)),
+        calc(100% - 25vh) 100%;
 
-  @media (min-width: 768px) {
-    .entry:nth-child(even) & {
-      top: 80px;
-      bottom: -80px;
+      @media (min-width: 768px) {
+        &:nth-child(even) {
+          --focus-shift: 80px;
+        }
+      }
     }
+  }
+}
+
+@property --focus-scroll {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 1;
+}
+
+/* 0 to 1 over the last quarter screen of page scroll, as in
+   Footer.module.css */
+@property --page-end {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+
+@keyframes focusScroll {
+  from {
+    --focus-scroll: 0;
+  }
+  to {
+    --focus-scroll: 1;
+  }
+}
+
+@keyframes pageEnd {
+  from {
+    --page-end: 0;
+  }
+  to {
+    --page-end: 1;
   }
 }
 
