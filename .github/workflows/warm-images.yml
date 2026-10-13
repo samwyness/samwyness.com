@@ -14,12 +14,16 @@ jobs:
         env:
           URL: ${{ github.event.deployment_status.environment_url }}
         run: |
-          # From the srcsets, so widths and quality stay in step with the page
-          paths=$(curl -sf "$URL" | grep -o '/_next/image?[^" ]*' | sed 's/&amp;/\&/g' | sort -u)
+          # From the srcsets, so widths and quality stay in step with the page.
+          # grep finding nothing (1) is reported below, a failed fetch isn't
+          paths=$(curl -sf "$URL" | { grep -o '/_next/image?[^" ]*' || [ $? -eq 1 ]; } | sed 's/&amp;/\&/g' | sort -u)
           if [ -z "$paths" ]; then echo "No images found at $URL"; exit 1; fi
+          # Through every variant, then fails if any didn't warm
+          failed=0
           for format in avif webp; do
             for img in $paths; do
-              curl -s -o /dev/null -H "Accept: image/$format" \
-                -w "$format %{http_code} %{time_total}s %header{x-vercel-cache} $img\n" "$URL$img"
+              curl -sf -o /dev/null -H "Accept: image/$format" \
+                -w "$format %{http_code} %{time_total}s %header{x-vercel-cache} $img\n" "$URL$img" || failed=1
             done
           done
+          exit $failed
