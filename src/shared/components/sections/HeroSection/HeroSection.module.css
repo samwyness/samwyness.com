@@ -8,8 +8,7 @@
   flex-direction: column;
   width: 100%;
   /* A touch under full height below desktop, so the next section peeks */
-  min-height: 96vh;
-  min-height: 96svh;
+  min-height: calc(var(--screen-h) * 0.96);
   padding: var(--hero-pad);
   /* Clip here, not on container, so the photo tilt has room */
   overflow: clip;
@@ -25,8 +24,7 @@
   }
 
   @media (min-width: 1024px) and (orientation: landscape), (min-width: 1440px) {
-    min-height: 100vh;
-    min-height: 100svh;
+    min-height: var(--screen-h);
   }
 }
 
@@ -90,8 +88,8 @@
     /* Always full viewport height; 450:638 width, capped so title keeps room
        (cover crops if capped) */
     flex: none;
-    height: calc(100svh - var(--hero-pad) * 2);
-    width: min(calc((100svh - var(--hero-pad) * 2) * 450 / 638), 45vw);
+    height: calc(var(--screen-h) - var(--hero-pad) * 2);
+    width: min(calc((var(--screen-h) - var(--hero-pad) * 2) * 450 / 638), 45vw);
   }
 }
 

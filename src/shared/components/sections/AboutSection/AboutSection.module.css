@@ -4,7 +4,7 @@
   position: relative;
 
   @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
-    height: calc(100vh + var(--pin-scroll));
+    height: calc(var(--screen-h) + var(--pin-scroll));
   }
 }
 
@@ -12,7 +12,7 @@
 .section {
   display: flex;
   align-items: center;
-  min-height: 100svh;
+  min-height: var(--screen-h);
 
   @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
     position: sticky;
