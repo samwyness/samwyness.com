@@ -8,8 +8,9 @@ import { StatVisual } from './StatVisual';
 import { useInView } from '../../../hooks/useInView';
 import { useMediaQuery } from '../../../hooks/useMediaQuery';
 
-// Desktop, short of --screen-h's 1600px cap. Matches .pin in the CSS
-const PIN_QUERY = '(min-width: 1024px) and (max-height: 1600px)';
+// Desktop, short of --screen-h's 1600px cap, with motion. Matches .pin in the CSS
+const PIN_QUERY =
+  '(min-width: 1024px) and (max-height: 1600px) and (prefers-reduced-motion: no-preference)';
 // Scroll in vh per row while locked, last row's slot doubles as hold before unlock
 // Rows show and hide with scroll in both directions
 const ROW_VH = 50;

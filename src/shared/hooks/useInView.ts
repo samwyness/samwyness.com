@@ -21,8 +21,11 @@ export function useInView(
     if (!el) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setInView(entry.isIntersecting);
-        if (once && entry.isIntersecting) observer.disconnect();
+        // Also fires on the first pixel and when first observed, short of amount
+        const visible =
+          entry.isIntersecting && entry.intersectionRatio >= (amount ?? 0);
+        setInView(visible);
+        if (once && visible) observer.disconnect();
       },
       { rootMargin: margin, threshold: amount },
     );

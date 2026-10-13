@@ -40,7 +40,6 @@
       --focus-sharp: clamp(0, (var(--focus-progress) - 0.6) / 0.4, 1);
       opacity: calc(0.25 + 0.75 * var(--focus-in));
       scale: calc(0.98 + 0.02 * var(--focus-in));
-      filter: blur(calc(10px * (1 - var(--focus-sharp))));
       /* Longhands, as the build can expand the shorthand with 0s durations */
       animation-name: focusScroll, pageEnd;
       animation-duration: auto;
@@ -58,7 +57,34 @@
         }
       }
     }
+
+    /* Blur on the children so it can drop to none once sharp, a lingering
+       blur(0px) would keep a filter layer on every settled row */
+    .focus > * {
+      filter: blur(calc(10px * (1 - var(--focus-sharp))));
+
+      @container style(--focus-progress: 1) {
+        filter: none;
+      }
+    }
+
+    /* CV slot just fades in from nothing, no blur or grow */
+    .focus.cta {
+      opacity: var(--focus-in);
+      scale: none;
+
+      & > * {
+        filter: none;
+      }
+    }
   }
+}
+
+/* Registered so the style query above sees a number, not max() */
+@property --focus-progress {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 1;
 }
 
 @property --focus-scroll {
