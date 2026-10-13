@@ -25,7 +25,8 @@ import { useReducedMotion } from '../../../hooks/useReducedMotion';
 
 // Desktop pins, 0 as section locks, 1 as it unlocks
 const PIN_OFFSET: ScrollOffset = ['start start', 'end end'];
-const DESKTOP_QUERY = '(min-width: 1024px)';
+// Desktop, short of --screen-h's 1600px cap. Matches .pin in the CSS
+const PIN_QUERY = '(min-width: 1024px) and (max-height: 1600px)';
 // Scroll in vh per row while locked, last row's slot doubles as hold before unlock
 // Rows show and hide with scroll in both directions
 const ROW_VH = 50;
@@ -56,16 +57,16 @@ type AboutCopy = {
   stats: AboutStat[];
 };
 
-function subscribeDesktop(onChange: () => void) {
-  const query = window.matchMedia(DESKTOP_QUERY);
+function subscribePinned(onChange: () => void) {
+  const query = window.matchMedia(PIN_QUERY);
   query.addEventListener('change', onChange);
   return () => query.removeEventListener('change', onChange);
 }
 
-function useIsDesktop() {
+function useIsPinned() {
   return useSyncExternalStore(
-    subscribeDesktop,
-    () => window.matchMedia(DESKTOP_QUERY).matches,
+    subscribePinned,
+    () => window.matchMedia(PIN_QUERY).matches,
     () => false,
   );
 }
@@ -79,17 +80,17 @@ export function AboutSection({ copy }: AboutSectionProps) {
   const statsRef = useRef<HTMLDListElement>(null);
   const titleId = useId();
   const reduceMotion = useReducedMotion();
-  const isDesktop = useIsDesktop();
+  const isPinned = useIsPinned();
   const rowCount = copy.stats.length;
   const pinVh = LEAD_VH + rowCount * ROW_VH;
 
-  // Mobile: all rows play once stats top is 60% down the viewport
+  // Mobile and very tall screens: all rows play once stats top is 60% down the viewport
   const statsInView = useInView(statsRef, {
     once: true,
     margin: '0px 0px -40% 0px',
   });
 
-  // Desktop: each row plays as locked scroll reaches its slot, hides scrolling back
+  // Pinned: each row plays as locked scroll reaches its slot, hides scrolling back
   const { scrollYProgress } = useScroll({ target: pinRef, offset: PIN_OFFSET });
   const [scrolledRows, setScrolledRows] = useState(0);
   // Rows actually shown, catch up to scroll one at a time so a quick scroll still staggers
@@ -119,7 +120,7 @@ export function AboutSection({ copy }: AboutSectionProps) {
     return () => clearTimeout(next);
   }, [shownRows, scrolledRows]);
 
-  const playedRows = isDesktop ? shownRows : statsInView ? rowCount : 0;
+  const playedRows = isPinned ? shownRows : statsInView ? rowCount : 0;
 
   return (
     // Tall wrapper gives scroll distance while section is locked on desktop
@@ -146,8 +147,8 @@ export function AboutSection({ copy }: AboutSectionProps) {
               {copy.stats.map((stat, i) => {
                 // Reduced motion: no lock, so every row shows from the start
                 const play = reduceMotion || i < playedRows;
-                // Desktop rows are already spaced by scroll
-                const countDelay = isDesktop ? 0 : i * COUNT_STAGGER_SECONDS;
+                // Pinned rows are already spaced by scroll
+                const countDelay = isPinned ? 0 : i * COUNT_STAGGER_SECONDS;
                 return (
                   <motion.div
                     // Reduced motion remounts shown, see useReducedMotion
