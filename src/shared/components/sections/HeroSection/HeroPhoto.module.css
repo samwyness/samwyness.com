@@ -32,16 +32,57 @@
   object-fit: cover;
   object-position: center right;
   background-color: var(--color-surface-container);
+}
+
+/* Reveals the photo by opening a hole in a page-coloured cover, rather than
+   clipping the photo, so the photo paints at full size from the start and
+   counts as the LCP then */
+.cover {
+  display: none;
 
   @media (prefers-reduced-motion: no-preference) {
-    clip-path: inset(100% 10% 20% 10%);
+    display: block;
+    position: absolute;
+    /* Past the edges, so no sliver of photo shows at a fractional width */
+    inset: -1px;
+    background-color: var(--color-surface);
+    pointer-events: none;
+    /* Page outline, then a hole as a line 10% in from each side */
+    clip-path: polygon(
+      evenodd,
+      0 0,
+      100% 0,
+      100% 100%,
+      0 100%,
+      0 0,
+      10% 83.33%,
+      90% 83.33%,
+      90% 83.33%,
+      10% 83.33%,
+      10% 83.33%
+    );
     animation: imageReveal 1.25s 0.25s var(--curve-primary) forwards;
   }
 }
 
 @keyframes imageReveal {
+  /* Hole grown to the full outline */
   100% {
-    clip-path: inset(0 0 0 0);
+    clip-path: polygon(
+      evenodd,
+      0 0,
+      100% 0,
+      100% 100%,
+      0 100%,
+      0 0,
+      0 0,
+      100% 0,
+      100% 100%,
+      0 100%,
+      0 0
+    );
+    /* Drops any edge left by antialiasing */
+    visibility: hidden;
   }
 }
 
@@ -67,13 +108,9 @@
     }
 
     .photo {
-      animation:
-        imageReveal 1.25s 0.25s var(--curve-primary) forwards,
-        scrollZoom linear both;
-      animation-timeline: auto, scroll(root);
-      animation-range:
-        normal,
-        0 80vh;
+      animation: scrollZoom linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 80vh;
     }
   }
 }
@@ -98,5 +135,4 @@
   height: 100%;
   background: none;
   pointer-events: none;
-  /* Shares the photo's reveal via .photo */
 }

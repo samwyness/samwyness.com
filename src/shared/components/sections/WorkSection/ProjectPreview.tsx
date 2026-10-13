@@ -9,6 +9,8 @@ export const OVERHANG = 200;
 
 type ProjectPreviewProps = {
   activeIndex: number;
+  /** Project images mounted, which the GL textures from */
+  mediaShown: boolean;
   /** Hides the CSS media once the GL preview can take over */
   onReady: (ready: boolean) => void;
 };
@@ -19,7 +21,11 @@ type ProjectPreviewProps = {
  * flies home on leave. Crossfades between projects. Desktop with a mouse and
  * a capable GPU only, the GL code (projectPreviewGl.ts) loading just for those
  */
-export function ProjectPreview({ activeIndex, onReady }: ProjectPreviewProps) {
+export function ProjectPreview({
+  activeIndex,
+  mediaShown,
+  onReady,
+}: ProjectPreviewProps) {
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
   // Read inside the render loop without restarting it
   const activeRef = React.useRef(activeIndex);
@@ -31,7 +37,7 @@ export function ProjectPreview({ activeIndex, onReady }: ProjectPreviewProps) {
     const canvas = canvasRef.current;
     // Wrapper around the project list, sized to it
     const list = canvas?.parentElement;
-    if (!canvas || !list) return;
+    if (!canvas || !list || !mediaShown) return;
     if (!window.matchMedia('(min-width: 1024px) and (pointer: fine)').matches)
       return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -51,7 +57,7 @@ export function ProjectPreview({ activeIndex, onReady }: ProjectPreviewProps) {
       unmounted = true;
       stop?.();
     };
-  }, [onReady]);
+  }, [mediaShown, onReady]);
 
   return (
     <canvas
