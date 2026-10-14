@@ -1,19 +1,16 @@
-"""Generate the site's linocut stickers + flamingo cursor.
+"""Generate the site's linocut stickers.
 
     python3 scripts/stickers/draw.py
 
-Writes public/images/stickers/*.svg, the pressed cursor SVG and (macOS only)
-the cursor PNGs. Shapes are seeded, so output is stable between runs.
+Writes public/images/stickers/*.svg. Shapes are seeded, so output is stable between runs.
 """
-import math, os, platform, subprocess
+import math, os
 from ink import *
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 IMAGES = os.path.join(ROOT, 'public', 'images')
-HERE = os.path.dirname(os.path.abspath(__file__))
 
 W='#fff'; B='#000'
-PINK='#ff3ea5'
 out={}
 
 # ---- WAVE -----------------------------------------------------------------
@@ -774,9 +771,9 @@ s.wblob(ellipse(*Q([(574,1112)])[0],6.2,3,14,64), W, amp=0.05)       # alien eye
 s.wblob(ellipse(*Q([(772,1122)])[0],6.2,3,14,122), W, amp=0.05)
 out['alien']=s
 
-# ---- FLAMINGO (also the cursor) --------------------------------------------
+# ---- FLAMINGO ------------------------------------------------------------
 s=Sticker(21)
-# beak hooks down-left; tip ~ (9,25) is the cursor hotspot
+# beak hooks down-left
 s.blob([(23,10),(15,9.5),(10,12),(7.5,17),(7,23),(8,28),(10.5,23),(14,18.5),(23,19)], amp=0.25)
 s.blob(ellipse(28,14.5,8.5,7,10), amp=0.35)                                   # head
 s.line([(32,19),(42,26),(43,37),(35,45),(32,55),(40,63),(50,63)], 6.5, amp=0.4)  # neck
@@ -792,28 +789,4 @@ s.brush([(58,64),(68,61),(78,60)], 1.7)
 out['flamingo']=s
 
 for k,v in out.items():
-    open(os.path.join(IMAGES, 'stickers', f'{k}.svg'),'w').write(v.svg())
-
-# ---- cursor -----------------------------------------------------------------
-# Pressed: pink body, rotated 12deg CCW around the beak tip (8,28) so the
-# hotspot stays put. Hotspots in globals.css: normal 5 17, pressed 6 19 (@0.6x)
-fl = out['flamingo'].svg()
-inner = fl.split('>',1)[1].rsplit('</svg>',1)[0]
-body_layer = '<g fill="#000" stroke="#000" stroke-linejoin="round" stroke-linecap="round" stroke-width="0">'
-assert inner.count(body_layer) == 1
-inner = inner.replace(body_layer, body_layer.replace('#000', PINK))
-pressed = os.path.join(IMAGES, 'cursor-flamingo-pressed.svg')
-open(pressed,'w').write(
-    '<svg xmlns="http://www.w3.org/2000/svg" width="102" height="92" viewBox="-2 -4 102 92">\n'
-    '<!-- pressed cursor: stickers/flamingo.svg, pink, rotated 12deg CCW around beak tip (8,28) -->\n'
-    '<g transform="rotate(-12 8 28)">' + inner + '</g>\n</svg>\n')
-
-# PNGs (cursors need raster for Safari); 2x kept <=128px
-if platform.system() == 'Darwin':
-    render = os.path.join(HERE, 'render.swift')
-    for src, name in ((os.path.join(IMAGES, 'stickers', 'flamingo.svg'), 'cursor-flamingo'),
-                      (pressed, 'cursor-flamingo-pressed')):
-        for scale, suffix in ((0.6, ''), (1.2, '@2x')):
-            subprocess.run(['swift', render, src, os.path.join(IMAGES, f'{name}{suffix}.png'), str(scale)], check=True)
-else:
-    print('Skipping cursor PNGs (needs macOS for render.swift)')
+    open(os.path.join(IMAGES, 'stickers', f'{k}.svg'),'w').write(v.svg(center=True))

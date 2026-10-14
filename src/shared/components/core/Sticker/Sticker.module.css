@@ -27,6 +27,17 @@
   height: 100%;
 }
 
+/* Mini slap-on for swapped art, see CyclingSticker.tsx */
+.pop {
+  animation: pop 0.25s cubic-bezier(0.3, 1.25, 0.5, 1);
+}
+
+@keyframes pop {
+  from {
+    transform: rotate(-4deg) scale(1.1);
+  }
+}
+
 @keyframes slapOn {
   0% {
     opacity: 0;

@@ -43,7 +43,8 @@ export function CyclingSticker({
   const paused = React.useRef(false);
   // Inline ids are page-wide, so namespaced per instance
   const idPrefix = React.useId().replace(/[^\w-]/g, '');
-  const [svg, setSvg] = React.useState('');
+  // Swaps counted, to replay the art's mini slap-on each time
+  const [art, setArt] = React.useState({ svg: '', swaps: 0 });
 
   React.useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -71,11 +72,10 @@ export function CyclingSticker({
     loadSvg(name)
       .then(text => {
         if (!current) return;
-        setSvg(
-          text
-            .replaceAll('id="', `id="${idPrefix}`)
-            .replaceAll('href="#', `href="#${idPrefix}`),
-        );
+        const svg = text
+          .replaceAll('id="', `id="${idPrefix}`)
+          .replaceAll('href="#', `href="#${idPrefix}`);
+        setArt(a => ({ svg, swaps: a.svg ? a.swaps + 1 : 0 }));
       })
       .catch(() => {});
     return () => {
@@ -89,14 +89,15 @@ export function CyclingSticker({
     loadSvg(STICKER_NAMES[(tick + 1) % STICKER_NAMES.length]).catch(() => {});
   }, [tick]);
 
-  // Only the first sticker slaps on; swaps are instant
+  // Only the first sticker slaps on fully; swaps get a mini one
   return (
     <Sticker
       name={name}
       rotate={rotate}
       delay={delay}
       still={tick > 0}
-      svg={svg}
+      svg={art.svg}
+      pop={art.swaps}
       className={className}
       onMouseEnter={() => (paused.current = true)}
       onMouseLeave={() => (paused.current = false)}

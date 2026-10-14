@@ -74,6 +74,8 @@ type StickerProps = {
    * keeps it out of LCP. Empty until loaded
    */
   svg?: string;
+  /** Replays a mini slap-on of the inline art whenever it changes, from 1 */
+  pop?: number;
   /** Absolutely positions the sticker within its (positioned) parent */
   position?: StickerPosition;
   className?: string;
@@ -90,6 +92,7 @@ export function Sticker({
   delay = 0,
   still,
   svg,
+  pop,
   position,
   className,
   ...handlers
@@ -107,7 +110,8 @@ export function Sticker({
       {...handlers}>
       {svg !== undefined ? (
         <span
-          className={styles.inline}
+          key={pop}
+          className={classNames(styles.inline, pop && styles.pop)}
           role={label ? 'img' : undefined}
           aria-label={label}
           aria-hidden={label ? undefined : true}

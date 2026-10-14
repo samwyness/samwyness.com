@@ -122,16 +122,26 @@ class Sticker:
         self.strokes=[]  # (d, width) black strokes, outlined
         self.carve=[]    # raw svg in white on top
         self.ink=[]      # raw svg in black on top of carve
+        self.outline=[]  # (pts, half width) of everything the die-cut ring wraps, for bbox()
     def blob(self, pts, amp=0.9):
-        self.solids.append(catmull(wobble(pts, amp, True, self.rng), True))
+        pts=wobble(pts, amp, True, self.rng); self.outline.append((pts,0))
+        self.solids.append(catmull(pts, True))
     def line(self, pts, w, amp=0.5):
-        self.strokes.append((catmull(wobble(pts, amp, False, self.rng), False), w))
+        pts=wobble(pts, amp, False, self.rng); self.outline.append((pts,w/2))
+        self.strokes.append((catmull(pts, False), w))
     # top=True draws above the ink layer, e.g. white detail carved into a black ink shape
     def brush(self, pts, w, colour='#fff', amp=0.3, top=False):
         (self.carve if colour=='#fff' and not top else self.ink).append(f'<path d="{taper(pts,w,self.rng,amp)}" fill="{colour}"/>')
     def wblob(self, pts, colour='#fff', amp=0.5, top=False):
         (self.carve if colour=='#fff' and not top else self.ink).append(f'<path d="{catmull(wobble(pts, amp, True, self.rng), True)}" fill="{colour}"/>')
-    def svg(self, size=100, ring=8, edge=2):  # edge = half the visible white ring (ring/2)
+    def bbox(self, ring=8, edge=2):
+        """outer extent of the die-cut ring"""
+        pad=ring/2+edge
+        xs=[x+s*(hw+pad) for pts,hw in self.outline for x,_ in pts for s in (-1,1)]
+        ys=[y+s*(hw+pad) for pts,hw in self.outline for _,y in pts for s in (-1,1)]
+        return min(xs),min(ys),max(xs),max(ys)
+    # center=True moves the ring to the middle of the viewBox, shrinking it only if it would clip
+    def svg(self, size=100, ring=8, edge=2, center=False, margin=1):  # edge = half the visible white ring (ring/2)
         defs=[f'<path id="s{i}" d="{d}"/>' for i,d in enumerate(self.solids)]
         defs+=[f'<path id="l{i}" d="{d}" fill="none"/>' for i,(d,w) in enumerate(self.strokes)]
         def layer(c, extra):
@@ -139,8 +149,13 @@ class Sticker:
             s+= [f'<use href="#s{i}"/>' for i in range(len(self.solids))]
             s+= [f'<use href="#l{i}" stroke-width="{f(w+extra)}"/>' for i,(d,w) in enumerate(self.strokes)]
             return ''.join(s+['</g>'])
-        return '\n'.join([
+        open_g=close_g=''
+        if center:
+            x0,y0,x1,y1=self.bbox(ring, edge)
+            k=min(1,(100-2*margin)/max(x1-x0,y1-y0))
+            open_g=f'<g transform="translate(50 50) scale({k:.3f}) translate({f(-(x0+x1)/2)} {f(-(y0+y1)/2)})">'; close_g='</g>'
+        return '\n'.join(l for l in [
             f'<svg xmlns="http://www.w3.org/2000/svg" width="{size}" height="{size}" viewBox="0 0 100 100">',
             '<defs>'+''.join(defs)+'</defs>',
-            layer('#000', ring+edge*2), layer('#fff', ring), layer('#000', 0),
-            '<g>'+''.join(self.carve)+'</g>', '<g>'+''.join(self.ink)+'</g>', '</svg>'])+'\n'
+            open_g, layer('#000', ring+edge*2), layer('#fff', ring), layer('#000', 0),
+            '<g>'+''.join(self.carve)+'</g>', '<g>'+''.join(self.ink)+'</g>', close_g, '</svg>'] if l)+'\n'
