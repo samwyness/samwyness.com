@@ -1,0 +1,17 @@
+/* Signs once in view. Hidden at zero length so the round cap doesn't show
+   before signing */
+@media (prefers-reduced-motion: no-preference) {
+  .path {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    opacity: 0;
+  }
+
+  [data-signed='true'] > .path {
+    stroke-dashoffset: 0;
+    opacity: 1;
+    transition:
+      stroke-dashoffset 0.9s ease-in-out var(--sign-delay),
+      opacity 0s var(--sign-delay);
+  }
+}

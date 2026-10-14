@@ -2,10 +2,12 @@
   list-style: none;
 }
 
-/* Perspective per row so each flap has its own vanishing point */
+/* Perspective per row so each flap has its own vanishing point. Its scroll
+   position drives the flap */
 .skill {
   position: relative;
   perspective: 1200px;
+  view-timeline: --skill;
 }
 
 /* Mobile: number + title, description below title */
@@ -40,6 +42,58 @@
 .lineBottom {
   top: auto;
   bottom: 0;
+}
+
+/* Scroll in, each tracking its own top: 0 entering the bottom of the screen,
+   1 at 55% up it. Divider sweeps in by 70%, flap hinges down off it like a
+   split-flap board, fading in by 50% */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .line {
+      animation: sweep cubic-bezier(0.33, 1, 0.68, 1) both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 31.5vh;
+    }
+
+    /* Longhands, as the build can expand the shorthand with 0s durations */
+    .flap {
+      animation-name: hinge, fadeIn;
+      animation-duration: auto;
+      animation-timing-function: cubic-bezier(0.33, 1, 0.68, 1), linear;
+      animation-fill-mode: both;
+      animation-timeline: --skill;
+      animation-range:
+        cover 0% cover 45vh,
+        cover 0% cover 22.5vh;
+    }
+  }
+}
+
+@keyframes sweep {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes hinge {
+  from {
+    transform: rotateX(-90deg);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .number {

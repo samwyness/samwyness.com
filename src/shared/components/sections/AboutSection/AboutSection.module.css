@@ -107,6 +107,85 @@
   }
 }
 
+/* Row fades in as it plays (data-play), after --row-delay, and its drawing
+   slaps on like a sticker half a second later, as the count's eased out
+   enough to read done. Both go quicker when scrolled back past */
+@media (prefers-reduced-motion: no-preference) {
+  .stat,
+  .statVisual svg {
+    opacity: 0;
+    /* Matches STAT_HIDE_SECONDS in StatCount.tsx */
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in-out;
+  }
+
+  .stat {
+    transition-property: opacity;
+
+    &[data-play='true'] {
+      opacity: 1;
+      transition-duration: 0.4s;
+      transition-delay: var(--row-delay);
+    }
+  }
+
+  .statVisual svg {
+    transform: scale(1.4) rotate(-12deg);
+    transition-property: opacity, transform;
+
+    [data-play='true'] & {
+      opacity: 1;
+      transform: none;
+      /* Spring, stiffness 500 and damping 18 */
+      transition-duration: 0.6s;
+      transition-timing-function: linear(
+        0,
+        0.051,
+        0.183,
+        0.363,
+        0.563,
+        0.758,
+        0.931,
+        1.069,
+        1.168,
+        1.228,
+        1.25,
+        1.244,
+        1.214,
+        1.171,
+        1.122,
+        1.072,
+        1.027,
+        0.99,
+        0.963,
+        0.945,
+        0.938,
+        0.938,
+        0.944,
+        0.954,
+        0.967,
+        0.979,
+        0.991,
+        1.001,
+        1.008,
+        1.013,
+        1.015,
+        1.016,
+        1.015,
+        1.012,
+        1.009,
+        1.006,
+        1.003,
+        1,
+        0.998,
+        0.997,
+        1
+      );
+      transition-delay: calc(var(--row-delay) + 0.5s);
+    }
+  }
+}
+
 .statValue {
   grid-area: value;
   font-variant-numeric: tabular-nums;

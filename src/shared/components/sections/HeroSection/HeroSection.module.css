@@ -130,8 +130,6 @@
 }
 
 .title > span:first-child {
-  padding-left: 0.88em;
-
   /* Starts flush with "Wyness", then slides right to make room just before
      the sticker (delay 1.75s in HeroSection.tsx) slaps on */
   @media (prefers-reduced-motion: no-preference) {
@@ -169,15 +167,60 @@
   /* Room for descenders inside clip-path/mask box, without shifting layout */
   padding-bottom: 0.2em;
   margin-bottom: -0.2em;
-
-  /* Scroll mask only on desktop layout */
-  @media (max-width: 1023px), (max-width: 1439px) and (orientation: portrait) {
-    --scroll-progress: 100% !important;
-  }
 }
 
 .title > span:nth-child(2) {
   font-variation-settings: 'wght' 400;
+}
+
+/* Sam's indent, on the mask so its fill runs across the indent too */
+.title > span:first-child > .titleMask {
+  padding-left: 0.88em;
+}
+
+/* Fill swaps from Sam to Wyness over the first ~half screen of page scroll,
+   whatever the title's height on screen. Desktop layout only, full below */
+.title .titleMask {
+  animation-timeline: scroll(root);
+  animation-range: 0 48.75vh;
+
+  @media (max-width: 1023px), (max-width: 1439px) and (orientation: portrait) {
+    animation-name: none;
+  }
+}
+
+/* Weights swap too, a touch sooner, on every layout. Reduced motion and
+   no support keep the weights above */
+.titleWeight {
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      animation: samWeight linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 45vh;
+    }
+  }
+}
+
+.title > span:nth-child(2) .titleWeight {
+  animation-name: wynessWeight;
+}
+
+@keyframes samWeight {
+  from {
+    font-variation-settings: 'wght' 700;
+  }
+  to {
+    font-variation-settings: 'wght' 300;
+  }
+}
+
+@keyframes wynessWeight {
+  from {
+    font-variation-settings: 'wght' 400;
+  }
+  to {
+    font-variation-settings: 'wght' 700;
+  }
 }
 
 .role {

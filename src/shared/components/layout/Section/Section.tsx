@@ -29,11 +29,7 @@ export function Section({
       <Container className={classNames(styles.container, containerClassName)}>
         {title && (
           <h2 id={titleId} className={styles.title}>
-            <TextAnimateMask
-              offset={['start 0.9', 'end 0.6']}
-              inputRange={[0, 1]}>
-              {title}
-            </TextAnimateMask>
+            <TextAnimateMask>{title}</TextAnimateMask>
             {count !== undefined && (
               <>
                 {/* Read as "Work (4)", without widening the visual gap */}
