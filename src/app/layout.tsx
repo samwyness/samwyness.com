@@ -12,11 +12,14 @@ const fontFamilyBase = Funnel_Display({
   display: 'swap',
 });
 
+// Only used below the fold, so not preloaded. Browsers can hold the first frame
+// for preloaded fonts, delaying the hero photo's paint (the LCP)
 const fontFamilyHand = Reenie_Beanie({
   variable: '--font-family-hand',
   weight: '400',
   subsets: ['latin'],
   display: 'swap',
+  preload: false,
 });
 
 export const metadata: Metadata = {
