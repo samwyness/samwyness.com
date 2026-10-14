@@ -11,8 +11,9 @@ import { fragment, vertex } from './heroFxShaders';
 
 // Where the autopilot lens drifts, in image UV (y up): just round the nose
 const WANDER = { x: 0.79, y: 0.6, rx: 0.015, ry: 0.012 };
-// Pause after the photo's reveal before the autopilot opens, ms
-const AUTO_DELAY = 300;
+// Pause after the photo's reveal before the autopilot opens, ms. Opens
+// straight away; the photo's sticker (HeroPhoto.tsx) waits for it
+const AUTO_DELAY = 0;
 // Lens catching the cursor, per 60fps frame
 const FOLLOW = 0.2;
 // Glide between the cursor and the autopilot, ms

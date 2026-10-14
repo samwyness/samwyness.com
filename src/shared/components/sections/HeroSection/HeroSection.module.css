@@ -136,7 +136,7 @@
     clip-path: inset(0% 100% 0% 0%);
     translate: -0.88em 0;
     animation:
-      reveal 0.75s 0.75s var(--curve-primary) forwards,
+      reveal 0.75s 0.5s var(--curve-primary) forwards,
       stickerPush 0.6s 1.5s var(--curve-primary) forwards;
   }
 }
@@ -150,7 +150,7 @@
 .title > span:last-child {
   @media (prefers-reduced-motion: no-preference) {
     clip-path: inset(0% 0% 0% 100%);
-    animation: reveal 1s 0.75s var(--curve-primary) forwards;
+    animation: reveal 1s 0.25s var(--curve-primary) forwards;
   }
 }
 
@@ -233,7 +233,7 @@
 
   @media (prefers-reduced-motion: no-preference) {
     clip-path: inset(0% 0% 0% 100%);
-    animation: reveal 0.75s 0.75s var(--curve-primary) forwards;
+    animation: reveal 0.75s 0.5s var(--curve-primary) forwards;
   }
 
   @media (min-width: 1024px) and (orientation: landscape), (min-width: 1440px) {
@@ -252,7 +252,7 @@
 
   @media (prefers-reduced-motion: no-preference) {
     opacity: 0;
-    animation: fadeIn 0.75s 1s var(--curve-primary) forwards;
+    animation: fadeIn 0.75s 0.5s var(--curve-primary) forwards;
   }
 
   @media (min-width: 768px) {

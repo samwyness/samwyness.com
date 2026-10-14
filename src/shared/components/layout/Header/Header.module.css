@@ -13,7 +13,7 @@
   @media (prefers-reduced-motion: no-preference) {
     opacity: 0;
     transform: translate(0, -20%);
-    animation: headerReveal 1s 1s var(--curve-primary) forwards;
+    animation: headerReveal 1s 0.25s var(--curve-primary) forwards;
   }
 }
 
