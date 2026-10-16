@@ -24,17 +24,6 @@
   },
   "work": [
     {
-      "title": "MapTag",
-      "subtitle": "Mapping Software",
-      "company": "Mapped Outdoors",
-      "image": "/images/work-maptag.webp",
-      "link": "",
-      "comingSoon": true,
-      "year": "2026",
-      "summary": "Building an offline-first mapping tool for measuring land, mapping boundaries, and tagging locations.",
-      "tags": ["iOS & Android", "Expo", "Mapbox"]
-    },
-    {
       "title": "District",
       "subtitle": "The Running Game",
       "company": "District Technologies",
