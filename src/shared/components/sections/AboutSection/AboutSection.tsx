@@ -15,7 +15,7 @@ const PIN_QUERY =
 // Rows show and hide with scroll in both directions
 const ROW_VH = 50;
 // Locked scroll before the first row, time to read the copy
-const LEAD_VH = 30;
+const LEAD_VH = 15;
 
 // Min gap between rows starting, mobile stagger and desktop's floor for quick scrolls
 const COUNT_STAGGER_SECONDS = 0.4;
@@ -63,7 +63,8 @@ export function AboutSection({ copy }: AboutSectionProps) {
   const lastShownAt = useRef(0);
   useEffect(() => {
     const pin = pinRef.current;
-    if (!isPinned || !pin) return;
+    const stats = statsRef.current;
+    if (!isPinned || !pin || !stats) return;
     const onScroll = () => {
       // 0 as section locks, 1 as it unlocks
       const rect = pin.getBoundingClientRect();
@@ -79,6 +80,9 @@ export function AboutSection({ copy }: AboutSectionProps) {
       setScrolledRows(rows);
       // Hiding is immediate
       setShownRows(shown => Math.min(shown, rows));
+      // Fractional rows scrolled, fills each row's line through its slot, see
+      // .stat::after. Straight to DOM, no re-render per scroll
+      stats.style.setProperty('--scrolled-rows', String(scrolledVh / ROW_VH));
     };
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -86,6 +90,7 @@ export function AboutSection({ copy }: AboutSectionProps) {
     return () => {
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onScroll);
+      stats.style.removeProperty('--scrolled-rows');
     };
   }, [isPinned, pinVh, rowCount]);
 
@@ -130,14 +135,20 @@ export function AboutSection({ copy }: AboutSectionProps) {
               // Pinned rows are already spaced by scroll
               const countDelay = isPinned ? 0 : i * COUNT_STAGGER_SECONDS;
               return (
-                // Fades in on play, drawing slapping on after the count, see
-                // .stat. Reduced motion shows them all from the start
+                // Content fades in on play, drawing slapping on after the
+                // count, line fills with locked scroll, see .stat. Reduced
+                // motion shows them all from the start
                 <div
                   key={stat.visual}
                   className={styles.stat}
                   data-motion-start
                   data-play={play}
-                  style={{ '--row-delay': `${countDelay}s` } as CSSProperties}>
+                  style={
+                    {
+                      '--row-delay': `${countDelay}s`,
+                      '--i': i,
+                    } as CSSProperties
+                  }>
                   <dt className={styles.statLabel}>{stat.label}</dt>
                   <dd className={styles.statValue}>
                     <StatCount

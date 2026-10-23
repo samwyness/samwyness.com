@@ -83,8 +83,9 @@
   align-self: center;
 }
 
-/* Drawing right of the whole row */
+/* Drawing right of the whole row, line under each */
 .stat {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   grid-template-areas:
@@ -93,23 +94,47 @@
   align-items: center;
   gap: 4px 16px;
   padding-block: 12px;
-  border-top: 1px solid var(--color-on-surface-opaque);
 
-  /* Dividers between only */
   &:first-child {
     padding-top: 0;
-    border-top: none;
   }
 
   @media (min-width: 1024px) {
     gap: 6px 24px;
     padding-block: 20px;
   }
+
+  /* Line, the track for locked scroll's fill */
+  &::before {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    height: 1px;
+    background: var(--color-on-surface-opaque);
+  }
+}
+
+/* Locked scroll fills each row's line through its slot (--scrolled-rows, set
+   by AboutSection.tsx), next row plays as it fills. Plain line everywhere
+   else. Matches PIN_QUERY in AboutSection.tsx */
+@media (min-width: 1024px) and (max-height: 1600px) and (prefers-reduced-motion: no-preference) {
+  .stat::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    height: 1px;
+    background: var(--color-on-surface);
+    transform-origin: left;
+    transform: scaleX(clamp(0, var(--scrolled-rows, 0) - var(--i), 1));
+  }
 }
 
 /* Row fades in as it plays (data-play), after --row-delay, and its drawing
    slaps on like a sticker half a second later, as the count's eased out
-   enough to read done. Both go quicker when scrolled back past */
+   enough to read done. Both go quicker when scrolled back past. Lines come
+   with the row */
 @media (prefers-reduced-motion: no-preference) {
   .stat,
   .statVisual svg {
